@@ -118,8 +118,8 @@ build_ros_package_deb() {
 manager_pkg="ros-noetic-xgc2-gazebo-sim-manager"
 examples_pkg="ros-noetic-xgc2-gazebo-sim-examples"
 worlds_pkg="ros-noetic-xgc2-gazebo-sim-worlds"
-visualization_dep="ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-10)"
-vrpn_bridge_dep="ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-12)"
+visualization_dep="ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-11)"
+vrpn_bridge_dep="ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-13)"
 
 build_ros_package_deb \
   "${manager_pkg}" \
@@ -130,7 +130,7 @@ build_ros_package_deb \
 build_ros_package_deb \
   "${examples_pkg}" \
   "gazebo_sim_examples" \
-  "${visualization_dep}, ${vrpn_bridge_dep}, ${worlds_pkg} (>= 1.1.0-10), ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.1.0-10), ros-noetic-xgc2-gazebo-sim-scout (>= 0.4.9-22), ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4), ros-noetic-xgc2-ugv-controller (>= 1.1.4-9), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-4), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-4), xgc2-vrpn-router (>= 0.1.0-4+focal), ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
+  "${visualization_dep}, ${vrpn_bridge_dep}, ${worlds_pkg} (>= 1.1.0-10), ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.1.0-10), ros-noetic-xgc2-gazebo-sim-scout (>= 0.4.9-23), ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4), ros-noetic-xgc2-ugv-controller (>= 1.1.4-9), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-5), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-5), xgc2-vrpn-router (>= 0.1.0-4+focal), ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
   "XGC2 Gazebo Classic example launch orchestration"
 
 find "${OUTPUT_DIR}" -maxdepth 1 -type f -name '*.deb' -print | sort
