@@ -65,6 +65,7 @@ docker run --rm \
       ros-noetic-roslaunch \
       ros-noetic-rosnode \
       ros-noetic-rospack \
+      ros-noetic-rosunit \
       ros-noetic-rospy \
       ros-noetic-std-srvs \
       ros-noetic-tf2 \
@@ -78,6 +79,9 @@ docker run --rm \
 
     cd /workspace/work
     source /opt/ros/noetic/setup.bash
+    catkin_make run_tests_gazebo_sim_vrpn_bridge
+    catkin_test_results
+
     DESTDIR=/workspace/work/install-root catkin_make install \
       -DCMAKE_INSTALL_PREFIX=/opt/ros/noetic \
       -DCATKIN_ENABLE_TESTING=OFF
