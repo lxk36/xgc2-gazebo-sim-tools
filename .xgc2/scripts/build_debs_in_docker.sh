@@ -65,6 +65,7 @@ docker run --rm \
       ros-noetic-roslaunch \
       ros-noetic-rosnode \
       ros-noetic-rospack \
+      ros-noetic-rostest \
       ros-noetic-rosunit \
       ros-noetic-rospy \
       ros-noetic-std-srvs \
