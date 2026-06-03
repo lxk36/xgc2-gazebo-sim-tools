@@ -57,6 +57,7 @@ docker run --rm \
       fakeroot \
       file \
       git \
+      netbase \
       rsync \
       ros-noetic-controller-manager-msgs \
       ros-noetic-gazebo-msgs \
