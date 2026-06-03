@@ -1,0 +1,42 @@
+schema: xgc2.product.v1
+id: xgc2-gazebo-sim-tools
+name: XGC2 Gazebo Sim Tools
+version: 1.0.1-1
+kind: ros1-apt
+summary: Gazebo Classic session manager and Gazebo-to-VRPN bridge packages for ROS Noetic.
+
+ros:
+  distro: noetic
+  packages:
+    - gazebo_session_manager
+    - gazebo_sim_vrpn_bridge
+
+apt:
+  distribution: focal
+  install:
+    - ros-noetic-xgc2-gazebo-sim-manager
+    - ros-noetic-xgc2-gazebo-sim-vrpn-bridge
+  packages:
+    - ros-noetic-xgc2-gazebo-sim-manager
+    - ros-noetic-xgc2-gazebo-sim-vrpn-bridge
+  depends:
+    - ros-noetic-vrpn-client-ros
+
+usage:
+  install: |
+    sudo apt update
+    sudo apt install ros-noetic-xgc2-gazebo-sim-manager ros-noetic-xgc2-gazebo-sim-vrpn-bridge
+  smoke_test: |
+    roslaunch --files gazebo_session_manager session_manager.launch world_name:=/tmp/xgc2-empty.world
+    roslaunch --files gazebo_sim_vrpn_bridge vrpn_server.launch auto_track_known_models:=true
+    roslaunch --files gazebo_sim_vrpn_bridge vrpn_client.launch trackers:=[uav1]
+  notes: |
+    These are Gazebo Classic simulation tools. The full suite is installed through ros-noetic-xgc2-gazebo-sim-all from xgc2-gazebo-sim.
+
+ownership:
+  paths:
+    - /opt/ros/noetic/share/gazebo_session_manager
+    - /opt/ros/noetic/lib/gazebo_session_manager
+    - /opt/ros/noetic/share/gazebo_sim_vrpn_bridge
+    - /opt/ros/noetic/include/gazebo_sim_vrpn_bridge
+    - /opt/ros/noetic/lib/gazebo_sim_vrpn_bridge

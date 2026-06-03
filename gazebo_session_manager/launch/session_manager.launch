@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="host" default="127.0.0.1"/>
+    <arg name="port" default="8088"/>
+    <arg name="world_name" default="$(find gazebo_session_manager)/worlds/empty.world"/>
+    <arg name="default_z" default="0.181"/>
+    <arg name="auto_spacing_x" default="1.6"/>
+    <arg name="auto_spacing_y" default="1.2"/>
+    <arg name="auto_min_distance" default="1.0"/>
+    <arg name="cleanup_on_shutdown" default="true"/>
+
+    <node pkg="gazebo_session_manager"
+          type="gazebo_session_webui.py"
+          name="gazebo_session_webui"
+          output="screen">
+        <param name="host" value="$(arg host)"/>
+        <param name="port" value="$(arg port)"/>
+        <param name="world_name" value="$(arg world_name)"/>
+        <param name="default_z" value="$(arg default_z)"/>
+        <param name="auto_spacing_x" value="$(arg auto_spacing_x)"/>
+        <param name="auto_spacing_y" value="$(arg auto_spacing_y)"/>
+        <param name="auto_min_distance" value="$(arg auto_min_distance)"/>
+        <param name="cleanup_on_shutdown" value="$(arg cleanup_on_shutdown)"/>
+    </node>
+</launch>
