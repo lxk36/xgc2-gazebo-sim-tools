@@ -43,11 +43,27 @@
   <arg name="arm_timeout_s" default="10.0"/>
   <arg name="disarm_on_shutdown" default="false"/>
   <arg name="drive_ugv" default="true"/>
+  <arg name="ugv_drive_mode" default="circle_track"/> <!-- circle_track | open_loop -->
   <arg name="ugv_cmd_vel_topic" default="/ugv1/cmd_vel"/>
   <arg name="ugv_linear_x_mps" default="1.0"/>
   <arg name="ugv_angular_z_radps" default="1.0"/>
+  <arg name="ugv_circle_pose_topic" default="/vrpn_client_node/$(arg ugv_tracker)/pose"/>
+  <arg name="ugv_circle_radius_m" default="2.0"/>
+  <arg name="ugv_circle_speed_mps" default="0.5"/>
+  <arg name="ugv_circle_direction" default="1.0"/>
+  <arg name="ugv_circle_lookahead_distance_m" default="0.6"/>
+  <arg name="ugv_circle_center_from_initial_pose" default="true"/>
+  <arg name="ugv_circle_center_x" default="3.0"/>
+  <arg name="ugv_circle_center_y" default="1.0"/>
+  <arg name="ugv_circle_k_x" default="0.8"/>
+  <arg name="ugv_circle_k_y" default="3.0"/>
+  <arg name="ugv_circle_k_yaw" default="2.5"/>
+  <arg name="ugv_circle_max_linear_speed_mps" default="1.5"/>
+  <arg name="ugv_circle_max_angular_speed_radps" default="3.0"/>
+  <arg name="ugv_circle_pose_timeout_s" default="0.5"/>
+  <arg name="ugv_circle_allow_reverse" default="false"/>
 
-  <include if="$(arg start_vrpn_router)" file="$(find gazebo_sim_examples)/launch/fs150_ugv_vrpn_router.launch">
+  <include if="$(arg start_vrpn_router)" file="$(dirname)/fs150_ugv_vrpn_router.launch">
     <arg name="server" value="$(arg vrpn_server)"/>
     <arg name="port" value="$(arg vrpn_port)"/>
     <arg name="uav_tracker" value="$(arg uav_tracker)"/>
@@ -98,9 +114,34 @@
     <param name="mode_timeout_s" value="$(arg mode_timeout_s)"/>
     <param name="arm_timeout_s" value="$(arg arm_timeout_s)"/>
     <param name="disarm_on_shutdown" value="$(arg disarm_on_shutdown)"/>
-    <param name="drive_ugv" value="$(arg drive_ugv)"/>
+    <param name="drive_ugv" value="$(eval drive_ugv and ugv_drive_mode == 'open_loop')"/>
     <param name="ugv_cmd_vel_topic" value="$(arg ugv_cmd_vel_topic)"/>
     <param name="ugv_linear_x_mps" value="$(arg ugv_linear_x_mps)"/>
     <param name="ugv_angular_z_radps" value="$(arg ugv_angular_z_radps)"/>
+  </node>
+
+  <node if="$(eval drive_ugv and ugv_drive_mode == 'circle_track')"
+        pkg="gazebo_sim_examples"
+        type="ugv_circle_tracking_controller.py"
+        name="ugv_circle_tracking_controller"
+        output="screen">
+    <param name="pose_topic" value="$(arg ugv_circle_pose_topic)"/>
+    <param name="cmd_vel_topic" value="$(arg ugv_cmd_vel_topic)"/>
+    <param name="frame_id" value="$(arg vrpn_output_frame_id)"/>
+    <param name="rate_hz" value="$(arg rate_hz)"/>
+    <param name="pose_timeout_s" value="$(arg ugv_circle_pose_timeout_s)"/>
+    <param name="radius_m" value="$(arg ugv_circle_radius_m)"/>
+    <param name="speed_mps" value="$(arg ugv_circle_speed_mps)"/>
+    <param name="direction" value="$(arg ugv_circle_direction)"/>
+    <param name="lookahead_distance_m" value="$(arg ugv_circle_lookahead_distance_m)"/>
+    <param name="center_from_initial_pose" value="$(arg ugv_circle_center_from_initial_pose)"/>
+    <param name="center_x" value="$(arg ugv_circle_center_x)"/>
+    <param name="center_y" value="$(arg ugv_circle_center_y)"/>
+    <param name="k_x" value="$(arg ugv_circle_k_x)"/>
+    <param name="k_y" value="$(arg ugv_circle_k_y)"/>
+    <param name="k_yaw" value="$(arg ugv_circle_k_yaw)"/>
+    <param name="max_linear_speed_mps" value="$(arg ugv_circle_max_linear_speed_mps)"/>
+    <param name="max_angular_speed_radps" value="$(arg ugv_circle_max_angular_speed_radps)"/>
+    <param name="allow_reverse" value="$(arg ugv_circle_allow_reverse)"/>
   </node>
 </launch>

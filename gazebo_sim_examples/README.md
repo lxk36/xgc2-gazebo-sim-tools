@@ -31,6 +31,17 @@ Or start the simulation and VRPN router together:
 roslaunch gazebo_sim_examples fs150_ugv_vrpn_stack.launch
 ```
 
+The FS150/Scout stack sets `ugv_wheel_contact_mu2:=0.20`,
+`ugv_wheel_contact_slip2:=0.5`, and `ugv_angular_command_gain:=3.15` by
+default. This is a Scout Gazebo skid-steer response calibration measured in the
+FS150 example world at `v=0.5 m/s`, `cmd_vel.angular.z=0.25 rad/s`. The contact
+settings reduce lateral stick-slip during small-radius turns, and the yaw gain
+scales only the differential wheel term inside the UGV base controller. The
+physical wheel separation and linear velocity mapping remain unchanged.
+Residual deviation from an ideal unicycle model is expected: the simulated UGV is
+a four-wheel skid-steer chassis with wheel-ground friction, lateral slip, and
+wheel velocity controllers between `cmd_vel` and the realized body velocity.
+
 The offboard follow algorithm remains a separate launch:
 
 ```bash
@@ -82,9 +93,14 @@ This launch starts the follow algorithm and optional PX4 parameter guard:
   thrust estimation is enabled explicitly.
 - `offboard_velocity_follow.py` arms in OFFBOARD, holds the takeoff point for 15
   seconds, then ramps into UGV VRPN pose/twist tracking.
+- `ugv_circle_tracking_controller.py` replaces the old open-loop UGV command by
+  default. It subscribes to `/vrpn_client_node/ugv1/pose`, initializes a circle
+  from the UGV's initial pose, and publishes closed-loop `/ugv1/cmd_vel`. The
+  default circle is 2 m radius at 0.5 m/s.
 
 The algorithm expects the router launch to already provide
 `/vrpn_client_node/uav1/pose`, `/vrpn_client_node/ugv1/pose`, and
 `/vrpn_client_node/ugv1/twist`. For legacy one-shot tests it can still include
 the router with `start_vrpn_router:=true`.
 If PX4 parameters are being managed manually, pass `ensure_px4_params:=false`.
+To restore the previous open-loop UGV command, pass `ugv_drive_mode:=open_loop`.

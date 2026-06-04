@@ -26,7 +26,7 @@
   <arg name="max_rotation_jump_deg" default="45.0"/>
   <arg name="max_reference_delta_m" default="2.0"/>
 
-  <include file="$(find gazebo_sim_examples)/launch/fs150_ugv_vrpn_router.launch">
+  <include file="$(dirname)/fs150_ugv_vrpn_router.launch">
     <arg name="server" value="$(arg server)"/>
     <arg name="port" value="$(arg port)"/>
     <arg name="uav_tracker" value="$(arg tracker)"/>

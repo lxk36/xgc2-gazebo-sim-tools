@@ -13,6 +13,7 @@ catkin_package()
 catkin_install_python(PROGRAMS
   scripts/ensure_px4_params.py
   scripts/offboard_velocity_follow.py
+  scripts/ugv_circle_tracking_controller.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
