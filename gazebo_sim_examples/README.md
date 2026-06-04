@@ -12,9 +12,29 @@ package: FS150 airframe and estimator startup parameters are owned by
 
 ### Launch
 
+Start only the Gazebo simulation and the Gazebo-backed VRPN tracker server:
+
 ```bash
 source /opt/ros/noetic/setup.bash
 roslaunch gazebo_sim_examples fs150_ugv_vrpn.launch
+```
+
+Start the `uav1` and `ugv1` VRPN client/router separately:
+
+```bash
+roslaunch gazebo_sim_examples fs150_ugv_vrpn_router.launch
+```
+
+Or start the simulation and VRPN router together:
+
+```bash
+roslaunch gazebo_sim_examples fs150_ugv_vrpn_stack.launch
+```
+
+The offboard follow algorithm remains a separate launch:
+
+```bash
+roslaunch gazebo_sim_examples fs150_uav1_offboard_follow.launch
 ```
 
 The FS150 vehicle id exposed to users is the MAVLink system id.  The launch file
@@ -50,22 +70,21 @@ rosrun mavros mavparam -n /uav1/mavros get MPC_USE_HTE
 
 The expected values are `24`, `3`, `0`, `0`, and `1`.
 
-### UAV Offboard Follow Quickstart
+### UAV Offboard Follow Algorithm
 
 ```bash
 roslaunch gazebo_sim_examples fs150_uav1_offboard_follow.launch
 ```
 
-This launch starts the UAV-side runtime pieces used by the follow test:
+This launch starts the follow algorithm and optional PX4 parameter guard:
 
-- `vrpn_client_ros` subscribes to the `uav1` and `ugv1` trackers from the VRPN
-  server.
-- `vrpn_router` forwards only the `uav1` tracker into
-  `/uav1/mavros/vision_pose/pose`; it does not publish TF by default.
 - `fs150_ensure_px4_params` confirms `MPC_USE_HTE=1` through MAVROS so PX4 hover
   thrust estimation is enabled explicitly.
 - `offboard_velocity_follow.py` arms in OFFBOARD, holds the takeoff point for 15
   seconds, then ramps into UGV VRPN pose/twist tracking.
 
-If the VRPN client/router is already running, pass `start_vrpn_router:=false`.
+The algorithm expects the router launch to already provide
+`/vrpn_client_node/uav1/pose`, `/vrpn_client_node/ugv1/pose`, and
+`/vrpn_client_node/ugv1/twist`. For legacy one-shot tests it can still include
+the router with `start_vrpn_router:=true`.
 If PX4 parameters are being managed manually, pass `ensure_px4_params:=false`.

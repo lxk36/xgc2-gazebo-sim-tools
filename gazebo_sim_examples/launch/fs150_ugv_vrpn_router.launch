@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="server" default="127.0.0.1"/>
+  <arg name="port" default="3883"/>
+  <arg name="uav_tracker" default="uav1"/>
+  <arg name="ugv_tracker" default="ugv1"/>
+  <arg name="client_trackers" default="$(arg uav_tracker), $(arg ugv_tracker)"/>
+  <arg name="mavros_ns" default="/uav1/mavros"/>
+  <arg name="vrpn_client_name" default="vrpn_client_node"/>
+  <arg name="frame_id" default="map"/>
+  <arg name="output_frame_id" default="map"/>
+
+  <arg name="update_frequency" default="100.0"/>
+  <arg name="use_server_time" default="false"/>
+  <arg name="broadcast_tf" default="false"/>
+  <arg name="refresh_tracker_frequency" default="0.0"/>
+
+  <arg name="max_output_rate_hz" default="50.0"/>
+  <arg name="min_input_rate_hz" default="30.0"/>
+  <arg name="max_input_rate_hz" default="150.0"/>
+  <arg name="stale_timeout_s" default="0.3"/>
+  <arg name="stuck_timeout_s" default="0.5"/>
+  <arg name="stuck_position_epsilon_m" default="0.001"/>
+  <arg name="stuck_angle_epsilon_deg" default="0.2"/>
+  <arg name="max_translation_jump_m" default="1.0"/>
+  <arg name="max_rotation_jump_deg" default="45.0"/>
+  <arg name="max_reference_delta_m" default="2.0"/>
+
+  <rosparam subst_value="true">
+    vrpn_router:
+      vrpn_pose_suffix: pose
+      mavros_pose_suffix: vision_pose/pose
+      output_frame_id: $(arg output_frame_id)
+      queue_size: 10
+      diagnostics_rate_hz: 1.0
+      max_output_rate_hz: $(arg max_output_rate_hz)
+      min_input_rate_hz: $(arg min_input_rate_hz)
+      max_input_rate_hz: $(arg max_input_rate_hz)
+      stale_timeout_s: $(arg stale_timeout_s)
+      stuck_timeout_s: $(arg stuck_timeout_s)
+      stuck_position_epsilon_m: $(arg stuck_position_epsilon_m)
+      stuck_angle_epsilon_deg: $(arg stuck_angle_epsilon_deg)
+      max_translation_jump_m: $(arg max_translation_jump_m)
+      max_rotation_jump_deg: $(arg max_rotation_jump_deg)
+      max_reference_delta_m: $(arg max_reference_delta_m)
+      field_offset:
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      tracker_to_body:
+        translation:
+          x: 0.0
+          y: 0.0
+          z: 0.0
+        rotation:
+          roll: 0.0
+          pitch: 0.0
+          yaw: 0.0
+      routes:
+        - name: $(arg uav_tracker)
+          tracker: $(arg uav_tracker)
+          mavros_ns: $(arg mavros_ns)
+          input_topic: /$(arg vrpn_client_name)/$(arg uav_tracker)/pose
+          output_topic: $(arg mavros_ns)/vision_pose/pose
+          reference_topic: $(arg mavros_ns)/local_position/pose
+          output_frame_id: $(arg output_frame_id)
+          max_output_rate_hz: $(arg max_output_rate_hz)
+  </rosparam>
+
+  <include file="$(find vrpn_router)/launch/vrpn_router.launch">
+    <arg name="server" value="$(arg server)"/>
+    <arg name="port" value="$(arg port)"/>
+    <arg name="frame_id" value="$(arg frame_id)"/>
+    <arg name="config" value="$(find vrpn_router)/config/routes.example.yaml"/>
+    <arg name="load_config" value="false"/>
+    <arg name="start_vrpn_client" value="true"/>
+    <arg name="update_frequency" value="$(arg update_frequency)"/>
+    <arg name="use_server_time" value="$(arg use_server_time)"/>
+    <arg name="broadcast_tf" value="$(arg broadcast_tf)"/>
+    <arg name="refresh_tracker_frequency" value="$(arg refresh_tracker_frequency)"/>
+    <arg name="trackers" value="$(arg client_trackers)"/>
+  </include>
+</launch>
