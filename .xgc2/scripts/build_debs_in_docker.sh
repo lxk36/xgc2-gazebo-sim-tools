@@ -63,6 +63,8 @@ docker run --rm \
       ros-noetic-gazebo-msgs \
       ros-noetic-gazebo-ros \
       ros-noetic-geometry-msgs \
+      ros-noetic-mavros-msgs \
+      ros-noetic-nav-msgs \
       ros-noetic-roslaunch \
       ros-noetic-rosnode \
       ros-noetic-rospack \
@@ -96,6 +98,8 @@ docker run --rm \
       apt-get install -y \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-vrpn-bridge_*.deb
+      dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
+        | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
       /workspace/gazebo-sim/.xgc2/scripts/check_installed_packages.sh
     fi
   '

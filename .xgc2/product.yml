@@ -3,31 +3,38 @@ id: xgc2-gazebo-sim-tools
 name: XGC2 Gazebo Sim Tools
 version: 1.0.8-1
 kind: ros1-apt
-summary: Gazebo Classic session manager and Gazebo-to-VRPN bridge packages for ROS Noetic.
+summary: Gazebo Classic session manager, examples, and Gazebo-to-VRPN bridge packages for ROS Noetic.
 
 ros:
   distro: noetic
   packages:
     - gazebo_session_manager
+    - gazebo_sim_examples
     - gazebo_sim_vrpn_bridge
 
 apt:
   distribution: focal
   install:
     - ros-noetic-xgc2-gazebo-sim-manager
+    - ros-noetic-xgc2-gazebo-sim-examples
     - ros-noetic-xgc2-gazebo-sim-vrpn-bridge
   packages:
     - ros-noetic-xgc2-gazebo-sim-manager
+    - ros-noetic-xgc2-gazebo-sim-examples
     - ros-noetic-xgc2-gazebo-sim-vrpn-bridge
   depends:
     - ros-noetic-vrpn-client-ros
+    - ros-noetic-xgc2-gazebo-sim-fs150-sitl
+    - ros-noetic-xgc2-gazebo-sim-scout
+    - ros-noetic-xgc2-vrpn-router
 
 usage:
   install: |
     sudo apt update
-    sudo apt install ros-noetic-xgc2-gazebo-sim-manager ros-noetic-xgc2-gazebo-sim-vrpn-bridge
+    sudo apt install ros-noetic-xgc2-gazebo-sim-manager ros-noetic-xgc2-gazebo-sim-examples ros-noetic-xgc2-gazebo-sim-vrpn-bridge
   smoke_test: |
     roslaunch --files gazebo_session_manager session_manager.launch world_name:=/tmp/xgc2-empty.world
+    roslaunch --files gazebo_sim_examples fs150_ugv_vrpn.launch
     roslaunch --files gazebo_sim_vrpn_bridge vrpn_server.launch auto_track_known_models:=true
     roslaunch --files gazebo_sim_vrpn_bridge vrpn_client.launch trackers:=[uav1]
   notes: |
@@ -37,6 +44,8 @@ ownership:
   paths:
     - /opt/ros/noetic/share/gazebo_session_manager
     - /opt/ros/noetic/lib/gazebo_session_manager
+    - /opt/ros/noetic/share/gazebo_sim_examples
+    - /opt/ros/noetic/lib/gazebo_sim_examples
     - /opt/ros/noetic/share/gazebo_sim_vrpn_bridge
     - /opt/ros/noetic/include/gazebo_sim_vrpn_bridge
     - /opt/ros/noetic/lib/gazebo_sim_vrpn_bridge

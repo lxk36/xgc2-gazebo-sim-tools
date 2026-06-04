@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="gui" default="true"/>
+  <arg name="debug" default="false"/>
+  <arg name="verbose" default="false"/>
+  <arg name="paused" default="false"/>
+  <arg name="interactive" default="false"/>
+
+  <arg name="world" default="$(find gazebo_sim_scout)/worlds/weston_robot_empty.world"/>
+
+  <arg name="fs150_launch" default="$(find gazebo_sim_fs150_sitl)/launch/fs150.launch"/>
+  <arg name="fs150_px4_launch" default="$(find gazebo_sim_px4_1_12)/launch/iris.launch"/>
+  <arg name="fs150_base_sdf" default="$(find gazebo_sim_px4_1_12)/models/iris/iris.sdf"/>
+  <arg name="fs150_sdf" default="$(env HOME)/.xgc2/fs150_sitl/iris_indoor.sdf"/>
+  <arg name="fs150_param_file" default="$(find gazebo_sim_fs150_sitl)/config/generated/fs150-sitl.params"/>
+  <arg name="fs150_reset_params" default="true"/>
+  <arg name="fs150_strip_gps" default="false"/>
+  <arg name="fs150_strip_mag" default="false"/>
+  <arg name="fs150_strip_baro" default="false"/>
+  <arg name="fs150_id" default="4"/>
+  <arg name="fs150_px4_instance" default="$(eval int(arg('fs150_id')) - 1)"/>
+  <arg name="fs150_model_name" default="uav1"/>
+  <arg name="fs150_namespace" default="uav1"/>
+  <arg name="fs150_x" default="0"/>
+  <arg name="fs150_y" default="0"/>
+  <arg name="fs150_z" default="0"/>
+  <arg name="fs150_yaw" default="0"/>
+
+  <arg name="ugv_model_name" default="ugv1"/>
+  <arg name="ugv_namespace" default="ugv1"/>
+  <arg name="ugv_x" default="3"/>
+  <arg name="ugv_y" default="0"/>
+  <arg name="ugv_z" default="0.181"/>
+  <arg name="ugv_yaw" default="0"/>
+  <arg name="ugv_wheel_contact_mu2" default="0.35"/>
+  <arg name="ugv_wheel_contact_slip2" default="0.1"/>
+  <arg name="ugv_wheel_pid_p" default="1.0"/>
+  <arg name="ugv_wheel_pid_i" default="0.0"/>
+  <arg name="ugv_wheel_pid_d" default="0.0"/>
+  <arg name="ugv_wheel_separation" default="0.416503"/>
+  <arg name="ugv_wheel_radius" default="0.08"/>
+  <arg name="ugv_command_gain" default="1.0"/>
+
+  <arg name="vrpn_server" default="true"/>
+  <arg name="vrpn_config" default="$(find gazebo_sim_examples)/config/fs150_ugv_vrpn_server.yaml"/>
+
+  <param name="/gazebo_sim_examples/fs150_indoor_sdf"
+         command="rosrun gazebo_sim_fs150_sitl render_fs150_indoor_sdf.py --base-sdf $(arg fs150_base_sdf) --output $(arg fs150_sdf) --strip-gps $(arg fs150_strip_gps) --strip-mag $(arg fs150_strip_mag) --strip-baro $(arg fs150_strip_baro) --print-path"/>
+
+  <include file="$(arg fs150_launch)">
+    <arg name="ID" value="$(arg fs150_px4_instance)"/>
+    <arg name="px4_launch" value="$(arg fs150_px4_launch)"/>
+    <arg name="sdf" value="$(arg fs150_sdf)"/>
+    <arg name="param_file" value="$(arg fs150_param_file)"/>
+    <arg name="reset_params" value="$(arg fs150_reset_params)"/>
+    <arg name="model_name" value="$(arg fs150_model_name)"/>
+    <arg name="namespace" value="$(arg fs150_namespace)"/>
+    <arg name="world" value="$(arg world)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="verbose" value="$(arg verbose)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="interactive" value="$(arg interactive)"/>
+    <arg name="x" value="$(arg fs150_x)"/>
+    <arg name="y" value="$(arg fs150_y)"/>
+    <arg name="z" value="$(arg fs150_z)"/>
+    <arg name="Y" value="$(arg fs150_yaw)"/>
+  </include>
+
+  <include file="$(find gazebo_sim_scout)/launch/spawn_accurate.launch">
+    <arg name="robot_namespace" value="$(arg ugv_namespace)"/>
+    <arg name="model_name" value="$(arg ugv_model_name)"/>
+    <arg name="x" value="$(arg ugv_x)"/>
+    <arg name="y" value="$(arg ugv_y)"/>
+    <arg name="z" value="$(arg ugv_z)"/>
+    <arg name="yaw" value="$(arg ugv_yaw)"/>
+    <arg name="wheel_contact_mu2" value="$(arg ugv_wheel_contact_mu2)"/>
+    <arg name="wheel_contact_slip2" value="$(arg ugv_wheel_contact_slip2)"/>
+    <arg name="wheel_pid_p" value="$(arg ugv_wheel_pid_p)"/>
+    <arg name="wheel_pid_i" value="$(arg ugv_wheel_pid_i)"/>
+    <arg name="wheel_pid_d" value="$(arg ugv_wheel_pid_d)"/>
+    <arg name="wheel_separation" value="$(arg ugv_wheel_separation)"/>
+    <arg name="wheel_radius" value="$(arg ugv_wheel_radius)"/>
+    <arg name="command_gain" value="$(arg ugv_command_gain)"/>
+  </include>
+
+  <include if="$(arg vrpn_server)" file="$(find gazebo_sim_vrpn_bridge)/launch/vrpn_server.launch">
+    <arg name="config" value="$(arg vrpn_config)"/>
+  </include>
+</launch>

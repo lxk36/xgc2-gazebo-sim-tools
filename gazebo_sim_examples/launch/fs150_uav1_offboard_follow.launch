@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="mavros_ns" default="/uav1/mavros"/>
+  <arg name="start_vrpn_router" default="true"/>
+  <arg name="vrpn_server" default="127.0.0.1"/>
+  <arg name="vrpn_port" default="3883"/>
+  <arg name="uav_tracker" default="uav1"/>
+  <arg name="ugv_tracker" default="ugv1"/>
+  <arg name="vrpn_client_trackers" default="uav1, ugv1"/>
+  <arg name="vrpn_frame_id" default="map"/>
+  <arg name="vrpn_output_frame_id" default="map"/>
+  <arg name="vrpn_update_frequency" default="100.0"/>
+  <arg name="vrpn_use_server_time" default="false"/>
+  <arg name="vrpn_broadcast_tf" default="false"/>
+  <arg name="vrpn_max_output_rate_hz" default="50.0"/>
+
+  <arg name="ensure_px4_params" default="true"/>
+  <arg name="enable_hover_thrust_estimator" default="true"/>
+  <arg name="hover_thrust_estimator_param" default="MPC_USE_HTE"/>
+  <arg name="hover_thrust_estimator_value" default="1"/>
+  <arg name="px4_param_wait_timeout_s" default="20.0"/>
+
+  <arg name="target_pose_topic" default="/vrpn_client_node/$(arg ugv_tracker)/pose"/>
+  <arg name="target_twist_topic" default="/vrpn_client_node/$(arg ugv_tracker)/twist"/>
+
+  <arg name="altitude_m" default="1.0"/>
+  <arg name="target_offset_x_m" default="0.0"/>
+  <arg name="target_offset_y_m" default="0.0"/>
+
+  <arg name="kp_xy" default="0.7"/>
+  <arg name="kp_z" default="0.8"/>
+  <arg name="feedforward_target_velocity" default="true"/>
+  <arg name="max_xy_speed_mps" default="1.0"/>
+  <arg name="max_z_speed_mps" default="0.6"/>
+  <arg name="xy_deadband_m" default="0.05"/>
+  <arg name="z_deadband_m" default="0.03"/>
+
+  <arg name="rate_hz" default="30.0"/>
+  <arg name="prestream_s" default="2.0"/>
+  <arg name="takeoff_hold_s" default="15.0"/>
+  <arg name="tracking_ramp_s" default="5.0"/>
+  <arg name="mode_timeout_s" default="10.0"/>
+  <arg name="arm_timeout_s" default="10.0"/>
+  <arg name="disarm_on_shutdown" default="false"/>
+  <arg name="drive_ugv" default="true"/>
+  <arg name="ugv_cmd_vel_topic" default="/ugv1/cmd_vel"/>
+  <arg name="ugv_linear_x_mps" default="1.0"/>
+  <arg name="ugv_angular_z_radps" default="1.0"/>
+
+  <include if="$(arg start_vrpn_router)" file="$(find gazebo_sim_examples)/launch/fs150_uav1_vrpn_router.launch">
+    <arg name="server" value="$(arg vrpn_server)"/>
+    <arg name="port" value="$(arg vrpn_port)"/>
+    <arg name="tracker" value="$(arg uav_tracker)"/>
+    <arg name="client_trackers" value="$(arg vrpn_client_trackers)"/>
+    <arg name="mavros_ns" value="$(arg mavros_ns)"/>
+    <arg name="frame_id" value="$(arg vrpn_frame_id)"/>
+    <arg name="output_frame_id" value="$(arg vrpn_output_frame_id)"/>
+    <arg name="update_frequency" value="$(arg vrpn_update_frequency)"/>
+    <arg name="use_server_time" value="$(arg vrpn_use_server_time)"/>
+    <arg name="broadcast_tf" value="$(arg vrpn_broadcast_tf)"/>
+    <arg name="max_output_rate_hz" value="$(arg vrpn_max_output_rate_hz)"/>
+  </include>
+
+  <node if="$(arg ensure_px4_params)"
+        pkg="gazebo_sim_examples"
+        type="ensure_px4_params.py"
+        name="fs150_ensure_px4_params"
+        output="screen">
+    <param name="mavros_ns" value="$(arg mavros_ns)"/>
+    <param name="wait_timeout_s" value="$(arg px4_param_wait_timeout_s)"/>
+    <param name="enable_hover_thrust_estimator" value="$(arg enable_hover_thrust_estimator)"/>
+    <param name="hover_thrust_estimator_param" value="$(arg hover_thrust_estimator_param)"/>
+    <param name="hover_thrust_estimator_value" value="$(arg hover_thrust_estimator_value)"/>
+  </node>
+
+  <node pkg="gazebo_sim_examples"
+        type="offboard_velocity_follow.py"
+        name="fs150_offboard_velocity_follow"
+        output="screen">
+    <param name="mavros_ns" value="$(arg mavros_ns)"/>
+    <param name="target_pose_topic" value="$(arg target_pose_topic)"/>
+    <param name="target_twist_topic" value="$(arg target_twist_topic)"/>
+    <param name="altitude_m" value="$(arg altitude_m)"/>
+    <param name="target_offset_x_m" value="$(arg target_offset_x_m)"/>
+    <param name="target_offset_y_m" value="$(arg target_offset_y_m)"/>
+    <param name="kp_xy" value="$(arg kp_xy)"/>
+    <param name="kp_z" value="$(arg kp_z)"/>
+    <param name="feedforward_target_velocity" value="$(arg feedforward_target_velocity)"/>
+    <param name="max_xy_speed_mps" value="$(arg max_xy_speed_mps)"/>
+    <param name="max_z_speed_mps" value="$(arg max_z_speed_mps)"/>
+    <param name="xy_deadband_m" value="$(arg xy_deadband_m)"/>
+    <param name="z_deadband_m" value="$(arg z_deadband_m)"/>
+    <param name="rate_hz" value="$(arg rate_hz)"/>
+    <param name="prestream_s" value="$(arg prestream_s)"/>
+    <param name="takeoff_hold_s" value="$(arg takeoff_hold_s)"/>
+    <param name="tracking_ramp_s" value="$(arg tracking_ramp_s)"/>
+    <param name="mode_timeout_s" value="$(arg mode_timeout_s)"/>
+    <param name="arm_timeout_s" value="$(arg arm_timeout_s)"/>
+    <param name="disarm_on_shutdown" value="$(arg disarm_on_shutdown)"/>
+    <param name="drive_ugv" value="$(arg drive_ugv)"/>
+    <param name="ugv_cmd_vel_topic" value="$(arg ugv_cmd_vel_topic)"/>
+    <param name="ugv_linear_x_mps" value="$(arg ugv_linear_x_mps)"/>
+    <param name="ugv_angular_z_radps" value="$(arg ugv_angular_z_radps)"/>
+  </node>
+</launch>
