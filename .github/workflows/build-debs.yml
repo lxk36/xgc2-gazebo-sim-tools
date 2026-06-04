@@ -71,6 +71,7 @@ jobs:
               apt-get install -y --no-install-recommends \
                 build-essential \
                 git \
+                netbase \
                 ros-noetic-gazebo-msgs \
                 ros-noetic-geometry-msgs \
                 ros-noetic-rostest \
