@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="ns" default="uav1"/>
+  <arg name="vrpn_rigid_body" default="$(arg ns)"/>
+  <arg name="fs150_id" default="4"/>
+  <arg name="takeoff_altitude" default="3.0"/>
+  <arg name="reference_config_file" default="$(find reference_trajectory)/config/uav_reference_circle_entry.yaml"/>
+  <arg name="controller_config_file" default="$(find multirotor_controller)/config/uav_nmpc.yaml"/>
+  <arg name="hover_thrust_config_file" default="$(find hover_thrust_estimator)/config/hover_thrust_estimator.yaml"/>
+  <arg name="debug_print" default="false"/>
+
+  <arg name="fence_x_min" default="-1000000.0"/>
+  <arg name="fence_x_max" default="1000000.0"/>
+  <arg name="fence_y_min" default="-1000000.0"/>
+  <arg name="fence_y_max" default="1000000.0"/>
+  <arg name="fence_z_min" default="-1000000.0"/>
+  <arg name="fence_z_max" default="1000000.0"/>
+  <arg name="position_jump_threshold" default="100.0"/>
+  <arg name="max_velocity_xy" default="1000.0"/>
+  <arg name="max_velocity_z" default="1000.0"/>
+  <arg name="acc_saturation_xy" default="1000.0"/>
+  <arg name="acc_saturation_z" default="1000.0"/>
+
+  <arg name="gui" default="true"/>
+  <arg name="debug" default="false"/>
+  <arg name="verbose" default="false"/>
+  <arg name="paused" default="false"/>
+  <arg name="interactive" default="false"/>
+  <arg name="world" default="$(find gazebo_sim_px4_1_12)/worlds/empty.world"/>
+
+  <arg name="fs150_launch" default="$(find gazebo_sim_fs150_sitl)/launch/fs150.launch"/>
+  <arg name="fs150_px4_launch" default="$(find gazebo_sim_px4_1_12)/launch/iris.launch"/>
+  <arg name="fs150_base_sdf" default="$(find gazebo_sim_px4_1_12)/models/iris/iris.sdf"/>
+  <arg name="fs150_sdf" default="$(env HOME)/.xgc2/fs150_sitl/iris_indoor.sdf"/>
+  <arg name="fs150_param_file" default="$(find gazebo_sim_fs150_sitl)/config/generated/fs150-sitl.params"/>
+  <arg name="fs150_reset_params" default="true"/>
+  <arg name="fs150_strip_gps" default="false"/>
+  <arg name="fs150_strip_mag" default="false"/>
+  <arg name="fs150_strip_baro" default="false"/>
+  <arg name="vrpn_server_launch" default="$(find gazebo_sim_vrpn_bridge)/launch/vrpn_server.launch"/>
+  <arg name="vrpn_config_file" default="$(find gazebo_sim_vrpn_bridge)/config/fs150_ugv_vrpn_server.yaml"/>
+
+  <arg name="vrpn_port" default="3883"/>
+  <arg name="vrpn_frame_id" default="map"/>
+  <arg name="vrpn_update_frequency" default="100.0"/>
+  <arg name="vrpn_max_output_rate_hz" default="50.0"/>
+
+  <param name="/gazebo_sim_examples/fs150_indoor_sdf"
+         command="$(find gazebo_sim_fs150_sitl)/scripts/render_fs150_indoor_sdf.py --base-sdf $(arg fs150_base_sdf) --output $(arg fs150_sdf) --strip-gps $(arg fs150_strip_gps) --strip-mag $(arg fs150_strip_mag) --strip-baro $(arg fs150_strip_baro) --print-path"/>
+
+  <include file="$(arg fs150_launch)">
+    <arg name="ID" value="$(eval int(arg('fs150_id')) - 1)"/>
+    <arg name="px4_launch" value="$(arg fs150_px4_launch)"/>
+    <arg name="sdf" value="$(arg fs150_sdf)"/>
+    <arg name="param_file" value="$(arg fs150_param_file)"/>
+    <arg name="reset_params" value="$(arg fs150_reset_params)"/>
+    <arg name="model_name" value="$(arg vrpn_rigid_body)"/>
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="world" value="$(arg world)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="verbose" value="$(arg verbose)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="interactive" value="$(arg interactive)"/>
+  </include>
+
+  <include file="$(arg vrpn_server_launch)">
+    <arg name="config_file" value="$(arg vrpn_config_file)"/>
+  </include>
+
+  <include file="$(dirname)/fs150_uav1_vrpn_router.launch">
+    <arg name="server" value="127.0.0.1"/>
+    <arg name="port" value="$(arg vrpn_port)"/>
+    <arg name="tracker" value="$(arg vrpn_rigid_body)"/>
+    <arg name="client_trackers" value="$(arg vrpn_rigid_body)"/>
+    <arg name="mavros_ns" value="/$(arg ns)/mavros"/>
+    <arg name="frame_id" value="$(arg vrpn_frame_id)"/>
+    <arg name="output_frame_id" value="$(arg vrpn_frame_id)"/>
+    <arg name="update_frequency" value="$(arg vrpn_update_frequency)"/>
+    <arg name="use_server_time" value="false"/>
+    <arg name="broadcast_tf" value="false"/>
+    <arg name="refresh_tracker_frequency" value="0.0"/>
+    <arg name="max_output_rate_hz" value="$(arg vrpn_max_output_rate_hz)"/>
+  </include>
+
+  <include file="$(find multirotor_controller)/launch/uav_nmpc_controller.launch">
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="vrpn_rigid_body" value="$(arg vrpn_rigid_body)"/>
+    <arg name="debug_print" value="$(arg debug_print)"/>
+    <arg name="takeoff_altitude" value="$(arg takeoff_altitude)"/>
+    <arg name="config_file" value="$(arg controller_config_file)"/>
+    <arg name="hover_thrust_config_file" value="$(arg hover_thrust_config_file)"/>
+    <arg name="fence_x_min" value="$(arg fence_x_min)"/>
+    <arg name="fence_x_max" value="$(arg fence_x_max)"/>
+    <arg name="fence_y_min" value="$(arg fence_y_min)"/>
+    <arg name="fence_y_max" value="$(arg fence_y_max)"/>
+    <arg name="fence_z_min" value="$(arg fence_z_min)"/>
+    <arg name="fence_z_max" value="$(arg fence_z_max)"/>
+    <arg name="position_jump_threshold" value="$(arg position_jump_threshold)"/>
+    <arg name="max_velocity_xy" value="$(arg max_velocity_xy)"/>
+    <arg name="max_velocity_z" value="$(arg max_velocity_z)"/>
+    <arg name="acc_saturation_xy" value="$(arg acc_saturation_xy)"/>
+    <arg name="acc_saturation_z" value="$(arg acc_saturation_z)"/>
+  </include>
+
+  <include file="$(find reference_trajectory)/launch/uav_reference_trajectory.launch">
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="config_file" value="$(arg reference_config_file)"/>
+  </include>
+</launch>

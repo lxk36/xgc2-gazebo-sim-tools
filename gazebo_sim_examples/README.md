@@ -48,6 +48,20 @@ The offboard follow algorithm remains a separate launch:
 roslaunch gazebo_sim_examples fs150_uav1_offboard_follow.launch
 ```
 
+The single-machine FS150 NMPC tracking stack is:
+
+```bash
+roslaunch gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
+```
+
+It starts one FS150 PX4 1.12 SITL vehicle, the Gazebo-backed VRPN server,
+`vrpn_client_ros` plus `vrpn_router`, `hover_thrust_estimator`,
+`multirotor_controller`, and the UAV reference trajectory publisher. The default
+takeoff and circle reference height are both 3 m through
+`takeoff_altitude:=3.0` and the reference config
+`uav_reference_circle_entry.yaml`. After the launch is up, drive the controller
+through its normal state-machine command topic.
+
 The FS150 vehicle id exposed to users is the MAVLink system id.  The launch file
 maps it to the PX4 instance internally:
 
