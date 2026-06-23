@@ -233,7 +233,7 @@ class GazeboSessionManager:
                     "roslaunch",
                     "gazebo_sim_scout",
                     "spawn_accurate.launch",
-                    "robot_namespace:=%s" % name,
+                    "ns:=%s" % name,
                     "model_name:=%s" % name,
                     "x:=%.6f" % x,
                     "y:=%.6f" % y,
@@ -245,8 +245,8 @@ class GazeboSessionManager:
                     "base_frame:=%s/base_link" % name,
                     "tf_prefix:=%s" % name,
                     "frame_prefix:=%s/" % name,
-                    "sensor_namespace:=%s" % name,
-                    "robot_state_publisher_namespace:=%s" % name,
+                    "sensor_ns:=%s" % name,
+                    "robot_state_publisher_ns:=%s" % name,
                 ],
             )
 

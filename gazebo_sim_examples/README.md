@@ -59,10 +59,11 @@ roslaunch gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
 It starts one FS150 PX4 1.12 SITL vehicle, the Gazebo-backed VRPN server,
 `vrpn_client_ros` plus `vrpn_router`, `hover_thrust_estimator`,
 `multirotor_controller`, and the UAV reference trajectory publisher. The default
-takeoff and circle reference height are both 3 m through
-`takeoff_altitude:=3.0` and the reference config
-`uav_reference_circle_entry.yaml`. After the launch is up, drive the controller
-through its normal state-machine command topic.
+takeoff height is 3 m. The tracking reference is owned by this example package:
+`uav_reference_circle_entry_r3_v3_z1.yaml` uses a 3 m radius circle, 3 m/s
+horizontal speed, and a 1 m sinusoidal height offset around the activation
+height. After the launch is up, drive the controller through its normal
+state-machine command topic.
 
 The FS150 vehicle id exposed to users is the MAVLink system id.  The launch file
 maps it to the PX4 instance internally:

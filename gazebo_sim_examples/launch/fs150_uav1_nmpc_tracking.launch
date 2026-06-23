@@ -4,7 +4,7 @@
   <arg name="vrpn_rigid_body" default="$(arg ns)"/>
   <arg name="fs150_id" default="4"/>
   <arg name="takeoff_altitude" default="3.0"/>
-  <arg name="reference_config_file" default="$(find reference_trajectory)/config/uav_reference_circle_entry.yaml"/>
+  <arg name="reference_config_file" default="$(find gazebo_sim_examples)/config/uav_reference_circle_entry_r3_v3_z1.yaml"/>
   <arg name="controller_config_file" default="$(find multirotor_controller)/config/uav_nmpc.yaml"/>
   <arg name="hover_thrust_config_file" default="$(find hover_thrust_estimator)/config/hover_thrust_estimator.yaml"/>
   <arg name="debug_print" default="false"/>
