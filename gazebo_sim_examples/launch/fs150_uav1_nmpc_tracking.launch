@@ -55,7 +55,7 @@
     <arg name="param_file" value="$(arg fs150_param_file)"/>
     <arg name="reset_params" value="$(arg fs150_reset_params)"/>
     <arg name="model_name" value="$(arg vrpn_rigid_body)"/>
-    <arg name="ns" value="$(arg ns)"/>
+    <arg name="namespace" value="$(arg ns)"/>
     <arg name="world" value="$(arg world)"/>
     <arg name="gui" value="$(arg gui)"/>
     <arg name="debug" value="$(arg debug)"/>
@@ -65,7 +65,8 @@
   </include>
 
   <include file="$(arg vrpn_server_launch)">
-    <arg name="config_file" value="$(arg vrpn_config_file)"/>
+    <arg name="config" value="$(arg vrpn_config_file)"/>
+    <arg name="trackers" value="$(arg vrpn_rigid_body)"/>
   </include>
 
   <include file="$(dirname)/fs150_uav1_vrpn_router.launch">
