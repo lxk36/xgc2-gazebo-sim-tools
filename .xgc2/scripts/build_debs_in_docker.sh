@@ -80,6 +80,8 @@ docker run --rm \
       ros-noetic-tf2-ros \
       ros-noetic-vrpn \
       ros-noetic-vrpn-client-ros \
+      ros-noetic-xgc2-controller \
+      ros-noetic-xgc2-estimator-hover-thrust \
       ros-noetic-xgc2-estimator-rigid-state \
       ros-noetic-xgc2-gazebo-sim-worlds
 
@@ -108,6 +110,10 @@ docker run --rm \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.0.21-1)" >/dev/null
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+        | grep -F "ros-noetic-xgc2-controller (>= 1.0.8-1)" >/dev/null
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+        | grep -F "ros-noetic-xgc2-estimator-rigid-state (>= 1.0.2-1)" >/dev/null
       /workspace/gazebo-sim/.xgc2/scripts/check_installed_packages.sh
     fi
   '
