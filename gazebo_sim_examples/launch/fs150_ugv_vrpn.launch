@@ -10,7 +10,7 @@
 
   <arg name="fs150_launch" default="$(find gazebo_sim_fs150_sitl)/launch/fs150.launch"/>
   <arg name="fs150_px4_launch" default="$(find gazebo_sim_px4_1_12)/launch/iris.launch"/>
-  <arg name="fs150_base_sdf" default="$(find gazebo_sim_px4_1_12)/models/iris/iris.sdf"/>
+  <arg name="fs150_base_sdf" default="$(find gazebo_sim_fs150_sitl)/models/fs150/iris.sdf"/>
   <arg name="fs150_sdf" default="$(env HOME)/.xgc2/fs150_sitl/iris_indoor.sdf"/>
   <arg name="fs150_param_file" default="$(find gazebo_sim_fs150_sitl)/config/generated/fs150-sitl.params"/>
   <arg name="fs150_reset_params" default="true"/>
@@ -64,7 +64,7 @@
     <arg name="param_file" value="$(arg fs150_param_file)"/>
     <arg name="reset_params" value="$(arg fs150_reset_params)"/>
     <arg name="model_name" value="$(arg fs150_model_name)"/>
-    <arg name="namespace" value="$(arg fs150_ns)"/>
+    <arg name="ns" value="$(arg fs150_ns)"/>
     <arg name="world" value="$(arg world)"/>
     <arg name="gui" value="$(arg gui)"/>
     <arg name="debug" value="$(arg debug)"/>
