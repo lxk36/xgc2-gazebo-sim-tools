@@ -18,6 +18,7 @@
   <exec_depend>gazebo_sim_px4_1_12</exec_depend>
   <exec_depend>gazebo_sim_scout</exec_depend>
   <exec_depend>gazebo_sim_vrpn_bridge</exec_depend>
+  <exec_depend>gazebo_sim_worlds</exec_depend>
   <exec_depend>hover_thrust_estimator</exec_depend>
   <exec_depend>multirotor_controller</exec_depend>
   <exec_depend>reference_trajectory</exec_depend>

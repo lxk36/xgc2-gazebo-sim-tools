@@ -6,7 +6,7 @@
   <arg name="paused" default="false"/>
   <arg name="interactive" default="false"/>
 
-  <arg name="world" default="$(find gazebo_sim_scout)/worlds/weston_robot_empty.world"/>
+  <arg name="world" default="$(find gazebo_sim_worlds)/worlds/flat_empty.world"/>
 
   <arg name="fs150_launch" default="$(find gazebo_sim_fs150_sitl)/launch/fs150.launch"/>
   <arg name="fs150_id" default="4"/>

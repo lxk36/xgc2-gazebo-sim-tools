@@ -9,7 +9,8 @@ This package starts one FS150 PX4 1.12 SITL vehicle, one Scout UGV, Gazebo-backe
 VRPN tracking, and optional offboard follow tests.  It is an orchestration
 package: FS150 airframe and estimator startup parameters are owned by
 `gazebo_sim_fs150_sitl`, Gazebo-backed VRPN server parameters are owned by
-`gazebo_sim_vrpn_bridge`, and route parameters are owned by the local
+`gazebo_sim_vrpn_bridge`, shared world assets are owned by
+`gazebo_sim_worlds`, and route parameters are owned by the local
 `fs150_vrpn_router.yaml` quickstart profile.
 
 ### Launch

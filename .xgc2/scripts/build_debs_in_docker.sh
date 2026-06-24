@@ -97,9 +97,12 @@ docker run --rm \
     if [[ "${INSTALL_CHECK}" == "true" ]]; then
       apt-get install -y \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb \
+        /workspace/out/ros-noetic-xgc2-gazebo-sim-worlds_*.deb \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-vrpn-bridge_*.deb
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
+      dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-worlds_*.deb \
+        | grep -F /opt/ros/noetic/share/gazebo_sim_worlds/worlds/flat_empty.world >/dev/null
       /workspace/gazebo-sim/.xgc2/scripts/check_installed_packages.sh
     fi
   '
