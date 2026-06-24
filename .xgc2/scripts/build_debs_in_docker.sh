@@ -104,6 +104,7 @@ docker run --rm \
 
     if [[ "${INSTALL_CHECK}" == "true" ]]; then
       apt-get install -y \
+        /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-vrpn-bridge_*.deb
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \

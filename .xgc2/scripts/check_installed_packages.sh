@@ -5,12 +5,14 @@ ROS_DISTRO="${ROS_DISTRO:-noetic}"
 source "/opt/ros/${ROS_DISTRO}/setup.bash"
 
 dpkg -s ros-noetic-xgc2-gazebo-sim-manager >/dev/null
+dpkg -s ros-noetic-xgc2-gazebo-sim-examples >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-vrpn-bridge >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-worlds >/dev/null
 dpkg -s ros-noetic-xgc2-controller >/dev/null
 dpkg -s ros-noetic-xgc2-estimator-hover-thrust >/dev/null
 dpkg -s ros-noetic-xgc2-estimator-rigid-state >/dev/null
 test "$(rospack find gazebo_session_manager)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_session_manager"
+test "$(rospack find gazebo_sim_examples)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_examples"
 test "$(rospack find gazebo_sim_vrpn_bridge)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_vrpn_bridge"
 test "$(rospack find gazebo_sim_worlds)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_worlds"
 test "$(rospack find multirotor_controller)" = "/opt/ros/${ROS_DISTRO}/share/multirotor_controller"
