@@ -20,10 +20,13 @@
   <exec_depend>gazebo_sim_vrpn_bridge</exec_depend>
   <exec_depend>gazebo_sim_worlds</exec_depend>
   <exec_depend>estimator_vrpn_px4_rotor_state</exec_depend>
+  <exec_depend>estimator_vrpn_ugv_state</exec_depend>
   <exec_depend>hover_thrust_estimator</exec_depend>
-  <exec_depend>multirotor_controller</exec_depend>
-  <exec_depend>reference_trajectory</exec_depend>
+  <exec_depend>multirotor_reference_trajectory</exec_depend>
+  <exec_depend>px4_multirotor_controller</exec_depend>
   <exec_depend>scout_description</exec_depend>
+  <exec_depend>unicycle_reference_trajectory</exec_depend>
+  <exec_depend>unicycle_ugv_controller</exec_depend>
   <exec_depend>mavros</exec_depend>
   <exec_depend>roslaunch</exec_depend>
   <exec_depend>vrpn_client_ros</exec_depend>

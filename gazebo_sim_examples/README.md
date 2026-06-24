@@ -59,13 +59,28 @@ roslaunch gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
 
 It starts one FS150 PX4 1.12 SITL vehicle, the Gazebo-backed VRPN server,
 `vrpn_client_ros`, `estimator_vrpn_px4_rotor_state`, `hover_thrust_estimator`,
-`multirotor_controller`, and the UAV reference trajectory state-machine node. It does not
+`px4_multirotor_controller`, and the UAV reference trajectory state-machine node. It does not
 start `vrpn_router`: the rigid-state estimator subscribes to raw VRPN pose and
 publishes `mavros/vision_pose/pose` for PX4. The default
 takeoff height is 3 m. The default Custom1 request is an analytic circle-entry
 reference with 3 m radius, 3 m/s horizontal speed, 3 m altitude, and a 1 m
 sinusoidal height offset. After the launch is up, drive the controller through
 its normal state-machine command topic.
+
+The single-Scout UGV NMPC tracking stack is:
+
+```bash
+roslaunch gazebo_sim_examples scout_ugv1_nmpc_tracking.launch
+```
+
+It starts one Scout, Gazebo-backed VRPN server/client, `estimator_vrpn_ugv_state`,
+`unicycle_reference_trajectory`, and `unicycle_ugv_controller`. The default
+reference is a 3 m radius circle-entry trajectory at 1 m/s. After the launch is
+up, start tracking with:
+
+```bash
+rostopic pub -1 /command std_msgs/String "data: 'track'"
+```
 
 The FS150 vehicle id exposed to users is the MAVLink system id.  The launch file
 maps it to the PX4 instance internally:

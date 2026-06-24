@@ -4,8 +4,8 @@
   <arg name="vrpn_rigid_body" default="$(arg ns)"/>
   <arg name="fs150_id" default="4"/>
   <arg name="takeoff_altitude" default="3.0"/>
-  <arg name="reference_config_file" default="$(find reference_trajectory)/config/reference_trajectory.yaml"/>
-  <arg name="controller_config_file" default="$(find multirotor_controller)/config/uav_nmpc.yaml"/>
+  <arg name="reference_config_file" default="$(find multirotor_reference_trajectory)/config/multirotor_reference_trajectory.yaml"/>
+  <arg name="controller_config_file" default="$(find px4_multirotor_controller)/config/uav_nmpc.yaml"/>
   <arg name="hover_thrust_config_file" default="$(find hover_thrust_estimator)/config/hover_thrust_estimator.yaml"/>
   <arg name="vrpn_px4_rotor_state_config_file" default="$(find gazebo_sim_examples)/config/vrpn_px4_rotor_state_estimator_fs150_tracking.yaml"/>
   <arg name="debug_print" default="false"/>
@@ -95,7 +95,7 @@
     <arg name="config_file" value="$(arg vrpn_px4_rotor_state_config_file)"/>
   </include>
 
-  <include file="$(find multirotor_controller)/launch/uav_nmpc_controller.launch">
+  <include file="$(find px4_multirotor_controller)/launch/uav_nmpc_controller.launch">
     <arg name="ns" value="$(arg ns)"/>
     <arg name="vrpn_rigid_body" value="$(arg vrpn_rigid_body)"/>
     <arg name="debug_print" value="$(arg debug_print)"/>
@@ -123,7 +123,7 @@
     <arg name="reference_entry_duration" value="$(arg reference_entry_duration)"/>
   </include>
 
-  <include file="$(find reference_trajectory)/launch/uav_reference_trajectory.launch">
+  <include file="$(find multirotor_reference_trajectory)/launch/uav_multirotor_reference_trajectory.launch">
     <arg name="ns" value="$(arg ns)"/>
     <arg name="config_file" value="$(arg reference_config_file)"/>
   </include>
