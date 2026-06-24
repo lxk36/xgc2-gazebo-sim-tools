@@ -74,4 +74,10 @@ if ! grep -q 'install(DIRECTORY include/${PROJECT_NAME}/' gazebo_sim_vrpn_bridge
   exit 1
 fi
 
+if rg -n 'name="robot_namespace"' gazebo_sim_examples/launch >/tmp/xgc2-gazebo-sim-tools-legacy-args.txt; then
+  echo "gazebo_sim_examples uses legacy Scout spawn arg robot_namespace; use ns." >&2
+  cat /tmp/xgc2-gazebo-sim-tools-legacy-args.txt >&2
+  exit 1
+fi
+
 echo "Package compliance checks passed."

@@ -78,7 +78,7 @@
   </include>
 
   <include file="$(arg ugv_spawn_launch)">
-    <arg name="robot_namespace" value="$(arg ugv_ns)"/>
+    <arg name="ns" value="$(arg ugv_ns)"/>
     <arg name="model_name" value="$(arg ugv_model_name)"/>
     <arg name="x" value="$(arg ugv_x)"/>
     <arg name="y" value="$(arg ugv_y)"/>
@@ -92,6 +92,7 @@
     <arg name="wheel_separation" value="$(arg ugv_wheel_separation)"/>
     <arg name="wheel_radius" value="$(arg ugv_wheel_radius)"/>
     <arg name="command_gain" value="$(arg ugv_command_gain)"/>
+    <arg name="angular_command_gain" value="$(arg ugv_angular_command_gain)"/>
   </include>
 
   <include if="$(arg vrpn_server)" file="$(arg vrpn_server_launch)">
