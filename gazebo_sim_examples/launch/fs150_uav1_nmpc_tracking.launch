@@ -4,7 +4,7 @@
   <arg name="vrpn_rigid_body" default="$(arg ns)"/>
   <arg name="fs150_id" default="4"/>
   <arg name="takeoff_altitude" default="3.0"/>
-  <arg name="reference_config_file" default="$(find gazebo_sim_examples)/config/uav_reference_circle_entry_r3_v3_z1.yaml"/>
+  <arg name="reference_config_file" default="$(find reference_trajectory)/config/reference_trajectory.yaml"/>
   <arg name="controller_config_file" default="$(find multirotor_controller)/config/uav_nmpc.yaml"/>
   <arg name="hover_thrust_config_file" default="$(find hover_thrust_estimator)/config/hover_thrust_estimator.yaml"/>
   <arg name="rigid_state_config_file" default="$(find gazebo_sim_examples)/config/rigid_state_estimator_fs150_tracking.yaml"/>
@@ -21,6 +21,14 @@
   <arg name="max_velocity_z" default="1000.0"/>
   <arg name="acc_saturation_xy" default="1000.0"/>
   <arg name="acc_saturation_z" default="1000.0"/>
+  <arg name="reference_start_delay" default="0.2"/>
+  <arg name="reference_duration" default="60.0"/>
+  <arg name="reference_radius" default="3.0"/>
+  <arg name="reference_line_speed" default="3.0"/>
+  <arg name="reference_height" default="3.0"/>
+  <arg name="reference_z_amplitude" default="1.0"/>
+  <arg name="reference_z_frequency" default="0.5"/>
+  <arg name="reference_entry_duration" default="5.0"/>
 
   <arg name="gui" default="true"/>
   <arg name="debug" default="false"/>
@@ -105,6 +113,14 @@
     <arg name="max_velocity_z" value="$(arg max_velocity_z)"/>
     <arg name="acc_saturation_xy" value="$(arg acc_saturation_xy)"/>
     <arg name="acc_saturation_z" value="$(arg acc_saturation_z)"/>
+    <arg name="reference_start_delay" value="$(arg reference_start_delay)"/>
+    <arg name="reference_duration" value="$(arg reference_duration)"/>
+    <arg name="reference_radius" value="$(arg reference_radius)"/>
+    <arg name="reference_line_speed" value="$(arg reference_line_speed)"/>
+    <arg name="reference_height" value="$(arg reference_height)"/>
+    <arg name="reference_z_amplitude" value="$(arg reference_z_amplitude)"/>
+    <arg name="reference_z_frequency" value="$(arg reference_z_frequency)"/>
+    <arg name="reference_entry_duration" value="$(arg reference_entry_duration)"/>
   </include>
 
   <include file="$(find reference_trajectory)/launch/uav_reference_trajectory.launch">
