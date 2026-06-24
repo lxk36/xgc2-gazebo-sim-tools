@@ -2,7 +2,7 @@
 <launch>
     <arg name="host" default="127.0.0.1"/>
     <arg name="port" default="8088"/>
-    <arg name="world_name" default="$(find gazebo_session_manager)/worlds/empty.world"/>
+    <arg name="world_name" default="$(find gazebo_sim_worlds)/worlds/empty/empty.world"/>
     <arg name="default_z" default="0.181"/>
     <arg name="auto_spacing_x" default="1.6"/>
     <arg name="auto_spacing_y" default="1.2"/>

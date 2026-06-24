@@ -50,9 +50,6 @@ required_files=(
   gazebo_sim_vrpn_bridge/test/mocap_noise_tests.cpp
   gazebo_sim_vrpn_bridge/test/vrpn_protocol_e2e.py
   gazebo_sim_vrpn_bridge/test/vrpn_protocol_e2e.test
-  gazebo_sim_worlds/CMakeLists.txt
-  gazebo_sim_worlds/package.xml
-  gazebo_sim_worlds/worlds/flat_empty.world
 )
 
 for file in "${required_files[@]}"; do

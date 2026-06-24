@@ -49,6 +49,10 @@ docker run --rm \
 
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
+    apt-get install -y --no-install-recommends ca-certificates
+    echo "deb [trusted=yes arch=$(dpkg --print-architecture)] https://xgc2.apt.xiaokang.ink focal main" \
+      > /etc/apt/sources.list.d/xgc2.list
+    apt-get update
     apt-get install -y --no-install-recommends \
       build-essential \
       ca-certificates \
@@ -75,7 +79,8 @@ docker run --rm \
       ros-noetic-tf2 \
       ros-noetic-tf2-ros \
       ros-noetic-vrpn \
-      ros-noetic-vrpn-client-ros
+      ros-noetic-vrpn-client-ros \
+      ros-noetic-xgc2-gazebo-sim-worlds
 
     rm -rf /workspace/work/src /workspace/work/build /workspace/work/devel /workspace/work/install-root
     mkdir -p /workspace/work/src/xgc2_gazebo_sim_tools
@@ -97,12 +102,11 @@ docker run --rm \
     if [[ "${INSTALL_CHECK}" == "true" ]]; then
       apt-get install -y \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb \
-        /workspace/out/ros-noetic-xgc2-gazebo-sim-worlds_*.deb \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-vrpn-bridge_*.deb
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
-      dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-worlds_*.deb \
-        | grep -F /opt/ros/noetic/share/gazebo_sim_worlds/worlds/flat_empty.world >/dev/null
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+        | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.0.21-1)" >/dev/null
       /workspace/gazebo-sim/.xgc2/scripts/check_installed_packages.sh
     fi
   '

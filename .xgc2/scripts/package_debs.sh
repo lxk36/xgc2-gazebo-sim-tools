@@ -117,8 +117,8 @@ build_ros_package_deb() {
 
 manager_pkg="ros-noetic-xgc2-gazebo-sim-manager"
 examples_pkg="ros-noetic-xgc2-gazebo-sim-examples"
-worlds_pkg="ros-noetic-xgc2-gazebo-sim-worlds"
 vrpn_bridge_pkg="ros-noetic-xgc2-gazebo-sim-vrpn-bridge"
+worlds_pkg="ros-noetic-xgc2-gazebo-sim-worlds"
 
 build_ros_package_deb \
   "${vrpn_bridge_pkg}" \
@@ -129,19 +129,13 @@ build_ros_package_deb \
 build_ros_package_deb \
   "${manager_pkg}" \
   "gazebo_session_manager" \
-  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (= ${VERSION}), ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-rosnode, ros-noetic-gazebo-msgs, ros-noetic-gazebo-ros, ros-noetic-geometry-msgs, ros-noetic-controller-manager-msgs, ros-noetic-std-srvs" \
+  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (>= 1.0.21-1), ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-rosnode, ros-noetic-gazebo-msgs, ros-noetic-gazebo-ros, ros-noetic-geometry-msgs, ros-noetic-controller-manager-msgs, ros-noetic-std-srvs" \
   "XGC2 Gazebo Classic session manager and WebUI tools"
-
-build_ros_package_deb \
-  "${worlds_pkg}" \
-  "gazebo_sim_worlds" \
-  "ros-noetic-roslaunch" \
-  "XGC2 Gazebo Classic shared world assets"
 
 build_ros_package_deb \
   "${examples_pkg}" \
   "gazebo_sim_examples" \
-  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (= ${VERSION}), ros-noetic-xgc2-gazebo-sim-fs150-sitl, ros-noetic-xgc2-gazebo-sim-scout, ros-noetic-xgc2-vrpn-router, ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
+  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (>= 1.0.21-1), ros-noetic-xgc2-gazebo-sim-fs150-sitl, ros-noetic-xgc2-gazebo-sim-scout, ros-noetic-xgc2-vrpn-router, ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
   "XGC2 Gazebo Classic example launch orchestration"
 
 find "${OUTPUT_DIR}" -maxdepth 1 -type f -name '*.deb' -print | sort

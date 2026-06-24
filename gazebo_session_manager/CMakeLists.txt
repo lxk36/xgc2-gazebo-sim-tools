@@ -13,6 +13,6 @@ catkin_install_python(PROGRAMS
 )
 
 install(
-  DIRECTORY launch worlds
+  DIRECTORY launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )

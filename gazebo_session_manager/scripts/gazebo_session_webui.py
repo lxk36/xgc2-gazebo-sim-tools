@@ -53,7 +53,7 @@ class GazeboSessionManager:
         self.port = int(rospy.get_param("~port", 8088))
         self.world_name = rospy.get_param(
             "~world_name",
-            "$(find gazebo_sim_worlds)/worlds/flat_empty.world",
+            "$(find gazebo_sim_worlds)/worlds/empty/empty.world",
         )
         self.default_z = float(rospy.get_param("~default_z", 0.181))
         self.auto_spacing_x = float(rospy.get_param("~auto_spacing_x", 1.6))
