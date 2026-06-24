@@ -7,7 +7,7 @@
   <arg name="reference_config_file" default="$(find gazebo_sim_examples)/config/uav_reference_circle_entry_r3_v3_z1.yaml"/>
   <arg name="controller_config_file" default="$(find multirotor_controller)/config/uav_nmpc.yaml"/>
   <arg name="hover_thrust_config_file" default="$(find hover_thrust_estimator)/config/hover_thrust_estimator.yaml"/>
-  <arg name="rigid_state_config_file" default="$(find estimator_rigid_state)/config/rigid_state_estimator.yaml"/>
+  <arg name="rigid_state_config_file" default="$(find gazebo_sim_examples)/config/rigid_state_estimator_fs150_tracking.yaml"/>
   <arg name="debug_print" default="false"/>
 
   <arg name="fence_x_min" default="-1000000.0"/>
