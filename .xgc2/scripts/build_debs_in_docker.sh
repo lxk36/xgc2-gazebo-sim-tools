@@ -80,6 +80,7 @@ docker run --rm \
       ros-noetic-tf2-ros \
       ros-noetic-vrpn \
       ros-noetic-vrpn-client-ros \
+      ros-noetic-xgc2-estimator-rigid-state \
       ros-noetic-xgc2-gazebo-sim-worlds
 
     rm -rf /workspace/work/src /workspace/work/build /workspace/work/devel /workspace/work/install-root
