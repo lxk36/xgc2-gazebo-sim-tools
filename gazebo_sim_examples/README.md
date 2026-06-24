@@ -58,7 +58,7 @@ roslaunch gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
 ```
 
 It starts one FS150 PX4 1.12 SITL vehicle, the Gazebo-backed VRPN server,
-`vrpn_client_ros`, `estimator_rigid_state`, `hover_thrust_estimator`,
+`vrpn_client_ros`, `estimator_vrpn_px4_rotor_state`, `hover_thrust_estimator`,
 `multirotor_controller`, and the UAV reference trajectory state-machine node. It does not
 start `vrpn_router`: the rigid-state estimator subscribes to raw VRPN pose and
 publishes `mavros/vision_pose/pose` for PX4. The default
