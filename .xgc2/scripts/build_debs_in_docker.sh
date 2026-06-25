@@ -85,7 +85,7 @@ docker run --rm \
       ros-noetic-xgc2-estimator-hover-thrust \
       ros-noetic-xgc2-estimator-rigid-state \
       ros-noetic-xgc2-gazebo-sim-worlds
-    dpkg-query --compare-versions "$(dpkg-query -W -f="\${Version}" libxgc2-math-dev)" ge 0.5.1-1
+    dpkg --compare-versions "$(dpkg-query -W -f="\${Version}" libxgc2-math-dev)" ge 0.5.1-1
 
     rm -rf /workspace/work/src /workspace/work/build /workspace/work/devel /workspace/work/install-root
     mkdir -p /workspace/work/src/xgc2_gazebo_sim_tools
