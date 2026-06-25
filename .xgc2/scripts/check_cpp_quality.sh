@@ -7,7 +7,6 @@ ros_distro="${ROS_DISTRO:-noetic}"
 workspace="${XGC2_GAZEBO_SIM_TOOLS_QUALITY_WS:-${repo_root}/.ci/cpp-quality}"
 
 sources=(
-  gazebo_sim_vrpn_bridge/include/gazebo_sim_vrpn_bridge/butterworth_filter.h
   gazebo_sim_vrpn_bridge/include/gazebo_sim_vrpn_bridge/mocap_noise.h
   gazebo_sim_vrpn_bridge/src/gazebo_vrpn_server_node.cpp
   gazebo_sim_vrpn_bridge/test/mocap_noise_tests.cpp

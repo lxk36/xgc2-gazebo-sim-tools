@@ -44,7 +44,6 @@ required_files=(
   .xgc2/scripts/run_package_tests.sh
   gazebo_sim_vrpn_bridge/CMakeLists.txt
   gazebo_sim_vrpn_bridge/package.xml
-  gazebo_sim_vrpn_bridge/include/gazebo_sim_vrpn_bridge/butterworth_filter.h
   gazebo_sim_vrpn_bridge/include/gazebo_sim_vrpn_bridge/mocap_noise.h
   gazebo_sim_vrpn_bridge/src/gazebo_vrpn_server_node.cpp
   gazebo_sim_vrpn_bridge/test/mocap_noise_tests.cpp
@@ -58,6 +57,14 @@ for file in "${required_files[@]}"; do
     exit 1
   fi
 done
+
+if [[ -e gazebo_sim_vrpn_bridge/include/gazebo_sim_vrpn_bridge/butterworth_filter.h ]]; then
+  echo "gazebo_sim_vrpn_bridge must use xgc2_math::SecondOrderButterworthLowPass directly." >&2
+  exit 1
+fi
+
+grep -q '<xgc2_math/filter/butterworth_filter.hpp>' gazebo_sim_vrpn_bridge/src/gazebo_vrpn_server_node.cpp
+grep -q 'xgc2_math::SecondOrderButterworthLowPass' gazebo_sim_vrpn_bridge/src/gazebo_vrpn_server_node.cpp
 
 if ! grep -q 'catkin_add_gtest(gazebo_sim_vrpn_bridge_mocap_noise_tests' gazebo_sim_vrpn_bridge/CMakeLists.txt; then
   echo "gazebo_sim_vrpn_bridge unit test target is missing." >&2

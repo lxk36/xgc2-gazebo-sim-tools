@@ -26,11 +26,20 @@ jobs:
               set -euo pipefail
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
+              apt-get install -y --no-install-recommends ca-certificates curl
+              install -m 0755 -d /etc/apt/keyrings
+              curl -fsSL https://xgc2.apt.xiaokang.ink/xgc2-archive-keyring.gpg \
+                -o /etc/apt/keyrings/xgc2-archive-keyring.gpg
+              chmod 0644 /etc/apt/keyrings/xgc2-archive-keyring.gpg
+              echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/xgc2-archive-keyring.gpg] https://xgc2.apt.xiaokang.ink focal main" \
+                > /etc/apt/sources.list.d/xgc2.list
+              apt-get update
               apt-get install -y --no-install-recommends \
                 build-essential \
                 clang-format \
                 clang-tidy \
                 cppcheck \
+                libxgc2-math-dev \
                 ros-noetic-gazebo-msgs \
                 ros-noetic-geometry-msgs \
                 ros-noetic-rostest \
@@ -39,6 +48,7 @@ jobs:
                 ros-noetic-tf2-ros \
                 ros-noetic-vrpn \
                 ros-noetic-vrpn-client-ros
+              dpkg-query --compare-versions "$(dpkg-query -W -f='\''${Version}'\'' libxgc2-math-dev)" ge 0.5.1-1
               .xgc2/scripts/check_cpp_quality.sh
             '
 
@@ -68,9 +78,19 @@ jobs:
               set -euo pipefail
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
+              apt-get install -y --no-install-recommends ca-certificates curl
+              install -m 0755 -d /etc/apt/keyrings
+              curl -fsSL https://xgc2.apt.xiaokang.ink/xgc2-archive-keyring.gpg \
+                -o /etc/apt/keyrings/xgc2-archive-keyring.gpg
+              chmod 0644 /etc/apt/keyrings/xgc2-archive-keyring.gpg
+              echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/xgc2-archive-keyring.gpg] https://xgc2.apt.xiaokang.ink focal main" \
+                > /etc/apt/sources.list.d/xgc2.list
+              apt-get update
               apt-get install -y --no-install-recommends \
                 build-essential \
+                curl \
                 git \
+                libxgc2-math-dev \
                 netbase \
                 ros-noetic-gazebo-msgs \
                 ros-noetic-geometry-msgs \
@@ -80,6 +100,7 @@ jobs:
                 ros-noetic-tf2-ros \
                 ros-noetic-vrpn \
                 ros-noetic-vrpn-client-ros
+              dpkg-query --compare-versions "$(dpkg-query -W -f='\''${Version}'\'' libxgc2-math-dev)" ge 0.5.1-1
               git config --global --add safe.directory /work
               .xgc2/scripts/check_package_compliance.sh
               .xgc2/scripts/run_package_tests.sh

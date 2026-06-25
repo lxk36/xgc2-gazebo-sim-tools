@@ -123,7 +123,7 @@ worlds_pkg="ros-noetic-xgc2-gazebo-sim-worlds"
 build_ros_package_deb \
   "${vrpn_bridge_pkg}" \
   "gazebo_sim_vrpn_bridge" \
-  "ros-noetic-roscpp, ros-noetic-gazebo-msgs, ros-noetic-geometry-msgs, ros-noetic-tf2, ros-noetic-tf2-ros, ros-noetic-vrpn, ros-noetic-vrpn-client-ros" \
+  "libxgc2-math-dev (>= 0.5.1-1), ros-noetic-roscpp, ros-noetic-gazebo-msgs, ros-noetic-geometry-msgs, ros-noetic-tf2, ros-noetic-tf2-ros, ros-noetic-vrpn, ros-noetic-vrpn-client-ros" \
   "XGC2 Gazebo Classic model pose to VRPN tracker server bridge"
 
 build_ros_package_deb \
