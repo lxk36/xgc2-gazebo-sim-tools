@@ -9,7 +9,8 @@ dpkg -s ros-noetic-xgc2-gazebo-sim-examples >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-vrpn-bridge >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-worlds >/dev/null
 dpkg -s libxgc2-math-dev >/dev/null
-dpkg -s ros-noetic-xgc2-controller >/dev/null
+dpkg -s ros-noetic-xgc2-multirotor-controller >/dev/null
+dpkg -s ros-noetic-xgc2-ugv-controller >/dev/null
 dpkg -s ros-noetic-xgc2-estimator-hover-thrust >/dev/null
 dpkg -s ros-noetic-xgc2-estimator-rigid-state >/dev/null
 test "$(rospack find gazebo_session_manager)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_session_manager"

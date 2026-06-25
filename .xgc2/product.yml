@@ -1,7 +1,7 @@
 schema: xgc2.product.v1
 id: xgc2-gazebo-sim-tools
 name: XGC2 Gazebo Sim Tools
-version: 1.0.31-1
+version: 1.0.32-1
 kind: ros1-apt
 summary: Gazebo Classic session manager, examples, and Gazebo-to-VRPN bridge packages for ROS Noetic.
 
@@ -27,7 +27,8 @@ apt:
     - ros-noetic-xgc2-gazebo-sim-fs150-sitl
     - ros-noetic-xgc2-gazebo-sim-scout
     - ros-noetic-xgc2-gazebo-sim-worlds (>= 1.0.21-1)
-    - ros-noetic-xgc2-controller (>= 1.3.0-1)
+    - ros-noetic-xgc2-multirotor-controller (>= 1.0.0-1)
+    - ros-noetic-xgc2-ugv-controller (>= 1.0.0-1)
     - ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.21-1)
     - ros-noetic-xgc2-estimator-rigid-state (>= 1.1.0-1)
     - ros-noetic-xgc2-vrpn-router
