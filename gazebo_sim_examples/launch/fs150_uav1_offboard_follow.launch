@@ -1,18 +1,8 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="mavros_ns" default="/uav1/mavros"/>
-  <arg name="start_vrpn_router" default="false"/>
-  <arg name="vrpn_server" default="127.0.0.1"/>
-  <arg name="vrpn_port" default="3883"/>
-  <arg name="uav_tracker" default="uav1"/>
   <arg name="ugv_tracker" default="ugv1"/>
-  <arg name="vrpn_client_trackers" default="uav1, ugv1"/>
-  <arg name="vrpn_frame_id" default="map"/>
   <arg name="vrpn_output_frame_id" default="map"/>
-  <arg name="vrpn_update_frequency" default="100.0"/>
-  <arg name="vrpn_use_server_time" default="false"/>
-  <arg name="vrpn_broadcast_tf" default="false"/>
-  <arg name="vrpn_max_output_rate_hz" default="50.0"/>
 
   <arg name="ensure_px4_params" default="true"/>
   <arg name="enable_hover_thrust_estimator" default="true"/>
@@ -62,21 +52,6 @@
   <arg name="ugv_circle_max_angular_speed_radps" default="3.0"/>
   <arg name="ugv_circle_pose_timeout_s" default="0.5"/>
   <arg name="ugv_circle_allow_reverse" default="false"/>
-
-  <include if="$(arg start_vrpn_router)" file="$(dirname)/fs150_ugv_vrpn_router.launch">
-    <arg name="server" value="$(arg vrpn_server)"/>
-    <arg name="port" value="$(arg vrpn_port)"/>
-    <arg name="uav_tracker" value="$(arg uav_tracker)"/>
-    <arg name="ugv_tracker" value="$(arg ugv_tracker)"/>
-    <arg name="client_trackers" value="$(arg vrpn_client_trackers)"/>
-    <arg name="mavros_ns" value="$(arg mavros_ns)"/>
-    <arg name="frame_id" value="$(arg vrpn_frame_id)"/>
-    <arg name="output_frame_id" value="$(arg vrpn_output_frame_id)"/>
-    <arg name="update_frequency" value="$(arg vrpn_update_frequency)"/>
-    <arg name="use_server_time" value="$(arg vrpn_use_server_time)"/>
-    <arg name="broadcast_tf" value="$(arg vrpn_broadcast_tf)"/>
-    <arg name="max_output_rate_hz" value="$(arg vrpn_max_output_rate_hz)"/>
-  </include>
 
   <node if="$(arg ensure_px4_params)"
         pkg="gazebo_sim_examples"

@@ -30,7 +30,6 @@
   <exec_depend>mavros</exec_depend>
   <exec_depend>roslaunch</exec_depend>
   <exec_depend>vrpn_client_ros</exec_depend>
-  <exec_depend>vrpn_router</exec_depend>
 
   <export>
     <build_type>catkin</build_type>

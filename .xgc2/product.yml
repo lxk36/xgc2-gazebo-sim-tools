@@ -31,7 +31,6 @@ apt:
     - ros-noetic-xgc2-ugv-controller (>= 1.0.0-1)
     - ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.21-1)
     - ros-noetic-xgc2-estimator-rigid-state (>= 1.1.0-1)
-    - ros-noetic-xgc2-vrpn-router
     - libxgc2-math-dev (>= 0.5.1-1)
 
 usage:

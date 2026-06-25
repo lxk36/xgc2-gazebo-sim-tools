@@ -10,8 +10,8 @@ VRPN tracking, and optional offboard follow tests.  It is an orchestration
 package: FS150 airframe and estimator startup parameters are owned by
 `gazebo_sim_fs150_sitl`, Gazebo-backed VRPN server parameters are owned by
 `gazebo_sim_vrpn_bridge`, shared world assets are owned by
-`gazebo_sim_worlds`, and route parameters are owned by the local
-`fs150_vrpn_router.yaml` quickstart profile.
+`gazebo_sim_worlds`, and VRPN state estimation is owned by
+`estimator_rigid_state`.
 
 ### Launch
 
@@ -22,13 +22,7 @@ source /opt/ros/noetic/setup.bash
 roslaunch gazebo_sim_examples fs150_ugv_vrpn.launch
 ```
 
-Start the `uav1` and `ugv1` VRPN client/router separately:
-
-```bash
-roslaunch gazebo_sim_examples fs150_ugv_vrpn_router.launch
-```
-
-Or start the simulation and VRPN router together:
+Start the simulation, VRPN client, and rigid-state estimators together:
 
 ```bash
 roslaunch gazebo_sim_examples fs150_ugv_vrpn_stack.launch
@@ -59,8 +53,7 @@ roslaunch gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
 
 It starts one FS150 PX4 1.12 SITL vehicle, the Gazebo-backed VRPN server,
 `vrpn_client_ros`, `estimator_vrpn_px4_rotor_state`, `hover_thrust_estimator`,
-`px4_multirotor_controller`, and the UAV reference trajectory state-machine node. It does not
-start `vrpn_router`: the rigid-state estimator subscribes to raw VRPN pose and
+`px4_multirotor_controller`, and the UAV reference trajectory state-machine node. The rigid-state estimator subscribes to raw VRPN pose and
 publishes `mavros/vision_pose/pose` for PX4. The default
 takeoff height is 3 m. The default Custom1 request is an analytic circle-entry
 reference with 3 m radius, 3 m/s horizontal speed, 3 m altitude, and a 1 m
@@ -132,9 +125,8 @@ This launch starts the follow algorithm and optional PX4 parameter guard:
   from the UGV's initial pose, and publishes closed-loop `/ugv1/cmd_vel`. The
   default circle is 2 m radius at 0.5 m/s.
 
-The algorithm expects the router launch to already provide
+The algorithm expects the VRPN client to already provide
 `/vrpn_client_node/uav1/pose`, `/vrpn_client_node/ugv1/pose`, and
-`/vrpn_client_node/ugv1/twist`. For legacy one-shot tests it can still include
-the router with `start_vrpn_router:=true`.
+`/vrpn_client_node/ugv1/twist`.
 If PX4 parameters are being managed manually, pass `ensure_px4_params:=false`.
 To restore the previous open-loop UGV command, pass `ugv_drive_mode:=open_loop`.
