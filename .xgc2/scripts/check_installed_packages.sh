@@ -15,7 +15,10 @@ test "$(rospack find gazebo_session_manager)" = "/opt/ros/${ROS_DISTRO}/share/ga
 test "$(rospack find gazebo_sim_examples)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_examples"
 test "$(rospack find gazebo_sim_vrpn_bridge)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_vrpn_bridge"
 test "$(rospack find gazebo_sim_worlds)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_worlds"
-test "$(rospack find multirotor_controller)" = "/opt/ros/${ROS_DISTRO}/share/multirotor_controller"
+test "$(rospack find px4_multirotor_controller)" = "/opt/ros/${ROS_DISTRO}/share/px4_multirotor_controller"
+test "$(rospack find multirotor_reference_trajectory)" = "/opt/ros/${ROS_DISTRO}/share/multirotor_reference_trajectory"
+test "$(rospack find unicycle_ugv_controller)" = "/opt/ros/${ROS_DISTRO}/share/unicycle_ugv_controller"
+test "$(rospack find unicycle_reference_trajectory)" = "/opt/ros/${ROS_DISTRO}/share/unicycle_reference_trajectory"
 test "$(rospack find hover_thrust_estimator)" = "/opt/ros/${ROS_DISTRO}/share/hover_thrust_estimator"
 test "$(rospack find estimator_vrpn_px4_rotor_state)" = "/opt/ros/${ROS_DISTRO}/share/estimator_vrpn_px4_rotor_state"
 test -f "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_worlds/worlds/empty/empty.world"
@@ -29,6 +32,7 @@ if grep -F "vrpn_router" /tmp/xgc2-fs150-uav1-nmpc-tracking-files.txt >/dev/null
   echo "fs150_uav1_nmpc_tracking.launch unexpectedly uses vrpn_router" >&2
   exit 1
 fi
+roslaunch --files gazebo_sim_examples scout_ugv1_nmpc_tracking.launch >/tmp/xgc2-scout-ugv1-nmpc-tracking-files.txt
 roslaunch --dump-params gazebo_sim_vrpn_bridge vrpn_client.launch trackers:=[uav1] \
   | grep -F "/vrpn_client_node/broadcast_tf: false" >/dev/null
 

@@ -135,7 +135,7 @@ build_ros_package_deb \
 build_ros_package_deb \
   "${examples_pkg}" \
   "gazebo_sim_examples" \
-  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (>= 1.0.21-1), ros-noetic-xgc2-gazebo-sim-fs150-sitl, ros-noetic-xgc2-gazebo-sim-scout, ros-noetic-xgc2-controller (>= 1.1.0-1), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.21-1), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.0-1), ros-noetic-xgc2-vrpn-router, ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
+  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (>= 1.0.21-1), ros-noetic-xgc2-gazebo-sim-fs150-sitl, ros-noetic-xgc2-gazebo-sim-scout, ros-noetic-xgc2-controller (>= 1.3.0-1), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.21-1), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.0-1), ros-noetic-xgc2-vrpn-router, ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
   "XGC2 Gazebo Classic example launch orchestration"
 
 find "${OUTPUT_DIR}" -maxdepth 1 -type f -name '*.deb' -print | sort
