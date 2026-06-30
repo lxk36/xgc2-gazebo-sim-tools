@@ -109,13 +109,14 @@ docker run --rm \
       apt-get install -y \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb \
+        /workspace/out/ros-noetic-xgc2-gazebo-sim-visualization_*.deb \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-vrpn-bridge_*.deb
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.0.21-1)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-multirotor-controller (>= 1.0.1-1)" >/dev/null
+        | grep -F "ros-noetic-xgc2-multirotor-controller (>= 1.0.7-1)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-ugv-controller (>= 1.0.0-1)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \

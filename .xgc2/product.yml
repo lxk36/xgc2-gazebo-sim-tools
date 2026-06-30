@@ -1,7 +1,7 @@
 schema: xgc2.product.v1
 id: xgc2-gazebo-sim-tools
 name: XGC2 Gazebo Sim Tools
-version: 1.0.38-1
+version: 1.0.39-1
 kind: ros1-apt
 summary: Gazebo Classic session manager, examples, RViz visualization, and Gazebo-to-VRPN bridge packages for ROS Noetic.
 
@@ -46,7 +46,7 @@ usage:
     roslaunch --files gazebo_session_manager session_manager.launch world_name:=/tmp/xgc2-empty.world
     roslaunch --files gazebo_sim_examples fs150_ugv_vrpn_stack.launch
     roslaunch --files gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
-    roslaunch --files gazebo_sim_visualization fs150_vrpn_tracking_rviz.launch
+    roslaunch --files gazebo_sim_visualization gazebo_auto_visualization_rviz.launch rviz:=false
     roslaunch --files gazebo_sim_vrpn_bridge vrpn_server.launch auto_track_known_models:=true
     roslaunch --files gazebo_sim_vrpn_bridge vrpn_client.launch trackers:=[uav1]
   notes: |
