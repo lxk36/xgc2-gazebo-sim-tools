@@ -8,6 +8,18 @@ cd "${repo_root}"
 
 bash -n .xgc2/scripts/*.sh
 
+search_files() {
+  local pattern="$1"
+  shift
+  if command -v rg >/dev/null 2>&1; then
+    rg -n --glob '!.xgc2/scripts/check_package_compliance.sh' "${pattern}" "$@"
+    return
+  fi
+  find "$@" -type f \
+    ! -path './.xgc2/scripts/check_package_compliance.sh' \
+    -exec grep -HnE "${pattern}" {} +
+}
+
 nested_git="$(
   find . \
     -path ./.git -prune -o \
@@ -63,17 +75,16 @@ if [[ -e gazebo_sim_vrpn_bridge/include/gazebo_sim_vrpn_bridge/butterworth_filte
   exit 1
 fi
 
-if rg -n --glob '!.xgc2/scripts/check_package_compliance.sh' \
-  'ros-noetic-xgc2-controller' .github .xgc2 gazebo_sim_examples gazebo_sim_vrpn_bridge \
+if search_files 'ros-noetic-xgc2-controller' .github .xgc2 gazebo_sim_examples gazebo_sim_vrpn_bridge \
   >/tmp/xgc2-gazebo-sim-tools-controller-deps.txt; then
   echo "gazebo_sim_tools must depend on split controller packages directly." >&2
   cat /tmp/xgc2-gazebo-sim-tools-controller-deps.txt >&2
   exit 1
 fi
 
-grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.0.1-1)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.0.7-1)" .xgc2/product.yml
 grep -q "ros-noetic-xgc2-ugv-controller (>= 1.0.0-1)" .xgc2/product.yml
-grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.0.1-1)" .xgc2/scripts/package_debs.sh
+grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.0.7-1)" .xgc2/scripts/package_debs.sh
 grep -q "ros-noetic-xgc2-ugv-controller (>= 1.0.0-1)" .xgc2/scripts/package_debs.sh
 
 grep -q '<xgc2_math/filter/butterworth_filter.hpp>' gazebo_sim_vrpn_bridge/src/gazebo_vrpn_server_node.cpp
@@ -94,7 +105,7 @@ if ! grep -q 'install(DIRECTORY include/${PROJECT_NAME}/' gazebo_sim_vrpn_bridge
   exit 1
 fi
 
-if rg -n 'name="robot_namespace"' gazebo_sim_examples/launch >/tmp/xgc2-gazebo-sim-tools-legacy-args.txt; then
+if search_files 'name="robot_namespace"' gazebo_sim_examples/launch >/tmp/xgc2-gazebo-sim-tools-legacy-args.txt; then
   echo "gazebo_sim_examples uses legacy Scout spawn arg robot_namespace; use ns." >&2
   cat /tmp/xgc2-gazebo-sim-tools-legacy-args.txt >&2
   exit 1
