@@ -136,13 +136,13 @@ build_ros_package_deb \
 build_ros_package_deb \
   "${examples_pkg}" \
   "gazebo_sim_examples" \
-  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (>= 1.0.21-1), ros-noetic-xgc2-gazebo-sim-fs150-sitl, ros-noetic-xgc2-gazebo-sim-scout, ros-noetic-xgc2-multirotor-controller (>= 1.0.7-1), ros-noetic-xgc2-ugv-controller (>= 1.0.0-1), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.22-1), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.1-1), ros-noetic-xgc2-vrpn-router, ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
+  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (>= 1.0.21-1), ros-noetic-xgc2-gazebo-sim-fs150-sitl, ros-noetic-xgc2-gazebo-sim-scout, ros-noetic-xgc2-multirotor-controller (>= 1.0.8-1), ros-noetic-xgc2-ugv-controller (>= 1.0.0-1), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.22-1), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.1-1), ros-noetic-xgc2-vrpn-router, ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
   "XGC2 Gazebo Classic example launch orchestration"
 
 build_ros_package_deb \
   "${visualization_pkg}" \
   "gazebo_sim_visualization" \
-  "${vrpn_bridge_pkg} (= ${VERSION}), ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.0.14-1), ros-noetic-xgc2-multirotor-controller (>= 1.0.7-1), ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-std-msgs, ros-noetic-tf2-ros, ros-noetic-visualization-msgs, ros-noetic-robot-state-publisher, ros-noetic-rviz" \
+  "${vrpn_bridge_pkg} (= ${VERSION}), ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.0.14-1), ros-noetic-xgc2-multirotor-controller (>= 1.0.8-1), ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-std-msgs, ros-noetic-tf2-ros, ros-noetic-visualization-msgs, ros-noetic-robot-state-publisher, ros-noetic-rviz" \
   "XGC2 Gazebo Classic RViz visualization tools"
 
 find "${OUTPUT_DIR}" -maxdepth 1 -type f -name '*.deb' -print | sort
