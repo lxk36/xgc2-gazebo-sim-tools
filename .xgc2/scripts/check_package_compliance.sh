@@ -17,6 +17,7 @@ search_files() {
   fi
   find "$@" -type f \
     ! -path './.xgc2/scripts/check_package_compliance.sh' \
+    ! -path '.xgc2/scripts/check_package_compliance.sh' \
     -exec grep -HnE "${pattern}" {} +
 }
 
