@@ -1,0 +1,159 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 70
+    Name: Displays
+    Property Tree Widget:
+      Expanded: ~
+      Splitter Ratio: 0.5
+    Tree Height: 685
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 160
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /gazebo_sim_visualization/markers
+      Name: Gazebo Robots
+      Namespaces:
+        uav1_actual_path: true
+        uav1_body: true
+        uav1_rotor_0: true
+        uav1_rotor_1: true
+        uav1_rotor_2: true
+        uav1_rotor_3: true
+      Queue Size: 5
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 40; 210; 90
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.017999999225139618
+      Name: Reference Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Queue Size: 10
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /uav1/alg/multirotor_reference_trajectory/visualization/reference_path
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 150; 20
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.017999999225139618
+      Name: NMPC Predicted Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Queue Size: 10
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /uav1/alg/nmpc/predicted_path
+      Unreliable: false
+      Value: true
+    - Alpha: 0.75
+      Arrow Length: 0.25
+      Axes Length: 0.20000000298023224
+      Axes Radius: 0.009999999776482582
+      Class: rviz/PoseArray
+      Color: 255; 210; 70
+      Enabled: true
+      Head Length: 0.05999999865889549
+      Head Radius: 0.029999999329447746
+      Name: NMPC Predicted Poses
+      Queue Size: 10
+      Shaft Length: 0.18000000715255737
+      Shaft Radius: 0.009999999776482582
+      Shape: Axes
+      Topic: /uav1/alg/nmpc/predicted_poses
+      Unreliable: false
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 28; 32; 36
+    Default Light: true
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 8.673280715942383
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Field of View: 0.7853981852531433
+      Focal Point:
+        X: -0.5090713500976562
+        Y: -2.6376070976257324
+        Z: 3.6314334869384766
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.5600001215934753
+      Target Frame: world
+      Yaw: 0.33000022172927856
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 900
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd0000000100000000000001560000032efc0200000001fb000000100044006900730070006c006100790073010000003b0000032e000000c700ffffff0000041c0000032e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Width: 1400
+  X: 1130
+  Y: 27

@@ -11,16 +11,13 @@
 
   <build_depend>roslaunch</build_depend>
 
+  <depend>gazebo_msgs</depend>
   <depend>geometry_msgs</depend>
-  <depend>nav_msgs</depend>
-  <depend>rospy</depend>
-  <depend>std_msgs</depend>
+  <depend>roscpp</depend>
   <depend>tf2_ros</depend>
   <depend>visualization_msgs</depend>
 
   <exec_depend>gazebo_sim_fs150_sitl</exec_depend>
-  <exec_depend>multirotor_reference_trajectory</exec_depend>
-  <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>roslaunch</exec_depend>
   <exec_depend>rviz</exec_depend>
 

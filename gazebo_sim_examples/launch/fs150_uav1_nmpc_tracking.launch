@@ -25,11 +25,16 @@
   <arg name="reference_start_delay" default="0.2"/>
   <arg name="reference_duration" default="60.0"/>
   <arg name="reference_radius" default="3.0"/>
-  <arg name="reference_line_speed" default="3.0"/>
+  <arg name="reference_line_speed" default="1.0"/>
   <arg name="reference_height" default="3.0"/>
-  <arg name="reference_z_amplitude" default="1.0"/>
+  <arg name="reference_z_amplitude" default="0.0"/>
   <arg name="reference_z_frequency" default="0.5"/>
   <arg name="reference_entry_duration" default="5.0"/>
+  <arg name="reference_analytic_type" default="3"/>
+  <arg name="reference_torus_omega" default="0.3"/>
+  <arg name="reference_torus_scale" default="0.3"/>
+  <arg name="reference_path_sample_dt" default="0.5"/>
+  <arg name="reference_path_preview_duration" default="$(arg reference_duration)"/>
 
   <arg name="gui" default="true"/>
   <arg name="debug" default="false"/>
@@ -123,10 +128,15 @@
     <arg name="reference_z_amplitude" value="$(arg reference_z_amplitude)"/>
     <arg name="reference_z_frequency" value="$(arg reference_z_frequency)"/>
     <arg name="reference_entry_duration" value="$(arg reference_entry_duration)"/>
+    <arg name="reference_analytic_type" value="$(arg reference_analytic_type)"/>
+    <arg name="reference_torus_omega" value="$(arg reference_torus_omega)"/>
+    <arg name="reference_torus_scale" value="$(arg reference_torus_scale)"/>
   </include>
 
   <include file="$(find multirotor_reference_trajectory)/launch/uav_multirotor_reference_trajectory.launch">
     <arg name="ns" value="$(arg ns)"/>
     <arg name="config_file" value="$(arg reference_config_file)"/>
+    <arg name="reference_path_sample_dt" value="$(arg reference_path_sample_dt)"/>
+    <arg name="reference_path_preview_duration" value="$(arg reference_path_preview_duration)"/>
   </include>
 </launch>

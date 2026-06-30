@@ -1,0 +1,35 @@
+<launch>
+  <arg name="frame_id" default="world"/>
+  <arg name="model_states_topic" default="/gazebo/model_states"/>
+  <arg name="vrpn_pose_prefix" default="/vrpn_client_node"/>
+  <arg name="publish_rate" default="30.0"/>
+  <arg name="path_publish_rate" default="10.0"/>
+  <arg name="path_limit" default="3000"/>
+  <arg name="vrpn_timeout" default="0.5"/>
+  <arg name="rotor_speed_rad_s" default="70.0"/>
+  <arg name="rviz" default="true"/>
+  <arg name="rviz_config" default="$(find gazebo_sim_visualization)/rviz/gazebo_auto_visualization.rviz"/>
+
+  <group ns="gazebo_sim_visualization">
+    <node pkg="gazebo_sim_visualization"
+          type="gazebo_auto_visualizer_node"
+          name="auto_visualizer"
+          output="screen">
+      <param name="frame_id" value="$(arg frame_id)"/>
+      <param name="model_states_topic" value="$(arg model_states_topic)"/>
+      <param name="vrpn_pose_prefix" value="$(arg vrpn_pose_prefix)"/>
+      <param name="publish_rate" value="$(arg publish_rate)"/>
+      <param name="path_publish_rate" value="$(arg path_publish_rate)"/>
+      <param name="path_limit" value="$(arg path_limit)"/>
+      <param name="vrpn_timeout" value="$(arg vrpn_timeout)"/>
+      <param name="rotor_speed_rad_s" value="$(arg rotor_speed_rad_s)"/>
+    </node>
+  </group>
+
+  <node if="$(arg rviz)"
+        pkg="rviz"
+        type="rviz"
+        name="gazebo_auto_rviz"
+        args="-d $(arg rviz_config)"
+        output="screen"/>
+</launch>
