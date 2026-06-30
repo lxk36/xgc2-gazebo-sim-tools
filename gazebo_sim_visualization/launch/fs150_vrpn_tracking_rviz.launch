@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="ns" default="uav1"/>
+  <arg name="tracker" default="$(arg ns)"/>
+  <arg name="frame_id" default="world"/>
+  <arg name="model_prefix" default="$(arg ns)_"/>
+  <arg name="model_frame" default="$(arg model_prefix)base_link"/>
+  <arg name="vrpn_pose_topic" default="/vrpn_client_node/$(arg tracker)/pose"/>
+  <arg name="tracking_error_topic" default="/$(arg ns)/alg/tracking/position_error"/>
+  <arg name="active_analytic_topic" default="/$(arg ns)/alg/multirotor_reference_trajectory/active/analytic"/>
+  <arg name="rviz" default="true"/>
+  <arg name="rviz_config" default="$(find gazebo_sim_visualization)/rviz/fs150_vrpn_tracking.rviz"/>
+  <arg name="sdf" default="$(find gazebo_sim_fs150_sitl)/models/fs150/iris.sdf"/>
+
+  <param name="robot_description"
+         command="$(find gazebo_sim_fs150_sitl)/scripts/generate_fs150_urdf.py --sdf $(arg sdf) --prefix $(arg model_prefix) --print"/>
+
+  <node pkg="robot_state_publisher"
+        type="robot_state_publisher"
+        name="$(arg ns)_robot_state_publisher"
+        output="screen"/>
+
+  <node pkg="gazebo_sim_visualization"
+        type="fs150_vrpn_tracking_visualizer.py"
+        name="$(arg ns)_vrpn_tracking_visualizer"
+        output="screen">
+    <param name="ns" value="$(arg ns)"/>
+    <param name="frame_id" value="$(arg frame_id)"/>
+    <param name="model_frame" value="$(arg model_frame)"/>
+    <param name="vrpn_pose_topic" value="$(arg vrpn_pose_topic)"/>
+    <param name="tracking_error_topic" value="$(arg tracking_error_topic)"/>
+    <param name="active_analytic_topic" value="$(arg active_analytic_topic)"/>
+  </node>
+
+  <node if="$(arg rviz)"
+        pkg="rviz"
+        type="rviz"
+        name="$(arg ns)_tracking_rviz"
+        args="-d $(arg rviz_config)"
+        output="screen"/>
+</launch>

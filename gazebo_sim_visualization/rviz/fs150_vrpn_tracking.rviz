@@ -1,0 +1,87 @@
+Panels:
+  - Class: rviz/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz/Grid
+      Enabled: true
+      Name: Grid
+      Plane: XY
+      Cell Size: 1
+      Color: 160; 160; 160
+    - Class: rviz/TF
+      Enabled: true
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: false
+    - Class: rviz/Group
+      Enabled: true
+      Name: FS150 Tracking
+      Displays:
+        - Class: rviz/RobotModel
+          Enabled: true
+          Name: FS150 Robot
+          Robot Description: robot_description
+          TF Prefix: ""
+          Visual Enabled: true
+          Collision Enabled: false
+        - Class: rviz/Path
+          Enabled: true
+          Name: VRPN Actual Path
+          Topic: /uav1/visualization/actual_path
+          Color: 0; 120; 255
+          Alpha: 1
+          Buffer Length: 1
+          Line Style: Lines
+          Line Width: 0.05
+        - Class: rviz/Path
+          Enabled: true
+          Name: Realtime Reference Path
+          Topic: /uav1/visualization/reference_path
+          Color: 30; 190; 90
+          Alpha: 1
+          Buffer Length: 1
+          Line Style: Lines
+          Line Width: 0.06
+        - Class: rviz/Path
+          Enabled: true
+          Name: Reference Preview
+          Topic: /uav1/visualization/reference_preview
+          Color: 255; 130; 20
+          Alpha: 0.8
+          Buffer Length: 1
+          Line Style: Lines
+          Line Width: 0.04
+        - Class: rviz/Marker
+          Enabled: true
+          Name: Reference Point
+          Marker Topic: /uav1/visualization/reference_marker
+  Enabled: true
+  Global Options:
+    Background Color: 28; 32; 36
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 8
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 1.5
+      Pitch: 0.65
+      Target Frame: world
+      Yaw: 0.78
+Window Geometry:
+  Height: 900
+  Width: 1400
