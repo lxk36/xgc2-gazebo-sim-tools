@@ -6,6 +6,7 @@
   <arg name="takeoff_altitude" default="3.0"/>
   <arg name="reference_config_file" default="$(find multirotor_reference_trajectory)/config/multirotor_reference_trajectory.yaml"/>
   <arg name="controller_config_file" default="$(find px4_multirotor_controller)/config/uav_nmpc.yaml"/>
+  <arg name="tracking_backend" default="dfbc_attitude_rate"/>
   <arg name="hover_thrust_config_file" default="$(find hover_thrust_estimator)/config/hover_thrust_estimator.yaml"/>
   <arg name="vrpn_px4_rotor_state_config_file" default="$(find gazebo_sim_examples)/config/vrpn_px4_rotor_state_estimator_fs150_tracking.yaml"/>
   <arg name="debug_print" default="false"/>
@@ -107,6 +108,7 @@
     <arg name="debug_print" value="$(arg debug_print)"/>
     <arg name="takeoff_altitude" value="$(arg takeoff_altitude)"/>
     <arg name="config_file" value="$(arg controller_config_file)"/>
+    <arg name="tracking_backend" value="$(arg tracking_backend)"/>
     <arg name="hover_thrust_config_file" value="$(arg hover_thrust_config_file)"/>
     <arg name="fence_x_min" value="$(arg fence_x_min)"/>
     <arg name="fence_x_max" value="$(arg fence_x_max)"/>

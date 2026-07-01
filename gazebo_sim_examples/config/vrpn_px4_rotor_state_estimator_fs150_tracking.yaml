@@ -15,9 +15,9 @@ imu_to_vrpn_marker_rpy: [0.0, 0.0, 0.0]
 extrinsic_verified: true
 estimate_extrinsic: false
 
-imu_timeout_s: 0.05
-vrpn_timeout_s: 0.12
-coasting_timeout_s: 0.5
+imu_timeout_s: 0.08
+vrpn_timeout_s: 0.30
+coasting_timeout_s: 1.0
 min_imu_rate_hz: 25.0
 min_vrpn_rate_hz: 20.0
 max_time_jump_s: 0.25
