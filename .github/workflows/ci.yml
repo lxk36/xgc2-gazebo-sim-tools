@@ -1,29 +1,27 @@
-name: build-debs
+name: ci
 
 on:
   push:
-    branches:
-      - noetic
+  pull_request:
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  package-compliance-tests:
+  compliance-and-tests:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     steps:
       - uses: actions/checkout@v4
-
-      - name: Check whitespace
-        run: git diff --check HEAD
-
-      - name: Check product version bump
-        run: .xgc2/scripts/check_version_bump.sh --ci
+        with:
+          fetch-depth: 2
 
       - name: Run package compliance and tests
         run: |
           set -euo pipefail
+          git diff --check HEAD
+          .xgc2/scripts/check_version_bump.sh --ci
           docker run --rm \
             -v "${GITHUB_WORKSPACE}:/work" \
             -w /work \
@@ -32,7 +30,7 @@ jobs:
               set -euo pipefail
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
-              apt-get install -y --no-install-recommends ca-certificates curl
+              apt-get install -y --no-install-recommends ca-certificates curl git
               install -m 0755 -d /etc/apt/keyrings
               curl -fsSL https://xgc2.apt.xiaokang.ink/xgc2-archive-keyring.gpg \
                 -o /etc/apt/keyrings/xgc2-archive-keyring.gpg
@@ -42,8 +40,6 @@ jobs:
               apt-get update
               apt-get install -y --no-install-recommends \
                 build-essential \
-                curl \
-                git \
                 libxgc2-math-dev \
                 netbase \
                 ros-noetic-gazebo-msgs \
@@ -58,14 +54,14 @@ jobs:
                 ros-noetic-tf2-ros \
                 ros-noetic-vrpn \
                 ros-noetic-vrpn-client-ros
-              dpkg --compare-versions "$(dpkg-query -W -f='\''${Version}'\'' libxgc2-math-dev)" ge 0.5.1-1
               git config --global --add safe.directory /work
+              .xgc2/scripts/check_cpp_quality.sh
               .xgc2/scripts/check_package_compliance.sh
               .xgc2/scripts/run_package_tests.sh
             '
 
-  build:
-    needs: package-compliance-tests
+  build-debs:
+    needs: compliance-and-tests
     strategy:
       fail-fast: false
       matrix:
@@ -75,24 +71,15 @@ jobs:
           - arch: arm64
             runner: ubuntu-24.04-arm
     runs-on: ${{ matrix.runner }}
-    env:
-      APT_REPO_HOST: ${{ secrets.APT_REPO_HOST }}
-      APT_REPO_PORT: ${{ secrets.APT_REPO_PORT }}
-      APT_REPO_SSH_KEY: ${{ secrets.APT_REPO_SSH_KEY }}
-      APT_REPO_KNOWN_HOSTS: ${{ secrets.APT_REPO_KNOWN_HOSTS }}
-
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: Check product version bump
-        run: .xgc2/scripts/check_version_bump.sh --ci
-
-      - name: Build and install-check deb package in Docker
+      - name: Build and install-check deb packages
         run: |
           .xgc2/scripts/build_debs_in_docker.sh \
-            --work-dir "$RUNNER_TEMP/gazebo-sim-tools-${{ matrix.arch }}" \
+            --work-dir "$RUNNER_TEMP/xgc2-gazebo-sim-tools-${{ matrix.arch }}" \
             --output-dir "$GITHUB_WORKSPACE/debs"
 
       - name: Upload deb artifacts
@@ -100,7 +87,3 @@ jobs:
         with:
           name: xgc2-gazebo-sim-tools-debs-${{ matrix.arch }}
           path: debs/*.deb
-
-      - name: Publish to self-hosted APT repository
-        if: ${{ env.APT_REPO_HOST != '' && env.APT_REPO_PORT != '' && env.APT_REPO_SSH_KEY != '' && env.APT_REPO_KNOWN_HOSTS != '' }}
-        run: .xgc2/scripts/publish_apt_repo.sh --deb-dir debs
