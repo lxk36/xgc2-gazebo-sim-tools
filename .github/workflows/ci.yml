@@ -10,7 +10,55 @@ defaults:
     shell: bash
 
 jobs:
-  compliance-and-tests:
+  cpp-quality:
+    name: C++ quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Run C++ quality checks
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "${GITHUB_WORKSPACE}:/work" \
+            -w /work \
+            ros:noetic-ros-base-focal \
+            bash -lc '
+              set -euo pipefail
+              export DEBIAN_FRONTEND=noninteractive
+              apt-get update
+              apt-get install -y --no-install-recommends ca-certificates curl git
+              install -m 0755 -d /etc/apt/keyrings
+              curl -fsSL https://xgc2.apt.xiaokang.ink/xgc2-archive-keyring.gpg \
+                -o /etc/apt/keyrings/xgc2-archive-keyring.gpg
+              chmod 0644 /etc/apt/keyrings/xgc2-archive-keyring.gpg
+              echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/xgc2-archive-keyring.gpg] https://xgc2.apt.xiaokang.ink focal main" \
+                > /etc/apt/sources.list.d/xgc2.list
+              apt-get update
+              apt-get install -y --no-install-recommends \
+                build-essential \
+                libxgc2-math-dev \
+                netbase \
+                ros-noetic-gazebo-msgs \
+                ros-noetic-geometry-msgs \
+                ros-noetic-mavros-msgs \
+                ros-noetic-nav-msgs \
+                ros-noetic-roslaunch \
+                ros-noetic-rostest \
+                ros-noetic-rosunit \
+                ros-noetic-rospy \
+                ros-noetic-tf2 \
+                ros-noetic-tf2-ros \
+                ros-noetic-vrpn \
+                ros-noetic-vrpn-client-ros
+              git config --global --add safe.directory /work
+              .xgc2/scripts/check_cpp_quality.sh
+            '
+
+  package-tests:
+    name: Package compliance and tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -55,13 +103,11 @@ jobs:
                 ros-noetic-vrpn \
                 ros-noetic-vrpn-client-ros
               git config --global --add safe.directory /work
-              .xgc2/scripts/check_cpp_quality.sh
               .xgc2/scripts/check_package_compliance.sh
               .xgc2/scripts/run_package_tests.sh
             '
 
   build-debs:
-    needs: compliance-and-tests
     strategy:
       fail-fast: false
       matrix:
