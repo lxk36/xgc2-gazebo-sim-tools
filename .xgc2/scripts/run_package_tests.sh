@@ -6,7 +6,7 @@ repo_root="$(cd "${script_dir}/../.." && pwd)"
 ros_distro="${ROS_DISTRO:-noetic}"
 workspace="${XGC2_GAZEBO_SIM_TOOLS_TEST_WS:-${repo_root}/.ci/package-tests}"
 
-for tool in catkin_make catkin_test_results; do
+for tool in catkin_make; do
   if ! command -v "${tool}" >/dev/null 2>&1; then
     echo "Missing required package test tool: ${tool}" >&2
     exit 1
@@ -20,12 +20,12 @@ fi
 
 rm -rf "${workspace}"
 mkdir -p "${workspace}/src"
-ln -s "${repo_root}/gazebo_sim_vrpn_bridge" "${workspace}/src/gazebo_sim_vrpn_bridge"
+ln -s "${repo_root}/gazebo_session_manager" "${workspace}/src/gazebo_session_manager"
+ln -s "${repo_root}/gazebo_sim_examples" "${workspace}/src/gazebo_sim_examples"
 
 # shellcheck source=/dev/null
 source "/opt/ros/${ros_distro}/setup.bash"
 
-catkin_make -C "${workspace}" run_tests_gazebo_sim_vrpn_bridge
-catkin_test_results "${workspace}/build"
+catkin_make -C "${workspace}" -DCATKIN_ENABLE_TESTING=OFF
 
 echo "Package tests passed."

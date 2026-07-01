@@ -6,13 +6,14 @@ This repository contains:
 
 - `gazebo_session_manager`
 - `gazebo_sim_examples`
-- `gazebo_sim_vrpn_bridge`
 
 It publishes:
 
 - `ros-noetic-xgc2-gazebo-sim-manager`
 - `ros-noetic-xgc2-gazebo-sim-examples`
-- `ros-noetic-xgc2-gazebo-sim-vrpn-bridge`
+
+`gazebo_sim_visualization` and `gazebo_sim_vrpn_bridge` are split child
+repositories and are assembled with the full suite in `xgc2-gazebo-sim`.
 
 The full verified Gazebo simulation suite is published by `xgc2-gazebo-sim` through:
 
@@ -23,7 +24,7 @@ The full verified Gazebo simulation suite is published by `xgc2-gazebo-sim` thro
 
 ```bash
 sudo apt update
-sudo apt install ros-noetic-xgc2-gazebo-sim-manager ros-noetic-xgc2-gazebo-sim-examples ros-noetic-xgc2-gazebo-sim-vrpn-bridge ros-noetic-xgc2-gazebo-sim-worlds
+sudo apt install ros-noetic-xgc2-gazebo-sim-manager ros-noetic-xgc2-gazebo-sim-examples ros-noetic-xgc2-gazebo-sim-visualization ros-noetic-xgc2-gazebo-sim-vrpn-bridge ros-noetic-xgc2-gazebo-sim-worlds
 ```
 
 ## Smoke Test

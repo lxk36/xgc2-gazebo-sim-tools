@@ -55,13 +55,10 @@ required_files=(
   .xgc2/scripts/package_debs.sh
   .xgc2/scripts/publish_apt_repo.sh
   .xgc2/scripts/run_package_tests.sh
-  gazebo_sim_vrpn_bridge/CMakeLists.txt
-  gazebo_sim_vrpn_bridge/package.xml
-  gazebo_sim_vrpn_bridge/include/gazebo_sim_vrpn_bridge/mocap_noise.h
-  gazebo_sim_vrpn_bridge/src/gazebo_vrpn_server_node.cpp
-  gazebo_sim_vrpn_bridge/test/mocap_noise_tests.cpp
-  gazebo_sim_vrpn_bridge/test/vrpn_protocol_e2e.py
-  gazebo_sim_vrpn_bridge/test/vrpn_protocol_e2e.test
+  gazebo_session_manager/CMakeLists.txt
+  gazebo_session_manager/package.xml
+  gazebo_sim_examples/CMakeLists.txt
+  gazebo_sim_examples/package.xml
 )
 
 for file in "${required_files[@]}"; do
@@ -71,12 +68,14 @@ for file in "${required_files[@]}"; do
   fi
 done
 
-if [[ -e gazebo_sim_vrpn_bridge/include/gazebo_sim_vrpn_bridge/butterworth_filter.h ]]; then
-  echo "gazebo_sim_vrpn_bridge must use xgc2_math::SecondOrderButterworthLowPass directly." >&2
-  exit 1
-fi
+for split_package in gazebo_sim_visualization gazebo_sim_vrpn_bridge; do
+  if [[ -e "${split_package}" ]]; then
+    echo "${split_package} is owned by its split repository and must not be tracked here." >&2
+    exit 1
+  fi
+done
 
-if search_files 'ros-noetic-xgc2-controller' .github .xgc2 gazebo_sim_examples gazebo_sim_vrpn_bridge \
+if search_files 'ros-noetic-xgc2-controller' .github .xgc2 gazebo_sim_examples gazebo_session_manager \
   >/tmp/xgc2-gazebo-sim-tools-controller-deps.txt; then
   echo "gazebo_sim_tools must depend on split controller packages directly." >&2
   cat /tmp/xgc2-gazebo-sim-tools-controller-deps.txt >&2
@@ -87,24 +86,10 @@ grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.0.14-1)" .xgc2/product.yml
 grep -q "ros-noetic-xgc2-ugv-controller (>= 1.0.1-1)" .xgc2/product.yml
 grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.0.14-1)" .xgc2/scripts/package_debs.sh
 grep -q "ros-noetic-xgc2-ugv-controller (>= 1.0.1-1)" .xgc2/scripts/package_debs.sh
-
-grep -q '<xgc2_math/filter/butterworth_filter.hpp>' gazebo_sim_vrpn_bridge/src/gazebo_vrpn_server_node.cpp
-grep -q 'xgc2_math::SecondOrderButterworthLowPass' gazebo_sim_vrpn_bridge/src/gazebo_vrpn_server_node.cpp
-
-if ! grep -q 'catkin_add_gtest(gazebo_sim_vrpn_bridge_mocap_noise_tests' gazebo_sim_vrpn_bridge/CMakeLists.txt; then
-  echo "gazebo_sim_vrpn_bridge unit test target is missing." >&2
-  exit 1
-fi
-
-if ! grep -q 'add_rostest(test/vrpn_protocol_e2e.test' gazebo_sim_vrpn_bridge/CMakeLists.txt; then
-  echo "gazebo_sim_vrpn_bridge VRPN protocol rostest is missing." >&2
-  exit 1
-fi
-
-if ! grep -q 'install(DIRECTORY include/${PROJECT_NAME}/' gazebo_sim_vrpn_bridge/CMakeLists.txt; then
-  echo "gazebo_sim_vrpn_bridge installed header export is missing." >&2
-  exit 1
-fi
+grep -q "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.0.45-1)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.0.44-1)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.0.45-1)" .xgc2/scripts/package_debs.sh
+grep -q "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.0.44-1)" .xgc2/scripts/package_debs.sh
 
 if search_files 'name="robot_namespace"' gazebo_sim_examples/launch >/tmp/xgc2-gazebo-sim-tools-legacy-args.txt; then
   echo "gazebo_sim_examples uses legacy Scout spawn arg robot_namespace; use ns." >&2

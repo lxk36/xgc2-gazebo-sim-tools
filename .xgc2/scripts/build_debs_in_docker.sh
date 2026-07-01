@@ -81,6 +81,8 @@ docker run --rm \
       ros-noetic-tf2-ros \
       ros-noetic-vrpn \
       ros-noetic-vrpn-client-ros \
+      ros-noetic-xgc2-gazebo-sim-visualization \
+      ros-noetic-xgc2-gazebo-sim-vrpn-bridge \
       ros-noetic-xgc2-multirotor-controller \
       ros-noetic-xgc2-ugv-controller \
       ros-noetic-xgc2-estimator-hover-thrust \
@@ -94,9 +96,6 @@ docker run --rm \
 
     cd /workspace/work
     source /opt/ros/noetic/setup.bash
-    catkin_make run_tests_gazebo_sim_vrpn_bridge
-    catkin_test_results
-
     DESTDIR=/workspace/work/install-root catkin_make install \
       -DCMAKE_INSTALL_PREFIX=/opt/ros/noetic \
       -DCATKIN_ENABLE_TESTING=OFF
@@ -108,9 +107,7 @@ docker run --rm \
     if [[ "${INSTALL_CHECK}" == "true" ]]; then
       apt-get install -y \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
-        /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb \
-        /workspace/out/ros-noetic-xgc2-gazebo-sim-visualization_*.deb \
-        /workspace/out/ros-noetic-xgc2-gazebo-sim-vrpn-bridge_*.deb
+        /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
@@ -121,8 +118,10 @@ docker run --rm \
         | grep -F "ros-noetic-xgc2-ugv-controller (>= 1.0.1-1)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.2-1)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-vrpn-bridge_*.deb Depends \
-        | grep -F "libxgc2-math-dev (>= 0.5.1-1)" >/dev/null
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb Depends \
+        | grep -F "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.0.44-1)" >/dev/null
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+        | grep -F "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.0.45-1)" >/dev/null
       /workspace/gazebo-sim/.xgc2/scripts/check_installed_packages.sh
     fi
   '

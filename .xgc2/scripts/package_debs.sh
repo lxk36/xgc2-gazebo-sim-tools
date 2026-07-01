@@ -117,32 +117,20 @@ build_ros_package_deb() {
 
 manager_pkg="ros-noetic-xgc2-gazebo-sim-manager"
 examples_pkg="ros-noetic-xgc2-gazebo-sim-examples"
-visualization_pkg="ros-noetic-xgc2-gazebo-sim-visualization"
-vrpn_bridge_pkg="ros-noetic-xgc2-gazebo-sim-vrpn-bridge"
 worlds_pkg="ros-noetic-xgc2-gazebo-sim-worlds"
-
-build_ros_package_deb \
-  "${vrpn_bridge_pkg}" \
-  "gazebo_sim_vrpn_bridge" \
-  "libxgc2-math-dev (>= 0.5.1-1), ros-noetic-roscpp, ros-noetic-gazebo-msgs, ros-noetic-geometry-msgs, ros-noetic-tf2, ros-noetic-tf2-ros, ros-noetic-vrpn, ros-noetic-vrpn-client-ros" \
-  "XGC2 Gazebo Classic model pose to VRPN tracker server bridge"
+visualization_dep="ros-noetic-xgc2-gazebo-sim-visualization (>= 1.0.45-1)"
+vrpn_bridge_dep="ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.0.44-1)"
 
 build_ros_package_deb \
   "${manager_pkg}" \
   "gazebo_session_manager" \
-  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (>= 1.0.21-1), ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-rosnode, ros-noetic-gazebo-msgs, ros-noetic-gazebo-ros, ros-noetic-geometry-msgs, ros-noetic-controller-manager-msgs, ros-noetic-std-srvs" \
+  "${vrpn_bridge_dep}, ${worlds_pkg} (>= 1.0.21-1), ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-rosnode, ros-noetic-gazebo-msgs, ros-noetic-gazebo-ros, ros-noetic-geometry-msgs, ros-noetic-controller-manager-msgs, ros-noetic-std-srvs" \
   "XGC2 Gazebo Classic session manager and WebUI tools"
 
 build_ros_package_deb \
   "${examples_pkg}" \
   "gazebo_sim_examples" \
-  "${vrpn_bridge_pkg} (= ${VERSION}), ${worlds_pkg} (>= 1.0.21-1), ros-noetic-xgc2-gazebo-sim-fs150-sitl, ros-noetic-xgc2-gazebo-sim-scout, ros-noetic-xgc2-multirotor-controller (>= 1.0.14-1), ros-noetic-xgc2-ugv-controller (>= 1.0.1-1), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.22-1), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.2-1), ros-noetic-xgc2-vrpn-router, ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
+  "${visualization_dep}, ${vrpn_bridge_dep}, ${worlds_pkg} (>= 1.0.21-1), ros-noetic-xgc2-gazebo-sim-fs150-sitl, ros-noetic-xgc2-gazebo-sim-scout, ros-noetic-xgc2-multirotor-controller (>= 1.0.14-1), ros-noetic-xgc2-ugv-controller (>= 1.0.1-1), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.22-1), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.2-1), ros-noetic-xgc2-vrpn-router, ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
   "XGC2 Gazebo Classic example launch orchestration"
-
-build_ros_package_deb \
-  "${visualization_pkg}" \
-  "gazebo_sim_visualization" \
-  "${vrpn_bridge_pkg} (= ${VERSION}), ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.0.14-1), ros-noetic-xgc2-multirotor-controller (>= 1.0.14-1), ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-std-msgs, ros-noetic-tf2-ros, ros-noetic-visualization-msgs, ros-noetic-robot-state-publisher, ros-noetic-rviz" \
-  "XGC2 Gazebo Classic RViz visualization tools"
 
 find "${OUTPUT_DIR}" -maxdepth 1 -type f -name '*.deb' -print | sort
