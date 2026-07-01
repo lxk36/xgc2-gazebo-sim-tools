@@ -89,12 +89,12 @@ grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.1.15-1)" .xgc2/scripts/pack
 grep -q "ros-noetic-xgc2-ugv-controller (>= 1.1.1-1)" .xgc2/scripts/package_debs.sh
 grep -q "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-2)" .xgc2/product.yml
 grep -q "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-2)" .xgc2/product.yml
-grep -q "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-2)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-3)" .xgc2/product.yml
 grep -q "ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.22-2)" .xgc2/product.yml
 grep -q "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.3-2)" .xgc2/product.yml
 grep -q "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-2)" .xgc2/scripts/package_debs.sh
 grep -q "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-2)" .xgc2/scripts/package_debs.sh
-grep -q "\${worlds_pkg} (>= 1.1.0-2)" .xgc2/scripts/package_debs.sh
+grep -q "\${worlds_pkg} (>= 1.1.0-3)" .xgc2/scripts/package_debs.sh
 grep -q "ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.22-2)" .xgc2/scripts/package_debs.sh
 grep -q "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.3-2)" .xgc2/scripts/package_debs.sh
 

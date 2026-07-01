@@ -111,17 +111,17 @@ docker run --rm \
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.0.21-1)" >/dev/null
+        | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-3)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-multirotor-controller (>= 1.0.15-1)" >/dev/null
+        | grep -F "ros-noetic-xgc2-multirotor-controller (>= 1.1.15-1)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-ugv-controller (>= 1.0.1-1)" >/dev/null
+        | grep -F "ros-noetic-xgc2-ugv-controller (>= 1.1.1-1)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.3-1)" >/dev/null
+        | grep -F "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.3-2)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.0.44-1)" >/dev/null
+        | grep -F "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-2)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.0.45-1)" >/dev/null
+        | grep -F "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-2)" >/dev/null
       /workspace/gazebo-sim/.xgc2/scripts/check_installed_packages.sh
     fi
   '
