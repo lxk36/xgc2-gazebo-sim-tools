@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   mavros_msgs
   nav_msgs
+  roslaunch
   rospy
 )
 
@@ -24,3 +25,8 @@ install(DIRECTORY config launch
 install(FILES README.md
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
+
+if(CATKIN_ENABLE_TESTING)
+  roslaunch_add_file_check(launch/fs150_uav1_nmpc_tracking.launch)
+  roslaunch_add_file_check(launch/scout_ugv1_nmpc_tracking.launch)
+endif()

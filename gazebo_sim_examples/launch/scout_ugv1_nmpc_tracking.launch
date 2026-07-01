@@ -5,6 +5,9 @@
   <arg name="verbose" default="false"/>
   <arg name="paused" default="false"/>
   <arg name="world" default="$(find gazebo_sim_worlds)/worlds/weston_robot_empty/weston_robot_empty.world"/>
+  <arg name="auto_visualization" default="true"/>
+  <arg name="rviz" default="false"/>
+  <arg name="rviz_config" default="$(find gazebo_sim_visualization)/rviz/gazebo_auto_visualization.rviz"/>
 
   <arg name="ugv_ns" default="ugv1"/>
   <arg name="ugv_model_name" default="$(arg ugv_ns)"/>
@@ -20,7 +23,7 @@
   <arg name="ugv_wheel_separation" default="0.416503"/>
   <arg name="ugv_wheel_radius" default="0.08"/>
   <arg name="ugv_command_gain" default="1.0"/>
-  <arg name="ugv_angular_command_gain" default="3.15"/>
+  <arg name="ugv_angular_command_gain" default="1.0"/>
 
   <arg name="vrpn_server" default="127.0.0.1"/>
   <arg name="vrpn_port" default="3883"/>
@@ -68,15 +71,32 @@
   <arg name="reference_default_center_x" default="0.0"/>
   <arg name="reference_default_center_y" default="0.0"/>
 
+  <arg name="target_replanner_enabled" default="false"/>
+  <arg name="target_replanner_config_file" default="$(find unicycle_reference_trajectory)/config/unicycle_target_replanner.yaml"/>
+  <arg name="target_replanner_period" default="5.0"/>
+  <arg name="target_replanner_desired_speed" default="1.0"/>
+  <arg name="target_replanner_max_velocity" default="$(arg reference_max_velocity)"/>
+  <arg name="target_replanner_max_acceleration" default="$(arg reference_max_acceleration)"/>
+  <arg name="target_replanner_max_yaw_rate" default="$(arg reference_max_yaw_rate)"/>
+  <arg name="target_replanner_random_targets" default="true"/>
+  <arg name="target_replanner_random_min_x" default="-5.0"/>
+  <arg name="target_replanner_random_max_x" default="5.0"/>
+  <arg name="target_replanner_random_min_y" default="-5.0"/>
+  <arg name="target_replanner_random_max_y" default="5.0"/>
+  <arg name="target_replanner_random_yaw_mode" default="heading"/>
+  <arg name="target_replanner_random_seed" default="0"/>
+
   <arg name="controller_config_file" default="$(find unicycle_ugv_controller)/config/unicycle_ugv_controller.yaml"/>
   <arg name="controller_rate_hz" default="100.0"/>
   <arg name="controller_state_timeout" default="0.2"/>
   <arg name="controller_reference_timeout" default="0.5"/>
-  <arg name="controller_command_publish_rate_hz" default="50.0"/>
-  <arg name="controller_nmpc_control_period" default="0.05"/>
+  <arg name="controller_command_publish_rate_hz" default="100.0"/>
+  <arg name="controller_auto_start_tracking" default="true"/>
+  <arg name="controller_nmpc_control_period" default="0.1"/>
   <arg name="controller_nmpc_prediction_horizon" default="1.0"/>
-  <arg name="controller_nmpc_request_rate_hz" default="20.0"/>
+  <arg name="controller_nmpc_request_rate_hz" default="100.0"/>
   <arg name="controller_nmpc_solve_timeout" default="0.05"/>
+  <arg name="controller_nmpc_result_timeout" default="0.1"/>
   <arg name="controller_min_linear_speed" default="-0.5"/>
   <arg name="controller_max_linear_speed" default="3.0"/>
   <arg name="controller_max_angular_speed" default="2.5"/>
@@ -176,6 +196,24 @@
     <arg name="default_analytic_center_y" value="$(arg reference_default_center_y)"/>
   </include>
 
+  <include if="$(arg target_replanner_enabled)"
+           file="$(find unicycle_reference_trajectory)/launch/ugv_unicycle_target_replanner.launch">
+    <arg name="ns" value="$(arg ugv_ns)"/>
+    <arg name="config_file" value="$(arg target_replanner_config_file)"/>
+    <arg name="replan_period" value="$(arg target_replanner_period)"/>
+    <arg name="desired_speed" value="$(arg target_replanner_desired_speed)"/>
+    <arg name="max_velocity" value="$(arg target_replanner_max_velocity)"/>
+    <arg name="max_acceleration" value="$(arg target_replanner_max_acceleration)"/>
+    <arg name="max_yaw_rate" value="$(arg target_replanner_max_yaw_rate)"/>
+    <arg name="random_targets" value="$(arg target_replanner_random_targets)"/>
+    <arg name="random_min_x" value="$(arg target_replanner_random_min_x)"/>
+    <arg name="random_max_x" value="$(arg target_replanner_random_max_x)"/>
+    <arg name="random_min_y" value="$(arg target_replanner_random_min_y)"/>
+    <arg name="random_max_y" value="$(arg target_replanner_random_max_y)"/>
+    <arg name="random_yaw_mode" value="$(arg target_replanner_random_yaw_mode)"/>
+    <arg name="random_seed" value="$(arg target_replanner_random_seed)"/>
+  </include>
+
   <include file="$(find unicycle_ugv_controller)/launch/ugv_unicycle_nmpc_controller.launch">
     <arg name="ns" value="$(arg ugv_ns)"/>
     <arg name="config_file" value="$(arg controller_config_file)"/>
@@ -183,13 +221,22 @@
     <arg name="state_timeout" value="$(arg controller_state_timeout)"/>
     <arg name="reference_timeout" value="$(arg controller_reference_timeout)"/>
     <arg name="command_publish_rate_hz" value="$(arg controller_command_publish_rate_hz)"/>
+    <arg name="auto_start_tracking" value="$(arg controller_auto_start_tracking)"/>
     <arg name="nmpc_control_period" value="$(arg controller_nmpc_control_period)"/>
     <arg name="nmpc_prediction_horizon" value="$(arg controller_nmpc_prediction_horizon)"/>
     <arg name="nmpc_request_rate_hz" value="$(arg controller_nmpc_request_rate_hz)"/>
     <arg name="nmpc_solve_timeout" value="$(arg controller_nmpc_solve_timeout)"/>
+    <arg name="nmpc_result_timeout" value="$(arg controller_nmpc_result_timeout)"/>
     <arg name="min_linear_speed" value="$(arg controller_min_linear_speed)"/>
     <arg name="max_linear_speed" value="$(arg controller_max_linear_speed)"/>
     <arg name="max_angular_speed" value="$(arg controller_max_angular_speed)"/>
     <arg name="max_linear_acceleration" value="$(arg controller_max_linear_acceleration)"/>
+  </include>
+
+  <include if="$(arg auto_visualization)"
+           file="$(find gazebo_sim_visualization)/launch/gazebo_auto_visualization_rviz.launch">
+    <arg name="frame_id" value="world"/>
+    <arg name="rviz" value="$(arg rviz)"/>
+    <arg name="rviz_config" value="$(arg rviz_config)"/>
   </include>
 </launch>

@@ -8,12 +8,13 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   roscpp
   roslaunch
+  sensor_msgs
   tf2_ros
   visualization_msgs
 )
 
 catkin_package(
-  CATKIN_DEPENDS gazebo_msgs geometry_msgs roscpp tf2_ros visualization_msgs
+  CATKIN_DEPENDS gazebo_msgs geometry_msgs roscpp sensor_msgs tf2_ros visualization_msgs
 )
 
 include_directories(
