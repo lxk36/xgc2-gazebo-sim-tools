@@ -42,15 +42,15 @@
   <arg name="verbose" default="false"/>
   <arg name="paused" default="false"/>
   <arg name="interactive" default="false"/>
-  <arg name="world" default="$(find gazebo_sim_worlds)/worlds/weston_robot_empty/weston_robot_empty.world"/>
+  <arg name="world" default="$(find gazebo_sim_worlds)/worlds/empty/empty.world"/>
 
   <arg name="fs150_launch" default="$(find gazebo_sim_fs150_sitl)/launch/fs150.launch"/>
   <arg name="fs150_px4_launch" default="$(find gazebo_sim_px4_1_12)/launch/iris.launch"/>
   <arg name="fs150_base_sdf" default="$(find gazebo_sim_fs150_sitl)/models/fs150/iris.sdf"/>
   <arg name="fs150_sdf" default="$(env HOME)/.xgc2/fs150_sitl/iris_indoor.sdf"/>
+  <arg name="fs150_render_sdf" default="true"/>
   <arg name="fs150_param_file" default="$(find gazebo_sim_fs150_sitl)/config/generated/fs150-sitl.params"/>
   <arg name="fs150_reset_params" default="true"/>
-  <arg name="fs150_strip_gps" default="false"/>
   <arg name="fs150_strip_mag" default="false"/>
   <arg name="fs150_strip_baro" default="false"/>
 
@@ -63,7 +63,8 @@
   <arg name="vrpn_update_frequency" default="100.0"/>
 
   <param name="/gazebo_sim_examples/fs150_indoor_sdf"
-         command="$(find gazebo_sim_fs150_sitl)/scripts/render_fs150_indoor_sdf.py --base-sdf $(arg fs150_base_sdf) --output $(arg fs150_sdf) --strip-gps $(arg fs150_strip_gps) --strip-mag $(arg fs150_strip_mag) --strip-baro $(arg fs150_strip_baro) --print-path"/>
+         if="$(arg fs150_render_sdf)"
+         command="$(find gazebo_sim_fs150_sitl)/scripts/render_fs150_indoor_sdf.py --base-sdf $(arg fs150_base_sdf) --output $(arg fs150_sdf) --strip-mag $(arg fs150_strip_mag) --strip-baro $(arg fs150_strip_baro) --print-path"/>
 
   <include file="$(arg fs150_launch)">
     <arg name="ID" value="$(eval int(arg('fs150_id')) - 1)"/>

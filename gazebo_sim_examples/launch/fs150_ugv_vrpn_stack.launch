@@ -6,7 +6,7 @@
   <arg name="paused" default="false"/>
   <arg name="interactive" default="false"/>
 
-  <arg name="world" default="$(find gazebo_sim_worlds)/worlds/weston_robot_empty/weston_robot_empty.world"/>
+  <arg name="world" default="$(find gazebo_sim_worlds)/worlds/empty/empty.world"/>
 
   <arg name="fs150_launch" default="$(find gazebo_sim_fs150_sitl)/launch/fs150.launch"/>
   <arg name="fs150_id" default="4"/>
@@ -15,7 +15,6 @@
   <arg name="fs150_sdf" default="$(env HOME)/.xgc2/fs150_sitl/iris_indoor.sdf"/>
   <arg name="fs150_param_file" default="$(find gazebo_sim_fs150_sitl)/config/generated/fs150-sitl.params"/>
   <arg name="fs150_reset_params" default="true"/>
-  <arg name="fs150_strip_gps" default="false"/>
   <arg name="fs150_strip_mag" default="false"/>
   <arg name="fs150_strip_baro" default="false"/>
   <arg name="fs150_model_name" default="uav1"/>
@@ -82,7 +81,6 @@
     <arg name="fs150_sdf" value="$(arg fs150_sdf)"/>
     <arg name="fs150_param_file" value="$(arg fs150_param_file)"/>
     <arg name="fs150_reset_params" value="$(arg fs150_reset_params)"/>
-    <arg name="fs150_strip_gps" value="$(arg fs150_strip_gps)"/>
     <arg name="fs150_strip_mag" value="$(arg fs150_strip_mag)"/>
     <arg name="fs150_strip_baro" value="$(arg fs150_strip_baro)"/>
     <arg name="fs150_model_name" value="$(arg fs150_model_name)"/>

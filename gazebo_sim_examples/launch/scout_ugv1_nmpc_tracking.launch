@@ -4,7 +4,7 @@
   <arg name="debug" default="false"/>
   <arg name="verbose" default="false"/>
   <arg name="paused" default="false"/>
-  <arg name="world" default="$(find gazebo_sim_worlds)/worlds/weston_robot_empty/weston_robot_empty.world"/>
+  <arg name="world" default="$(find gazebo_sim_worlds)/worlds/empty/empty.world"/>
   <arg name="auto_visualization" default="true"/>
   <arg name="rviz" default="false"/>
   <arg name="rviz_config" default="$(find gazebo_sim_visualization)/rviz/gazebo_auto_visualization.rviz"/>

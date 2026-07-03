@@ -26,7 +26,7 @@ test "$(rospack find unicycle_reference_trajectory)" = "/opt/ros/${ROS_DISTRO}/s
 test "$(rospack find hover_thrust_estimator)" = "/opt/ros/${ROS_DISTRO}/share/hover_thrust_estimator"
 test "$(rospack find estimator_vrpn_px4_rotor_state)" = "/opt/ros/${ROS_DISTRO}/share/estimator_vrpn_px4_rotor_state"
 test -f "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_worlds/worlds/empty/empty.world"
-test -f "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_worlds/worlds/weston_robot_empty/weston_robot_empty.world"
+test -f "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_worlds/worlds/square_box/square_box.world"
 test -f /usr/include/xgc2_math/filter/butterworth_filter.hpp
 
 roslaunch --files gazebo_session_manager session_manager.launch world_name:=/tmp/xgc2-empty.world >/tmp/xgc2-gazebo-session-manager-files.txt
