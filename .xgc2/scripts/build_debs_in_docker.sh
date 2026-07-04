@@ -113,11 +113,11 @@ docker run --rm \
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-7)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-multirotor-controller (>= 1.1.15-7)" >/dev/null
+        | grep -F "ros-noetic-xgc2-multirotor-controller (>= 1.1.15-9)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-ugv-controller (>= 1.1.1-6)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.3-7)" >/dev/null
+        | grep -F "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.3-8)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb Depends \
         | grep -F "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-6)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
