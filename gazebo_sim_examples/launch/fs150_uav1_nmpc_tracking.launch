@@ -113,6 +113,11 @@
     <arg name="highres_imu_reassert_period" value="$(arg estimator_highres_imu_reassert_period)"/>
   </include>
 
+  <include file="$(find hover_thrust_estimator)/launch/hover_thrust_estimator.launch">
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="config_file" value="$(arg hover_thrust_config_file)"/>
+  </include>
+
   <include file="$(find px4_multirotor_controller)/launch/uav_nmpc_controller.launch">
     <arg name="ns" value="$(arg ns)"/>
     <arg name="vrpn_rigid_body" value="$(arg vrpn_rigid_body)"/>
@@ -120,7 +125,6 @@
     <arg name="takeoff_altitude" value="$(arg takeoff_altitude)"/>
     <arg name="config_file" value="$(arg controller_config_file)"/>
     <arg name="tracking_backend" value="$(arg tracking_backend)"/>
-    <arg name="hover_thrust_config_file" value="$(arg hover_thrust_config_file)"/>
     <arg name="fence_x_min" value="$(arg fence_x_min)"/>
     <arg name="fence_x_max" value="$(arg fence_x_max)"/>
     <arg name="fence_y_min" value="$(arg fence_y_min)"/>

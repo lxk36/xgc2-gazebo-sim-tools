@@ -13,8 +13,10 @@ catkin_package()
 
 catkin_install_python(PROGRAMS
   scripts/ensure_px4_params.py
+  scripts/nmpc_tracking_regression_monitor.py
   scripts/offboard_velocity_follow.py
   scripts/ugv_circle_tracking_controller.py
+  scripts/ugv_state_replay_validation.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

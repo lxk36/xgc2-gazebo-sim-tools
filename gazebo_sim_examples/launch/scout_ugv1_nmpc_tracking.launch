@@ -15,15 +15,15 @@
   <arg name="ugv_y" default="0.0"/>
   <arg name="ugv_z" default="0.181"/>
   <arg name="ugv_yaw" default="0.0"/>
-  <arg name="ugv_wheel_contact_mu2" default="0.20"/>
-  <arg name="ugv_wheel_contact_slip2" default="0.5"/>
-  <arg name="ugv_wheel_pid_p" default="1.0"/>
+  <arg name="ugv_wheel_contact_mu2" default="0.10"/>
+  <arg name="ugv_wheel_contact_slip2" default="5.0"/>
+  <arg name="ugv_wheel_pid_p" default="10.0"/>
   <arg name="ugv_wheel_pid_i" default="0.0"/>
   <arg name="ugv_wheel_pid_d" default="0.0"/>
   <arg name="ugv_wheel_separation" default="0.416503"/>
   <arg name="ugv_wheel_radius" default="0.08"/>
-  <arg name="ugv_command_gain" default="1.0"/>
-  <arg name="ugv_angular_command_gain" default="1.0"/>
+  <arg name="ugv_command_gain" default="1.10"/>
+  <arg name="ugv_angular_command_gain" default="0.80"/>
 
   <arg name="vrpn_server" default="127.0.0.1"/>
   <arg name="vrpn_port" default="3883"/>
