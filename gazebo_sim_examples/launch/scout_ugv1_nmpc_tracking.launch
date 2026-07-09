@@ -14,16 +14,19 @@
   <arg name="ugv_x" default="3.0"/>
   <arg name="ugv_y" default="0.0"/>
   <arg name="ugv_z" default="0.181"/>
-  <arg name="ugv_yaw" default="0.0"/>
+  <arg name="ugv_yaw" default="1.5707963267948966"/>
   <arg name="ugv_wheel_contact_mu2" default="0.10"/>
   <arg name="ugv_wheel_contact_slip2" default="5.0"/>
-  <arg name="ugv_wheel_pid_p" default="10.0"/>
+  <arg name="ugv_wheel_pid_p" default="6.0"/>
   <arg name="ugv_wheel_pid_i" default="0.0"/>
   <arg name="ugv_wheel_pid_d" default="0.0"/>
-  <arg name="ugv_wheel_separation" default="0.416503"/>
+  <arg name="ugv_wheelbase" default="0.451"/>
+  <arg name="ugv_wheel_track" default="0.490"/>
+  <arg name="ugv_wheel_separation" default="$(arg ugv_wheel_track)"/>
   <arg name="ugv_wheel_radius" default="0.08"/>
-  <arg name="ugv_command_gain" default="1.10"/>
-  <arg name="ugv_angular_command_gain" default="0.80"/>
+  <arg name="ugv_command_gain" default="1.03"/>
+  <arg name="ugv_angular_command_gain" default="1.20"/>
+  <arg name="ugv_enable_command_limits" default="true"/>
 
   <arg name="vrpn_server" default="127.0.0.1"/>
   <arg name="vrpn_port" default="3883"/>
@@ -37,7 +40,7 @@
   <arg name="vrpn_match_mode" default="exact"/>
 
   <arg name="estimator_config_file" default="$(find estimator_vrpn_ugv_state)/config/vrpn_ugv_state_estimator.yaml"/>
-  <arg name="estimator_imu_topic" default="/$(arg ugv_ns)/imu"/>
+  <arg name="estimator_imu_topic" default="/$(arg ugv_ns)/imu/data_raw"/>
   <arg name="estimator_vrpn_pose_topic" default="/vrpn_client_node/$(arg vrpn_tracker)/pose"/>
   <arg name="estimator_state_topic" default="alg/state_estimator/state"/>
   <arg name="estimator_loop_rate_hz" default="1000.0"/>
@@ -55,11 +58,11 @@
   <arg name="reference_active_publish_rate" default="20.0"/>
   <arg name="reference_trajectory_timeout" default="0.5"/>
   <arg name="reference_min_lead_time" default="0.2"/>
-  <arg name="reference_max_velocity" default="3.0"/>
+  <arg name="reference_max_velocity" default="1.5"/>
   <arg name="reference_max_acceleration" default="2.0"/>
-  <arg name="reference_max_yaw_rate" default="2.5"/>
+  <arg name="reference_max_yaw_rate" default="0.5235"/>
   <arg name="reference_default_enabled" default="true"/>
-  <arg name="reference_default_type" default="3"/>
+  <arg name="reference_default_type" default="1"/>
   <arg name="reference_default_duration" default="120.0"/>
   <arg name="reference_default_start_delay" default="0.8"/>
   <arg name="reference_default_origin_x" default="$(arg ugv_x)"/>
@@ -97,9 +100,9 @@
   <arg name="controller_nmpc_request_rate_hz" default="100.0"/>
   <arg name="controller_nmpc_solve_timeout" default="0.05"/>
   <arg name="controller_nmpc_result_timeout" default="0.1"/>
-  <arg name="controller_min_linear_speed" default="-0.5"/>
-  <arg name="controller_max_linear_speed" default="3.0"/>
-  <arg name="controller_max_angular_speed" default="2.5"/>
+  <arg name="controller_min_linear_speed" default="-1.5"/>
+  <arg name="controller_max_linear_speed" default="1.5"/>
+  <arg name="controller_max_angular_speed" default="0.5235"/>
   <arg name="controller_max_linear_acceleration" default="2.0"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -125,10 +128,13 @@
     <arg name="wheel_pid_p" value="$(arg ugv_wheel_pid_p)"/>
     <arg name="wheel_pid_i" value="$(arg ugv_wheel_pid_i)"/>
     <arg name="wheel_pid_d" value="$(arg ugv_wheel_pid_d)"/>
+    <arg name="wheelbase" value="$(arg ugv_wheelbase)"/>
+    <arg name="wheel_track" value="$(arg ugv_wheel_track)"/>
     <arg name="wheel_separation" value="$(arg ugv_wheel_separation)"/>
     <arg name="wheel_radius" value="$(arg ugv_wheel_radius)"/>
     <arg name="command_gain" value="$(arg ugv_command_gain)"/>
     <arg name="angular_command_gain" value="$(arg ugv_angular_command_gain)"/>
+    <arg name="enable_command_limits" value="$(arg ugv_enable_command_limits)"/>
   </include>
 
   <include file="$(find gazebo_sim_vrpn_bridge)/launch/vrpn_server.launch">

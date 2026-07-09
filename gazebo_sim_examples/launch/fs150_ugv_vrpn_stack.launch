@@ -36,7 +36,9 @@
   <arg name="ugv_wheel_pid_p" default="1.0"/>
   <arg name="ugv_wheel_pid_i" default="0.0"/>
   <arg name="ugv_wheel_pid_d" default="0.0"/>
-  <arg name="ugv_wheel_separation" default="0.416503"/>
+  <arg name="ugv_wheelbase" default="0.451"/>
+  <arg name="ugv_wheel_track" default="0.490"/>
+  <arg name="ugv_wheel_separation" default="$(arg ugv_wheel_track)"/>
   <arg name="ugv_wheel_radius" default="0.08"/>
   <arg name="ugv_command_gain" default="1.0"/>
   <!--
@@ -62,7 +64,7 @@
   <arg name="start_rigid_state_estimators" default="true"/>
   <arg name="vrpn_px4_rotor_state_config_file" default="$(find gazebo_sim_examples)/config/vrpn_px4_rotor_state_estimator_fs150_tracking.yaml"/>
   <arg name="vrpn_ugv_state_config_file" default="$(find estimator_vrpn_ugv_state)/config/vrpn_ugv_state_estimator.yaml"/>
-  <arg name="ugv_estimator_imu_topic" default="/$(arg ugv_ns)/imu"/>
+  <arg name="ugv_estimator_imu_topic" default="/$(arg ugv_ns)/imu/data_raw"/>
   <arg name="ugv_estimator_vrpn_pose_topic" default="/vrpn_client_node/$(arg ugv_model_name)/pose"/>
   <arg name="ugv_estimator_state_topic" default="alg/state_estimator/state"/>
   <arg name="ugv_estimator_extrinsic_verified" default="true"/>
@@ -101,6 +103,8 @@
     <arg name="ugv_wheel_pid_p" value="$(arg ugv_wheel_pid_p)"/>
     <arg name="ugv_wheel_pid_i" value="$(arg ugv_wheel_pid_i)"/>
     <arg name="ugv_wheel_pid_d" value="$(arg ugv_wheel_pid_d)"/>
+    <arg name="ugv_wheelbase" value="$(arg ugv_wheelbase)"/>
+    <arg name="ugv_wheel_track" value="$(arg ugv_wheel_track)"/>
     <arg name="ugv_wheel_separation" value="$(arg ugv_wheel_separation)"/>
     <arg name="ugv_wheel_radius" value="$(arg ugv_wheel_radius)"/>
     <arg name="ugv_command_gain" value="$(arg ugv_command_gain)"/>
