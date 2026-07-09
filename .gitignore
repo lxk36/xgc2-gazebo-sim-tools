@@ -6,3 +6,5 @@ install/
 install-root/
 debs/
 *.deb
+*.pyc
+__pycache__/
