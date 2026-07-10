@@ -54,7 +54,6 @@ required_files=(
   .xgc2/scripts/check_package_compliance.sh
   .xgc2/scripts/check_version_bump.sh
   .xgc2/scripts/package_debs.sh
-  .xgc2/scripts/publish_apt_repo.sh
   .xgc2/scripts/run_package_tests.sh
   gazebo_session_manager/CMakeLists.txt
   gazebo_session_manager/package.xml
@@ -83,20 +82,20 @@ if search_files 'ros-noetic-xgc2-controller' .github .xgc2 gazebo_sim_examples g
   exit 1
 fi
 
-grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.1.15-9)" .xgc2/product.yml
-grep -q "ros-noetic-xgc2-ugv-controller (>= 1.1.1-6)" .xgc2/product.yml
-grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.1.15-9)" .xgc2/scripts/package_debs.sh
-grep -q "ros-noetic-xgc2-ugv-controller (>= 1.1.1-6)" .xgc2/scripts/package_debs.sh
-grep -q "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-6)" .xgc2/product.yml
-grep -q "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-6)" .xgc2/product.yml
-grep -q "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-7)" .xgc2/product.yml
-grep -q "ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.22-6)" .xgc2/product.yml
-grep -q "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.3-8)" .xgc2/product.yml
-grep -q "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-6)" .xgc2/scripts/package_debs.sh
-grep -q "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-6)" .xgc2/scripts/package_debs.sh
+grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.1.18-3)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-ugv-controller (>= 1.1.4-8)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.1.18-3)" .xgc2/scripts/package_debs.sh
+grep -q "ros-noetic-xgc2-ugv-controller (>= 1.1.4-8)" .xgc2/scripts/package_debs.sh
+grep -q "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-9)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-10)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-10)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-3)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-3)" .xgc2/product.yml
+grep -q "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-9)" .xgc2/scripts/package_debs.sh
+grep -q "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-10)" .xgc2/scripts/package_debs.sh
 grep -q "\${worlds_pkg} (>= 1.1.0-7)" .xgc2/scripts/package_debs.sh
-grep -q "ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.22-6)" .xgc2/scripts/package_debs.sh
-grep -q "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.3-8)" .xgc2/scripts/package_debs.sh
+grep -q "ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-3)" .xgc2/scripts/package_debs.sh
+grep -q "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-3)" .xgc2/scripts/package_debs.sh
 
 if search_files 'name="robot_namespace"' gazebo_sim_examples/launch >/tmp/xgc2-gazebo-sim-tools-legacy-args.txt; then
   echo "gazebo_sim_examples uses legacy Scout spawn arg robot_namespace; use ns." >&2
