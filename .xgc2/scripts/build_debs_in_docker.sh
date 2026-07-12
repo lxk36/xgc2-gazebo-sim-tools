@@ -83,6 +83,7 @@ docker run --rm \
       ros-noetic-rostest \
       ros-noetic-rosunit \
       ros-noetic-rospy \
+      ros-noetic-std-msgs \
       ros-noetic-std-srvs \
       ros-noetic-tf2 \
       ros-noetic-tf2-ros \
@@ -94,6 +95,8 @@ docker run --rm \
       ros-noetic-xgc2-ugv-controller \
       ros-noetic-xgc2-estimator-hover-thrust \
       ros-noetic-xgc2-estimator-rigid-state \
+      ros-noetic-xgc2-estimator-rigid-state-msgs \
+      ros-noetic-xgc2-px4-multirotor-controller-msgs \
       ros-noetic-xgc2-gazebo-sim-worlds
     dpkg --compare-versions "$(dpkg-query -W -f="\${Version}" libxgc2-math-dev)" ge '0.5.6-6~focal'
 
@@ -125,6 +128,10 @@ docker run --rm \
         | grep -F "ros-noetic-xgc2-ugv-controller (>= 1.1.4-9)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6)" >/dev/null
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+        | grep -F "ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3)" >/dev/null
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+        | grep -F "ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb Depends \
         | grep -F "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-13)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \

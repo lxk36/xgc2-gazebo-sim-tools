@@ -60,6 +60,20 @@ reference with 3 m radius, 3 m/s horizontal speed, 3 m altitude, and a 1 m
 sinusoidal height offset. After the launch is up, drive the controller through
 its normal state-machine command topic.
 
+To wait for MAVROS and the rigid-state estimator, take off to 3 m, and then
+enter the `custom1` trajectory-tracking state, run:
+
+```bash
+rosrun gazebo_sim_examples uav_auto_takeoff_track.py --ns uav1 --height 3.0
+```
+
+The command exits with `0` only after the controller reports `Custom1` and two
+new, increasing NMPC debug samples report successful solver status `0`. It
+exits with `2` if MAVROS, the state estimate, or the controller command
+subscriber is not ready before the deadline, `3` if the requested takeoff
+altitude is not reached in time, and `4` if NMPC tracking is not confirmed
+before `--tracking-timeout`.
+
 The single-Scout UGV NMPC tracking stack is:
 
 ```bash

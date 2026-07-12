@@ -5,8 +5,11 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   mavros_msgs
   nav_msgs
+  px4_multirotor_controller_msgs
+  rigid_state_estimator_msgs
   roslaunch
   rospy
+  std_msgs
 )
 
 catkin_package()
@@ -15,6 +18,7 @@ catkin_install_python(PROGRAMS
   scripts/ensure_px4_params.py
   scripts/nmpc_tracking_regression_monitor.py
   scripts/offboard_velocity_follow.py
+  scripts/uav_auto_takeoff_track.py
   scripts/ugv_circle_tracking_controller.py
   scripts/ugv_state_replay_validation.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
