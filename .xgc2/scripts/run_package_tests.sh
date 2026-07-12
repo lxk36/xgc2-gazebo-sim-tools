@@ -27,5 +27,6 @@ ln -s "${repo_root}/gazebo_sim_examples" "${workspace}/src/gazebo_sim_examples"
 source "/opt/ros/${ros_distro}/setup.bash"
 
 catkin_make -C "${workspace}" -DCATKIN_ENABLE_TESTING=OFF
+python3 "${repo_root}/gazebo_sim_examples/test/test_uav_auto_takeoff_track.py"
 
 echo "Package tests passed."

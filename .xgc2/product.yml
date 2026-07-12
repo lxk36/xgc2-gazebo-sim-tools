@@ -1,7 +1,7 @@
 schema: xgc2.product.v1
 id: xgc2-gazebo-sim-tools
 name: XGC2 Gazebo Sim Tools
-version: 1.1.0-22
+version: 1.1.0-23
 kind: ros1-apt
 summary: Gazebo Classic session manager and example launch orchestration packages
   for ROS Noetic.
@@ -28,9 +28,12 @@ apt:
   - ros-noetic-xgc2-gazebo-sim-scout (>= 0.4.9-23)
   - ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-10)
   - ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4)
+  - ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)
   - ros-noetic-xgc2-ugv-controller (>= 1.1.4-9)
   - ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-6)
   - ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6)
+  - ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3)
+  - ros-noetic-std-msgs
   - xgc2-vrpn-router (>= 0.1.0-4+focal)
 usage:
   install: 'sudo apt update
@@ -43,6 +46,8 @@ usage:
     roslaunch --files gazebo_sim_examples fs150_ugv_vrpn_stack.launch
 
     roslaunch --files gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
+
+    rosrun gazebo_sim_examples uav_auto_takeoff_track.py --help
 
     roslaunch --files gazebo_sim_visualization gazebo_auto_visualization_rviz.launch
     rviz:=false
