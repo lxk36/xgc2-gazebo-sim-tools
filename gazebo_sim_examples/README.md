@@ -54,7 +54,11 @@ roslaunch gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
 It starts one FS150 PX4 1.12 SITL vehicle, the Gazebo-backed VRPN server,
 `vrpn_client_ros`, `estimator_vrpn_px4_rotor_state`, `hover_thrust_estimator`,
 `px4_multirotor_controller`, and the UAV reference trajectory state-machine node. The rigid-state estimator subscribes to raw VRPN pose and
-publishes `mavros/vision_pose/pose` for PX4. The default
+keeps its corrected pose on `alg/state_estimator/corrected_vision_pose` for
+diagnostics. When the XGC NMPC Automation runs through an Experiment, the
+Adapter derived from the pinned Swarm Asset is the sole
+publisher to `mavros/vision_pose/pose`; it relays the configured rigid body's
+raw pose without an XYZ offset. The default
 takeoff height is 3 m. The default Custom1 request is an analytic circle-entry
 reference with 3 m radius, 3 m/s horizontal speed, 3 m altitude, and a 1 m
 sinusoidal height offset. After the launch is up, drive the controller through

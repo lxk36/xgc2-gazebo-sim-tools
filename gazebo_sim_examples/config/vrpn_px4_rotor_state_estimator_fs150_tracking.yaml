@@ -1,7 +1,9 @@
 imu_topic: mavros/imu/data_raw
 vrpn_pose_topic: /vrpn_client_node/uav1/pose
 state_topic: alg/state_estimator/state
-vision_pose_topic: mavros/vision_pose/pose
+# Adapter is the sole publisher to MAVROS vision_pose. Keep the estimator's
+# corrected pose available only as a diagnostic output for this stack.
+vision_pose_topic: alg/state_estimator/corrected_vision_pose
 
 loop_rate_hz: 1000.0
 state_publish_rate_hz: 100.0
