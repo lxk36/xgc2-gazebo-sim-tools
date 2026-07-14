@@ -121,7 +121,7 @@ build_ros_package_deb() {
 manager_pkg="ros-noetic-xgc2-gazebo-sim-manager"
 examples_pkg="ros-noetic-xgc2-gazebo-sim-examples"
 worlds_pkg="ros-noetic-xgc2-gazebo-sim-worlds"
-visualization_dep="ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-11)"
+visualization_dep="ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)"
 vrpn_bridge_dep="ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-13)"
 
 build_ros_package_deb \
