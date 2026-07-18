@@ -64,6 +64,32 @@ reference with 3 m radius, 3 m/s horizontal speed, 3 m altitude, and a 1 m
 sinusoidal height offset. After the launch is up, drive the controller through
 its normal state-machine command topic.
 
+When the ROS master, Gazebo server, and tracking transport are already owned by
+an experiment-level process, start only one FS150 robot stack with:
+
+```bash
+export ROS_MASTER_URI=http://127.0.0.1:11311
+export GAZEBO_MASTER_URI=http://127.0.0.1:11345
+roslaunch gazebo_sim_examples fs150_nmpc_robot_existing_gazebo.launch \
+  ns:=uav1 model_name:=uav1 vrpn_rigid_body:=uav1 mav_system_id:=4
+```
+
+This entry point starts PX4 1.12 SITL, spawns one FS150 model into the existing
+Gazebo server, starts namespaced MAVROS, the rotor-state and hover-thrust
+estimators, NMPC controller, and reference trajectory. It does not start a ROS
+master, Gazebo server/client, or VRPN server/client. Set the two master URIs in
+the process environment before `roslaunch`; launch arguments cannot change the
+master to which the parent `roslaunch` process is already connected.
+
+For concurrent robots, provide distinct `ns`, `model_name`, `mav_system_id`,
+`px4_instance`, `work_dir`, `mavlink_tcp_port`, `mavlink_udp_port`,
+`sdk_udp_port`, `mavros_local_port`, and `mavros_remote_port` values. The default
+ports are derived from `px4_instance`, and the default SDF/output directory is
+derived from `model_name`, so the conventional instance mapping is collision
+free. Spawn `x`, `y`, `z`, and `yaw`, the tracking rigid body, controller
+backend/takeoff height, and all reference trajectory settings are launch
+arguments.
+
 To wait for MAVROS and the rigid-state estimator, take off to 3 m, and then
 enter the `custom1` trajectory-tracking state, run:
 

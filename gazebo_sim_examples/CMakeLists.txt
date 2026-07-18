@@ -33,6 +33,8 @@ install(FILES README.md
 )
 
 if(CATKIN_ENABLE_TESTING)
+  catkin_add_nosetests(test/test_fs150_nmpc_robot_existing_gazebo_launch.py)
+  roslaunch_add_file_check(launch/fs150_nmpc_robot_existing_gazebo.launch)
   roslaunch_add_file_check(launch/fs150_uav1_nmpc_tracking.launch)
   roslaunch_add_file_check(launch/scout_ugv1_nmpc_tracking.launch)
 endif()

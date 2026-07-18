@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Vehicle identity. ROS_MASTER_URI and GAZEBO_MASTER_URI must be set in
+       the roslaunch process environment before this file is evaluated. -->
+  <arg name="ns" default="uav1"/>
+  <arg name="model_name" default="$(arg ns)"/>
+  <arg name="vrpn_rigid_body" default="$(arg model_name)"/>
+  <arg name="mav_system_id" default="4"/>
+
+  <!-- A PX4 process instance is independent from MAV_SYS_ID. Keeping the
+       conventional default makes a one-argument vehicle id override easy. -->
+  <arg name="px4_instance" default="$(eval int(arg('mav_system_id')) - 1)"/>
+  <arg name="sitl_node_name" default="px4_sitl_$(arg px4_instance)"/>
+  <arg name="work_dir" default="$(env HOME)/.xgc2/px4_sitl/$(arg model_name)"/>
+
+  <!-- Gazebo model pose. -->
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
+
+  <!-- Per-vehicle PX4/Gazebo/MAVROS ports. qgc_udp_port is a destination and
+       may be shared deliberately; every value remains overrideable. -->
+  <arg name="mavlink_tcp_port" default="$(eval 4560 + int(arg('px4_instance')))"/>
+  <arg name="mavlink_udp_port" default="$(eval 14560 + int(arg('px4_instance')))"/>
+  <arg name="qgc_udp_port" default="14550"/>
+  <arg name="sdk_udp_port" default="$(eval 14540 + int(arg('px4_instance')))"/>
+  <arg name="mavros_local_port" default="$(eval 14540 + int(arg('px4_instance')))"/>
+  <arg name="mavros_remote_port" default="$(eval 14580 + int(arg('px4_instance')))"/>
+  <arg name="fcu_url"
+       default="$(eval 'udp://:' + str(arg('mavros_local_port')) + '@localhost:' + str(arg('mavros_remote_port')))"/>
+  <arg name="gcs_url" default=""/>
+
+  <!-- FS150/PX4 assets. The generated SDF path is per model so concurrent
+       robots never rewrite one another's file. -->
+  <arg name="fs150_launch" default="$(find gazebo_sim_fs150_sitl)/launch/fs150.launch"/>
+  <arg name="fs150_px4_launch" default="$(find gazebo_sim_px4_1_12)/launch/iris.launch"/>
+  <arg name="fs150_base_sdf" default="$(find gazebo_sim_fs150_sitl)/models/fs150/iris.sdf"/>
+  <arg name="fs150_sdf" default="$(env HOME)/.xgc2/fs150_sitl/$(arg model_name)_indoor.sdf"/>
+  <arg name="fs150_render_sdf" default="true"/>
+  <arg name="fs150_param_file" default="$(find gazebo_sim_fs150_sitl)/config/generated/fs150-sitl.params"/>
+  <arg name="fs150_reset_params" default="true"/>
+  <arg name="fs150_strip_mag" default="false"/>
+  <arg name="fs150_strip_baro" default="false"/>
+
+  <!-- State estimation and control. Tracking topics are consumed from an
+       already-provisioned shared tracking data plane; this launch starts no
+       tracking transport process. -->
+  <arg name="vrpn_pose_topic" default="/vrpn_client_node/$(arg vrpn_rigid_body)/pose"/>
+  <arg name="vrpn_twist_topic" default="/vrpn_client_node/$(arg vrpn_rigid_body)/twist"/>
+  <arg name="state_estimate_topic" default="alg/state_estimator/state"/>
+  <arg name="estimator_vision_pose_topic" default="alg/state_estimator/corrected_vision_pose"/>
+  <arg name="vrpn_px4_rotor_state_config_file"
+       default="$(find gazebo_sim_examples)/config/vrpn_px4_rotor_state_estimator_fs150_tracking.yaml"/>
+  <arg name="estimator_request_highres_imu" default="true"/>
+  <arg name="estimator_mavros_ns" default="mavros"/>
+  <arg name="estimator_highres_imu_message_id" default="105"/>
+  <arg name="estimator_highres_imu_rate" default="250.0"/>
+  <arg name="estimator_highres_imu_reassert_period" default="10.0"/>
+
+  <arg name="hover_thrust_config_file"
+       default="$(find hover_thrust_estimator)/config/hover_thrust_estimator.yaml"/>
+  <arg name="controller_config_file"
+       default="$(find px4_multirotor_controller)/config/uav_nmpc.yaml"/>
+  <arg name="reference_config_file"
+       default="$(find multirotor_reference_trajectory)/config/multirotor_reference_trajectory.yaml"/>
+  <arg name="tracking_backend" default="dfbc_attitude_rate"/>
+  <arg name="takeoff_altitude" default="3.0"/>
+  <arg name="debug_print" default="false"/>
+
+  <arg name="fence_x_min" default="-1000000.0"/>
+  <arg name="fence_x_max" default="1000000.0"/>
+  <arg name="fence_y_min" default="-1000000.0"/>
+  <arg name="fence_y_max" default="1000000.0"/>
+  <arg name="fence_z_min" default="-1000000.0"/>
+  <arg name="fence_z_max" default="1000000.0"/>
+  <arg name="position_jump_threshold" default="100.0"/>
+  <arg name="max_velocity_xy" default="1000.0"/>
+  <arg name="max_velocity_z" default="1000.0"/>
+  <arg name="acc_saturation_xy" default="1000.0"/>
+  <arg name="acc_saturation_z" default="1000.0"/>
+  <arg name="enable_yaw_control" default="false"/>
+
+  <arg name="reference_start_delay" default="0.2"/>
+  <arg name="reference_duration" default="60.0"/>
+  <arg name="reference_radius" default="3.0"/>
+  <arg name="reference_line_speed" default="1.0"/>
+  <arg name="reference_height" default="3.0"/>
+  <arg name="reference_z_amplitude" default="0.0"/>
+  <arg name="reference_z_frequency" default="0.5"/>
+  <arg name="reference_entry_duration" default="5.0"/>
+  <arg name="reference_analytic_type" default="3"/>
+  <arg name="reference_torus_omega" default="0.3"/>
+  <arg name="reference_torus_scale" default="0.3"/>
+  <arg name="reference_path_sample_dt" default="0.02"/>
+  <arg name="reference_path_preview_duration" default="$(arg reference_duration)"/>
+
+  <param name="$(arg ns)/gazebo_sim_examples/fs150_indoor_sdf"
+         if="$(arg fs150_render_sdf)"
+         command="$(find gazebo_sim_fs150_sitl)/scripts/render_fs150_indoor_sdf.py --base-sdf $(arg fs150_base_sdf) --output $(arg fs150_sdf) --strip-mag $(arg fs150_strip_mag) --strip-baro $(arg fs150_strip_baro) --print-path"/>
+
+  <include file="$(arg fs150_launch)">
+    <arg name="ID" value="$(arg px4_instance)"/>
+    <arg name="mav_system_id" value="$(arg mav_system_id)"/>
+    <arg name="mavros_tgt_system" value="$(arg mav_system_id)"/>
+    <arg name="px4_launch" value="$(arg fs150_px4_launch)"/>
+    <arg name="model_name" value="$(arg model_name)"/>
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="sdf" value="$(arg fs150_sdf)"/>
+    <arg name="work_dir" value="$(arg work_dir)"/>
+    <arg name="param_file" value="$(arg fs150_param_file)"/>
+    <arg name="reset_params" value="$(arg fs150_reset_params)"/>
+    <arg name="x" value="$(arg x)"/>
+    <arg name="y" value="$(arg y)"/>
+    <arg name="z" value="$(arg z)"/>
+    <arg name="Y" value="$(arg yaw)"/>
+    <arg name="mavlink_tcp_port" value="$(arg mavlink_tcp_port)"/>
+    <arg name="mavlink_udp_port" value="$(arg mavlink_udp_port)"/>
+    <arg name="qgc_udp_port" value="$(arg qgc_udp_port)"/>
+    <arg name="sdk_udp_port" value="$(arg sdk_udp_port)"/>
+    <arg name="mavros_local_port" value="$(arg mavros_local_port)"/>
+    <arg name="mavros_remote_port" value="$(arg mavros_remote_port)"/>
+    <arg name="fcu_url" value="$(arg fcu_url)"/>
+    <arg name="gcs_url" value="$(arg gcs_url)"/>
+    <arg name="sitl_node_name" value="$(arg sitl_node_name)"/>
+    <!-- This is intentionally a literal, not a public argument. -->
+    <arg name="start_gazebo" value="false"/>
+  </include>
+
+  <include file="$(find estimator_vrpn_px4_rotor_state)/launch/vrpn_px4_rotor_state_estimator.launch">
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="config_file" value="$(arg vrpn_px4_rotor_state_config_file)"/>
+    <arg name="request_highres_imu" value="$(arg estimator_request_highres_imu)"/>
+    <arg name="mavros_ns" value="$(arg estimator_mavros_ns)"/>
+    <arg name="highres_imu_message_id" value="$(arg estimator_highres_imu_message_id)"/>
+    <arg name="highres_imu_rate" value="$(arg estimator_highres_imu_rate)"/>
+    <arg name="highres_imu_reassert_period" value="$(arg estimator_highres_imu_reassert_period)"/>
+  </include>
+
+  <!-- The estimator launch loads its YAML into this private namespace. These
+       later declarations override only the per-robot topic fields while
+       retaining all tuning from the selected config file. -->
+  <param name="$(arg ns)/vrpn_px4_rotor_state_estimator/vrpn_pose_topic"
+         value="$(arg vrpn_pose_topic)"/>
+  <param name="$(arg ns)/vrpn_px4_rotor_state_estimator/vrpn_twist_topic"
+         value="$(arg vrpn_twist_topic)"/>
+  <param name="$(arg ns)/vrpn_px4_rotor_state_estimator/state_topic"
+         value="$(arg state_estimate_topic)"/>
+  <param name="$(arg ns)/vrpn_px4_rotor_state_estimator/vision_pose_topic"
+         value="$(arg estimator_vision_pose_topic)"/>
+
+  <include file="$(find hover_thrust_estimator)/launch/hover_thrust_estimator.launch">
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="config_file" value="$(arg hover_thrust_config_file)"/>
+  </include>
+
+  <include file="$(find px4_multirotor_controller)/launch/uav_nmpc_controller.launch">
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="vrpn_rigid_body" value="$(arg vrpn_rigid_body)"/>
+    <arg name="vrpn_pose_topic" value="$(arg vrpn_pose_topic)"/>
+    <arg name="vrpn_twist_topic" value="$(arg vrpn_twist_topic)"/>
+    <arg name="state_estimate_topic" value="$(arg state_estimate_topic)"/>
+    <arg name="debug_print" value="$(arg debug_print)"/>
+    <arg name="takeoff_altitude" value="$(arg takeoff_altitude)"/>
+    <arg name="config_file" value="$(arg controller_config_file)"/>
+    <arg name="tracking_backend" value="$(arg tracking_backend)"/>
+    <arg name="fence_x_min" value="$(arg fence_x_min)"/>
+    <arg name="fence_x_max" value="$(arg fence_x_max)"/>
+    <arg name="fence_y_min" value="$(arg fence_y_min)"/>
+    <arg name="fence_y_max" value="$(arg fence_y_max)"/>
+    <arg name="fence_z_min" value="$(arg fence_z_min)"/>
+    <arg name="fence_z_max" value="$(arg fence_z_max)"/>
+    <arg name="position_jump_threshold" value="$(arg position_jump_threshold)"/>
+    <arg name="max_velocity_xy" value="$(arg max_velocity_xy)"/>
+    <arg name="max_velocity_z" value="$(arg max_velocity_z)"/>
+    <arg name="acc_saturation_xy" value="$(arg acc_saturation_xy)"/>
+    <arg name="acc_saturation_z" value="$(arg acc_saturation_z)"/>
+    <arg name="enable_yaw_control" value="$(arg enable_yaw_control)"/>
+    <arg name="reference_start_delay" value="$(arg reference_start_delay)"/>
+    <arg name="reference_duration" value="$(arg reference_duration)"/>
+    <arg name="reference_radius" value="$(arg reference_radius)"/>
+    <arg name="reference_line_speed" value="$(arg reference_line_speed)"/>
+    <arg name="reference_height" value="$(arg reference_height)"/>
+    <arg name="reference_z_amplitude" value="$(arg reference_z_amplitude)"/>
+    <arg name="reference_z_frequency" value="$(arg reference_z_frequency)"/>
+    <arg name="reference_entry_duration" value="$(arg reference_entry_duration)"/>
+    <arg name="reference_analytic_type" value="$(arg reference_analytic_type)"/>
+    <arg name="reference_torus_omega" value="$(arg reference_torus_omega)"/>
+    <arg name="reference_torus_scale" value="$(arg reference_torus_scale)"/>
+  </include>
+
+  <include file="$(find multirotor_reference_trajectory)/launch/uav_multirotor_reference_trajectory.launch">
+    <arg name="ns" value="$(arg ns)"/>
+    <arg name="config_file" value="$(arg reference_config_file)"/>
+    <arg name="reference_path_sample_dt" value="$(arg reference_path_sample_dt)"/>
+    <arg name="reference_path_preview_duration" value="$(arg reference_path_preview_duration)"/>
+  </include>
+</launch>
