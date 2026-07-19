@@ -125,7 +125,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Build and install-check deb packages
+      - name: Build and package Debian artifacts
         run: |
           install -d "$GITHUB_WORKSPACE/.ci/build-manifests"
           .xgc2/scripts/build_debs_in_docker.sh \
