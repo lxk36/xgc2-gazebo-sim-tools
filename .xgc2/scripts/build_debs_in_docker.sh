@@ -120,7 +120,7 @@ docker run --rm \
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-11)" >/dev/null
+        | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-14)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
