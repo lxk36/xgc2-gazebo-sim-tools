@@ -1,22 +1,19 @@
 schema: xgc2.product.v1
 id: xgc2-gazebo-sim-tools
 name: XGC2 Gazebo Sim Tools
-version: 1.1.0-26
+version: 1.1.0-27
 kind: ros1-apt
-summary: Gazebo Classic session manager and example launch orchestration packages
-  for ROS Noetic.
+summary: Legacy Gazebo Classic example launch orchestration retained during the
+  XGC2 ground-station migration.
 ros:
   distro: noetic
   packages:
-  - gazebo_session_manager
   - gazebo_sim_examples
 apt:
   distribution: focal
   install:
-  - ros-noetic-xgc2-gazebo-sim-manager
   - ros-noetic-xgc2-gazebo-sim-examples
   packages:
-  - ros-noetic-xgc2-gazebo-sim-manager
   - ros-noetic-xgc2-gazebo-sim-examples
   depends:
   - ros-noetic-vrpn-client-ros
@@ -38,12 +35,10 @@ apt:
 usage:
   install: 'sudo apt update
 
-    sudo apt install ros-noetic-xgc2-gazebo-sim-manager ros-noetic-xgc2-gazebo-sim-examples
+    sudo apt install ros-noetic-xgc2-gazebo-sim-examples
 
     '
-  smoke_test: 'roslaunch --files gazebo_session_manager session_manager.launch world_name:=/tmp/xgc2-empty.world
-
-    roslaunch --files gazebo_sim_examples fs150_ugv_vrpn_stack.launch
+  smoke_test: 'roslaunch --files gazebo_sim_examples fs150_ugv_vrpn_stack.launch
 
     roslaunch --files gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
 
@@ -57,14 +52,13 @@ usage:
     roslaunch --files gazebo_sim_vrpn_bridge vrpn_client.launch trackers:=[uav1]
 
     '
-  notes: 'These are Gazebo Classic simulation tools. The full suite is installed through
-    ros-noetic-xgc2-gazebo-sim-all from xgc2-gazebo-sim.
+  notes: 'These Gazebo Classic examples are retained temporarily while launch orchestration
+    migrates into XGC2 ground-station Automations. The retired standalone session manager
+    is intentionally not packaged.
 
     '
 ownership:
   paths:
-  - /opt/ros/noetic/share/gazebo_session_manager
-  - /opt/ros/noetic/lib/gazebo_session_manager
   - /opt/ros/noetic/share/gazebo_sim_examples
   - /opt/ros/noetic/lib/gazebo_sim_examples
 release:

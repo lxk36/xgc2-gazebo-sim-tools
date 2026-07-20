@@ -4,7 +4,6 @@ set -euo pipefail
 ROS_DISTRO="${ROS_DISTRO:-noetic}"
 source "/opt/ros/${ROS_DISTRO}/setup.bash"
 
-dpkg -s ros-noetic-xgc2-gazebo-sim-manager >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-examples >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-visualization >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-vrpn-bridge >/dev/null
@@ -17,7 +16,6 @@ dpkg -s ros-noetic-xgc2-estimator-rigid-state >/dev/null
 dpkg -s ros-noetic-xgc2-estimator-rigid-state-msgs >/dev/null
 dpkg -s ros-noetic-xgc2-px4-multirotor-controller-msgs >/dev/null
 dpkg -s ros-noetic-std-msgs >/dev/null
-test "$(rospack find gazebo_session_manager)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_session_manager"
 test "$(rospack find gazebo_sim_examples)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_examples"
 test "$(rospack find gazebo_sim_visualization)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_visualization"
 test "$(rospack find gazebo_sim_vrpn_bridge)" = "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_vrpn_bridge"
@@ -34,7 +32,6 @@ test -f /usr/include/xgc2_math/filter/butterworth_filter.hpp
 test -x "/opt/ros/${ROS_DISTRO}/lib/gazebo_sim_examples/uav_auto_takeoff_track.py"
 rosrun gazebo_sim_examples uav_auto_takeoff_track.py --help >/tmp/xgc2-uav-auto-takeoff-track-help.txt
 
-roslaunch --files gazebo_session_manager session_manager.launch world_name:=/tmp/xgc2-empty.world >/tmp/xgc2-gazebo-session-manager-files.txt
 roslaunch --files gazebo_sim_vrpn_bridge vrpn_server.launch auto_track_known_models:=true port:=3883 publish_rate:=120.0 >/tmp/xgc2-vrpn-server-files.txt
 roslaunch --files gazebo_sim_vrpn_bridge vrpn_client.launch trackers:=[uav1] >/tmp/xgc2-vrpn-client-files.txt
 roslaunch --files gazebo_sim_visualization gazebo_auto_visualization_rviz.launch rviz:=false >/tmp/xgc2-gazebo-auto-visualization-files.txt

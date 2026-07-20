@@ -55,8 +55,6 @@ required_files=(
   .xgc2/scripts/check_version_bump.sh
   .xgc2/scripts/package_debs.sh
   .xgc2/scripts/run_package_tests.sh
-  gazebo_session_manager/CMakeLists.txt
-  gazebo_session_manager/package.xml
   gazebo_sim_examples/CMakeLists.txt
   gazebo_sim_examples/package.xml
 )
@@ -75,7 +73,7 @@ for split_package in gazebo_sim_visualization gazebo_sim_vrpn_bridge; do
   fi
 done
 
-if search_files 'ros-noetic-xgc2-controller' .github .xgc2 gazebo_sim_examples gazebo_session_manager \
+if search_files 'ros-noetic-xgc2-controller' .github .xgc2 gazebo_sim_examples \
   >/tmp/xgc2-gazebo-sim-tools-controller-deps.txt; then
   echo "gazebo_sim_tools must depend on split controller packages directly." >&2
   cat /tmp/xgc2-gazebo-sim-tools-controller-deps.txt >&2

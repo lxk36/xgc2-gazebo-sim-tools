@@ -20,7 +20,6 @@ fi
 
 rm -rf "${workspace}"
 mkdir -p "${workspace}/src"
-ln -s "${repo_root}/gazebo_session_manager" "${workspace}/src/gazebo_session_manager"
 ln -s "${repo_root}/gazebo_sim_examples" "${workspace}/src/gazebo_sim_examples"
 
 # shellcheck source=/dev/null

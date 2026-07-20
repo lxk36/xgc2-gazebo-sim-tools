@@ -118,17 +118,10 @@ build_ros_package_deb() {
   fakeroot dpkg-deb --build "${pkg_root}" "${OUTPUT_DIR}/${package}_${VERSION}_${ARCH}.deb" >/dev/null
 }
 
-manager_pkg="ros-noetic-xgc2-gazebo-sim-manager"
 examples_pkg="ros-noetic-xgc2-gazebo-sim-examples"
 worlds_pkg="ros-noetic-xgc2-gazebo-sim-worlds"
 visualization_dep="ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)"
 vrpn_bridge_dep="ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-13)"
-
-build_ros_package_deb \
-  "${manager_pkg}" \
-  "gazebo_session_manager" \
-  "${vrpn_bridge_dep}, ${worlds_pkg} (>= 1.1.0-11), ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-rosnode, ros-noetic-gazebo-msgs, ros-noetic-gazebo-ros, ros-noetic-geometry-msgs, ros-noetic-controller-manager-msgs, ros-noetic-std-srvs" \
-  "XGC2 Gazebo Classic session manager and WebUI tools"
 
 build_ros_package_deb \
   "${examples_pkg}" \

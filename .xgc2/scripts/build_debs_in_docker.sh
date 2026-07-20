@@ -116,8 +116,7 @@ docker run --rm \
 
     if [[ "${INSTALL_CHECK}" == "true" ]]; then
       apt-get install -y \
-        /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
-        /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb
+        /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
@@ -132,8 +131,6 @@ docker run --rm \
         | grep -F "ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-manager_*.deb Depends \
-        | grep -F "ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-13)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
         | grep -F "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)" >/dev/null
       /workspace/gazebo-sim/.xgc2/scripts/check_installed_packages.sh
