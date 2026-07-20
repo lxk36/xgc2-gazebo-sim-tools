@@ -1,26 +1,36 @@
 schema: xgc2.product.v1
 id: xgc2-gazebo-sim-tools
 name: XGC2 Gazebo Sim Tools
-version: 1.1.0-30
+version: 1.1.0-31
 kind: ros1-apt
-summary: Legacy Gazebo Classic example launch orchestration retained during the
-  XGC2 ground-station migration.
+summary: Gazebo Classic scene SystemPlugin and legacy example launch orchestration
+  retained during the XGC2 ground-station migration.
 ros:
   distro: noetic
   packages:
   - gazebo_sim_examples
+  - xgc2_gazebo_scene
 apt:
   distribution: focal
   install:
   - ros-noetic-xgc2-gazebo-sim-examples
   packages:
   - ros-noetic-xgc2-gazebo-sim-examples
+  - ros-noetic-xgc2-gazebo-scene
   depends:
+  - ros-noetic-gazebo-ros
+  - ros-noetic-geometry-msgs
+  - ros-noetic-message-runtime
+  - ros-noetic-rosconsole
+  - ros-noetic-roscpp
+  - ros-noetic-roscpp-serialization
+  - ros-noetic-rostime
   - ros-noetic-vrpn-client-ros
   - ros-noetic-rviz
   - ros-noetic-robot-state-publisher
   - ros-noetic-std-msgs
   recommends:
+  - ros-noetic-xgc2-gazebo-scene (>= 1.1.0-31)
   - ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)
   - ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-13)
   - ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.1.0-12)
@@ -41,6 +51,8 @@ usage:
     '
   smoke_test: 'roslaunch --files gazebo_sim_examples fs150_ugv_vrpn_stack.launch
 
+    test -f /opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so
+
     roslaunch --files gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
 
     rosrun gazebo_sim_examples uav_auto_takeoff_track.py --help
@@ -55,13 +67,23 @@ usage:
     '
   notes: 'These Gazebo Classic examples are retained temporarily while launch orchestration
     migrates into XGC2 ground-station Automations. The retired standalone session manager
-    is intentionally not packaged.
+    is intentionally not packaged. The recommended scene package owns the Gazebo
+    SystemPlugin and generated obstacle geometry, motion, and state message contracts.
 
     '
 ownership:
   paths:
   - /opt/ros/noetic/share/gazebo_sim_examples
   - /opt/ros/noetic/lib/gazebo_sim_examples
+  - /opt/ros/noetic/share/xgc2_gazebo_scene
+  - /opt/ros/noetic/include/xgc2_gazebo_scene
+  - /opt/ros/noetic/lib/libxgc2_gazebo_scene_motion.so
+  - /opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so
+  - /opt/ros/noetic/lib/pkgconfig/xgc2_gazebo_scene.pc
+  - /opt/ros/noetic/lib/python3/dist-packages/xgc2_gazebo_scene
+  - /opt/ros/noetic/share/common-lisp/ros/xgc2_gazebo_scene
+  - /opt/ros/noetic/share/gennodejs/ros/xgc2_gazebo_scene
+  - /opt/ros/noetic/share/roseus/ros/xgc2_gazebo_scene
 release:
   requires:
   - xgc2-gazebo-sim-scout

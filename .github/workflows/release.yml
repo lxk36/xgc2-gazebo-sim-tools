@@ -144,11 +144,17 @@ jobs:
               apt-get update
               apt-get install -y --no-install-recommends \
                 build-essential \
+                clang-format \
+                clang-tidy \
+                libgazebo11-dev \
                 netbase \
+                rsync \
                 ros-noetic-gazebo-msgs \
                 ros-noetic-geometry-msgs \
                 ros-noetic-mavros-msgs \
+                ros-noetic-message-generation \
                 ros-noetic-nav-msgs \
+                ros-noetic-roscpp \
                 ros-noetic-roslaunch \
                 ros-noetic-rostest \
                 ros-noetic-rosunit \
@@ -188,8 +194,7 @@ jobs:
           install -d "$GITHUB_WORKSPACE/.ci/build-manifests"
           .xgc2/scripts/build_debs_in_docker.sh \
             --work-dir "$RUNNER_TEMP/xgc2-gazebo-sim-tools-${{ matrix.arch }}" \
-            --output-dir "$GITHUB_WORKSPACE/debs" \
-            --skip-install-check
+            --output-dir "$GITHUB_WORKSPACE/debs"
 
       - name: Create release-train build manifest
         run: |

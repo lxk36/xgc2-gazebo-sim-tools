@@ -14,7 +14,7 @@ Checks: >
   cppcoreguidelines-slicing,
   cppcoreguidelines-virtual-class-destructor
 WarningsAsErrors: '*'
-HeaderFilterRegex: '^(gazebo_sim_vrpn_bridge/include|gazebo_sim_vrpn_bridge/src|gazebo_sim_vrpn_bridge/test)/.*'
+HeaderFilterRegex: '.*/xgc2_gazebo_scene/(include|src|test)/.*'
 CheckOptions:
   - key: bugprone-assert-side-effect.AssertMacros
     value: 'assert'

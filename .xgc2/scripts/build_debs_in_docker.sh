@@ -68,6 +68,7 @@ docker run --rm \
       fakeroot \
       file \
       git \
+      libgazebo11-dev \
       netbase \
       rsync \
       ros-noetic-controller-manager-msgs \
@@ -75,8 +76,11 @@ docker run --rm \
       ros-noetic-gazebo-ros \
       ros-noetic-geometry-msgs \
       ros-noetic-mavros-msgs \
+      ros-noetic-message-generation \
       ros-noetic-nav-msgs \
+      ros-noetic-roscpp \
       ros-noetic-roslaunch \
+      ros-noetic-rosmsg \
       ros-noetic-rosnode \
       ros-noetic-rospack \
       ros-noetic-rostest \
@@ -112,10 +116,80 @@ docker run --rm \
       --output-dir /workspace/out
 
     if [[ "${INSTALL_CHECK}" == "true" ]]; then
-      apt-get install -y \
+      product_version="$(awk -F": *" "/^version:/ {print \$2; exit}" /workspace/gazebo-sim/.xgc2/product.yml)"
+      apt-get install -y --no-install-recommends \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb
+      test ! -e /opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so
+      python3 - <<PY
+import json
+import subprocess
+from pathlib import Path
+
+manifest_path = Path("/usr/share/xgc2/process-definitions/xgc2-gazebo-sim-tools.json")
+manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+server = next(item for item in manifest["definitions"] if item["id"] == "gazebo-server")
+script = server["command"]["args"][1]
+stable_path = "/opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so"
+result = subprocess.run(
+    [
+        "/usr/bin/python3", "-c", script,
+        "/bin/true", "/bin/true", "/bin/true", "/bin/true", stable_path,
+        "/tmp/not-read.world", "ode", "/tmp/xgc2/ros/log", "false",
+        "0.001", "1000", "false", "false", "false",
+    ],
+    check=False,
+    capture_output=True,
+    text=True,
+)
+if result.returncode != 0 or "starting without it" not in result.stderr:
+    raise SystemExit(
+        "gazebo-server did not gracefully skip the missing recommended scene plugin:\n"
+        + result.stderr
+    )
+PY
+      apt-get install -y /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb
+      dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb \
+        | grep -F /opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so >/dev/null
+      dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb \
+        | grep -F /opt/ros/noetic/lib/libxgc2_gazebo_scene_motion.so >/dev/null
+      dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb \
+        | grep -F /opt/ros/noetic/share/xgc2_gazebo_scene/msg/ObstacleDefinition.msg >/dev/null
+      dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb \
+        | grep -F /opt/ros/noetic/lib/python3/dist-packages/xgc2_gazebo_scene/msg/_ObstacleDefinition.py >/dev/null
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb Depends \
+        | grep -E "(^|, )libgazebo11( |\\()" >/dev/null
+      for runtime_dependency in \
+          ros-noetic-gazebo-ros \
+          ros-noetic-geometry-msgs \
+          ros-noetic-message-runtime \
+          ros-noetic-rosconsole \
+          ros-noetic-roscpp \
+          ros-noetic-roscpp-serialization \
+          ros-noetic-rostime \
+          ros-noetic-std-msgs; do
+        dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb Depends \
+          | grep -E "(^|, )${runtime_dependency}( |\\(|,|$)" >/dev/null
+      done
+      if dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb Depends \
+          | grep -E "(^|, )(cmake|gazebo-dev|libgazebo11-dev|ros-noetic-message-generation)( |\\(|,|$)"; then
+        echo "Gazebo Scene package leaked a build-only dependency" >&2
+        exit 1
+      fi
+      rm -rf /tmp/xgc2-gazebo-scene-control
+      dpkg-deb -e /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb \
+        /tmp/xgc2-gazebo-scene-control
+      test ! -e /tmp/xgc2-gazebo-scene-control/shlibs
+      test ! -e /tmp/xgc2-gazebo-scene-control/postinst
+      test ! -e /tmp/xgc2-gazebo-scene-control/postrm
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
+        | grep -F "ros-noetic-xgc2-gazebo-scene (>= ${product_version})" >/dev/null
+      if dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+          | grep -F "ros-noetic-xgc2-gazebo-scene"; then
+        echo "Gazebo examples turned the optional scene package into a hard dependency" >&2
+        exit 1
+      fi
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
         | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-14)" >/dev/null
       dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
