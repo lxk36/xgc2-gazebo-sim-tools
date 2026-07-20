@@ -8,7 +8,6 @@ dpkg -s ros-noetic-xgc2-gazebo-sim-examples >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-visualization >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-vrpn-bridge >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-worlds >/dev/null
-dpkg -s libxgc2-math-dev >/dev/null
 dpkg -s ros-noetic-xgc2-multirotor-controller >/dev/null
 dpkg -s ros-noetic-xgc2-ugv-controller >/dev/null
 dpkg -s ros-noetic-xgc2-estimator-hover-thrust >/dev/null
@@ -28,7 +27,7 @@ test "$(rospack find hover_thrust_estimator)" = "/opt/ros/${ROS_DISTRO}/share/ho
 test "$(rospack find estimator_vrpn_px4_rotor_state)" = "/opt/ros/${ROS_DISTRO}/share/estimator_vrpn_px4_rotor_state"
 test -f "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_worlds/worlds/empty/empty.world"
 test -f "/opt/ros/${ROS_DISTRO}/share/gazebo_sim_worlds/worlds/square_box/square_box.world"
-test -f /usr/include/xgc2_math/filter/butterworth_filter.hpp
+test -f "/usr/share/xgc2/process-definitions/xgc2-gazebo-sim-tools.json"
 test -x "/opt/ros/${ROS_DISTRO}/lib/gazebo_sim_examples/uav_auto_takeoff_track.py"
 rosrun gazebo_sim_examples uav_auto_takeoff_track.py --help >/tmp/xgc2-uav-auto-takeoff-track-help.txt
 

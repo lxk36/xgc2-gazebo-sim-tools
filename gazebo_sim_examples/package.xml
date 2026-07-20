@@ -9,15 +9,14 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>geometry_msgs</depend>
-  <depend>mavros_msgs</depend>
-  <depend>nav_msgs</depend>
-  <depend>px4_multirotor_controller_msgs</depend>
-  <depend>rigid_state_estimator_msgs</depend>
-  <depend>roslaunch</depend>
-  <depend>rospy</depend>
-  <depend>std_msgs</depend>
-
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>mavros_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>px4_multirotor_controller_msgs</exec_depend>
+  <exec_depend>rigid_state_estimator_msgs</exec_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
   <exec_depend>gazebo_sim_fs150_sitl</exec_depend>
   <exec_depend>gazebo_sim_px4_1_12</exec_depend>
   <exec_depend>gazebo_sim_scout</exec_depend>
@@ -37,6 +36,7 @@
   <exec_depend>vrpn_client_ros</exec_depend>
 
   <test_depend>python3-nose</test_depend>
+  <test_depend>roslaunch</test_depend>
 
   <export>
     <build_type>catkin</build_type>

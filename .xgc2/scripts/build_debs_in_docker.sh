@@ -68,7 +68,6 @@ docker run --rm \
       fakeroot \
       file \
       git \
-      libxgc2-math-dev \
       netbase \
       rsync \
       ros-noetic-controller-manager-msgs \
@@ -98,8 +97,6 @@ docker run --rm \
       ros-noetic-xgc2-estimator-rigid-state-msgs \
       ros-noetic-xgc2-px4-multirotor-controller-msgs \
       ros-noetic-xgc2-gazebo-sim-worlds
-    dpkg --compare-versions "$(dpkg-query -W -f="\${Version}" libxgc2-math-dev)" ge '0.5.6-6~focal'
-
     rm -rf /workspace/work/src /workspace/work/build /workspace/work/devel /workspace/work/install-root
     mkdir -p /workspace/work/src/xgc2_gazebo_sim_tools
     rsync -a --delete /workspace/gazebo-sim/ /workspace/work/src/xgc2_gazebo_sim_tools/
@@ -119,19 +116,19 @@ docker run --rm \
         /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
         | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-14)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
         | grep -F "ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
         | grep -F "ros-noetic-xgc2-ugv-controller (>= 1.1.4-9)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
         | grep -F "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
         | grep -F "ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
         | grep -F "ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
         | grep -F "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)" >/dev/null
       /workspace/gazebo-sim/.xgc2/scripts/check_installed_packages.sh
     fi

@@ -19,6 +19,8 @@ apt:
   - ros-noetic-vrpn-client-ros
   - ros-noetic-rviz
   - ros-noetic-robot-state-publisher
+  - ros-noetic-std-msgs
+  recommends:
   - ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)
   - ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-13)
   - ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.1.0-12)
@@ -30,7 +32,6 @@ apt:
   - ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-6)
   - ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6)
   - ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3)
-  - ros-noetic-std-msgs
   - xgc2-vrpn-router (>= 0.1.0-4+focal)
 usage:
   install: 'sudo apt update
@@ -65,4 +66,16 @@ release:
   requires:
   - xgc2-gazebo-sim-scout
   - xgc2-px4-sitl-112
-  - libxgc2-math-dev
+  dependency_policy:
+    xgc2-estimator-hover-thrust: verify
+    xgc2-estimator-rigid-state: verify
+    xgc2-gazebo-sim-fs150-sitl: verify
+    xgc2-gazebo-sim-scout: verify
+    xgc2-gazebo-sim-visualization: verify
+    xgc2-gazebo-sim-vrpn-bridge: verify
+    xgc2-gazebo-sim-worlds: verify
+    xgc2-multirotor-controller: verify
+    xgc2-px4-sitl-112: verify
+    xgc2-ros-msgs: verify
+    xgc2-ugv-controller: verify
+    xgc2-vrpn-router: verify

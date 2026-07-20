@@ -39,7 +39,6 @@ jobs:
               apt-get update
               apt-get install -y --no-install-recommends \
                 build-essential \
-                libxgc2-math-dev \
                 netbase \
                 ros-noetic-gazebo-msgs \
                 ros-noetic-geometry-msgs \
@@ -88,7 +87,6 @@ jobs:
               apt-get update
               apt-get install -y --no-install-recommends \
                 build-essential \
-                libxgc2-math-dev \
                 netbase \
                 ros-noetic-gazebo-msgs \
                 ros-noetic-geometry-msgs \
