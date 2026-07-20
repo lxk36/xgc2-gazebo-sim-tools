@@ -2602,6 +2602,638 @@
         "backoff": 0
       },
       "digest": ""
+    },
+    {
+      "id": "px4-multirotor-nmpc-robot",
+      "version": "1.4.0",
+      "label": "PX4 multirotor NMPC robot",
+      "description": "One namespaced FS150 PX4 SITL, MAVROS, state estimator, and NMPC controller attached to existing ROS and Gazebo masters.",
+      "drivers": [
+        "host"
+      ],
+      "parameters": {
+        "properties": {
+          "analyticType": {
+            "type": "integer",
+            "description": "Analytic reference trajectory type",
+            "default": 9,
+            "minimum": 0,
+            "maximum": 9
+          },
+          "backend": {
+            "type": "string",
+            "description": "Trajectory tracking controller backend",
+            "default": "nmpc_attitude_rate",
+            "enum": [
+              "nmpc_attitude_rate"
+            ]
+          },
+          "gazeboMasterPort": {
+            "type": "integer",
+            "description": "Existing Gazebo Classic master port",
+            "default": 11345,
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "height": {
+            "type": "number",
+            "description": "Takeoff and reference height in meters",
+            "default": 3,
+            "minimum": 0.1
+          },
+          "mavSystemId": {
+            "type": "integer",
+            "description": "MAVLink system ID; the PX4 SITL instance is this value minus one",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 245
+          },
+          "mavlinkTcpPort": {
+            "type": "integer",
+            "description": "PX4 simulator MAVLink TCP port",
+            "default": 4560,
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "mavlinkUdpPort": {
+            "type": "integer",
+            "description": "Gazebo-to-PX4 MAVLink UDP port",
+            "default": 14560,
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "mavrosLocalPort": {
+            "type": "integer",
+            "description": "MAVROS local UDP port",
+            "default": 14540,
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "mavrosRemotePort": {
+            "type": "integer",
+            "description": "PX4 MAVROS remote UDP port",
+            "default": 14580,
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "modelName": {
+            "type": "string",
+            "description": "Unique Gazebo model name",
+            "default": "uav1"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "ROS namespace without a leading slash",
+            "default": "uav1"
+          },
+          "qgcUdpPort": {
+            "type": "integer",
+            "description": "QGroundControl destination UDP port",
+            "default": 14550,
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "radius": {
+            "type": "number",
+            "description": "Reference radius in meters",
+            "default": 3,
+            "minimum": 0.1
+          },
+          "referenceDuration": {
+            "type": "number",
+            "description": "Reference duration in seconds",
+            "default": 60,
+            "minimum": 0.1
+          },
+          "referenceEntryDuration": {
+            "type": "number",
+            "description": "Reference path entry duration in seconds",
+            "default": 5,
+            "minimum": 0
+          },
+          "referenceStartDelay": {
+            "type": "number",
+            "description": "Delay before activating the reference in seconds",
+            "default": 0.2,
+            "minimum": 0
+          },
+          "rosMasterPort": {
+            "type": "integer",
+            "description": "Existing ROS 1 master port",
+            "default": 11311,
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "rosRuntimePrefix": {
+            "type": "string",
+            "description": "Trusted ROS runtime prefix; a user-owned catkin install may overlay the system installation",
+            "default": "/opt/ros/noetic",
+            "x-xgc-path-kind": "directory"
+          },
+          "sdkUdpPort": {
+            "type": "integer",
+            "description": "PX4 SDK destination UDP port",
+            "default": 14540,
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "spawnX": {
+            "type": "number",
+            "description": "Initial world X position in meters",
+            "default": 0
+          },
+          "spawnY": {
+            "type": "number",
+            "description": "Initial world Y position in meters",
+            "default": 0
+          },
+          "spawnYaw": {
+            "type": "number",
+            "description": "Initial world yaw in radians",
+            "default": 0,
+            "minimum": -6.283185307179586,
+            "maximum": 6.283185307179586
+          },
+          "spawnZ": {
+            "type": "number",
+            "description": "Initial world Z position in meters",
+            "default": 0
+          },
+          "speed": {
+            "type": "number",
+            "description": "Reference line speed in meters per second",
+            "default": 1,
+            "minimum": 0
+          },
+          "vrpnRigidBody": {
+            "type": "string",
+            "description": "VRPN tracker name for this vehicle",
+            "default": "uav1"
+          }
+        },
+        "additionalProperties": false
+      },
+      "resourceClaims": [
+        {
+          "bindingKey": "mavlink-tcp",
+          "kind": "tcp-listener",
+          "mode": "",
+          "capacity": 0,
+          "address": "127.0.0.1",
+          "portParameter": "mavlinkTcpPort"
+        },
+        {
+          "bindingKey": "mavlink-udp",
+          "kind": "udp-listener",
+          "mode": "",
+          "capacity": 0,
+          "address": "127.0.0.1",
+          "portParameter": "mavlinkUdpPort"
+        },
+        {
+          "bindingKey": "mavros-local",
+          "kind": "udp-listener",
+          "mode": "",
+          "capacity": 0,
+          "address": "127.0.0.1",
+          "portParameter": "mavrosLocalPort"
+        },
+        {
+          "bindingKey": "mavros-remote",
+          "kind": "udp-listener",
+          "mode": "",
+          "capacity": 0,
+          "address": "127.0.0.1",
+          "portParameter": "mavrosRemotePort"
+        },
+        {
+          "bindingKey": "robot",
+          "kind": "robot",
+          "mode": "",
+          "capacity": 0,
+          "identityParts": [
+            {
+              "parameter": "modelName"
+            }
+          ]
+        },
+        {
+          "bindingKey": "gazebo-model",
+          "kind": "custom",
+          "mode": "",
+          "capacity": 0,
+          "namespace": "gazebo-model",
+          "identityParts": [
+            {
+              "parameter": "gazeboMasterPort"
+            },
+            {
+              "parameter": "modelName"
+            }
+          ]
+        },
+        {
+          "bindingKey": "ros-stack",
+          "kind": "custom",
+          "mode": "",
+          "capacity": 0,
+          "namespace": "ros-stack",
+          "identityParts": [
+            {
+              "parameter": "rosMasterPort"
+            },
+            {
+              "parameter": "namespace"
+            },
+            {
+              "literal": "px4-nmpc"
+            }
+          ]
+        }
+      ],
+      "command": {
+        "executable": "/opt/ros/noetic/bin/roslaunch",
+        "args": [
+          "gazebo_sim_examples",
+          "fs150_nmpc_robot_existing_gazebo.launch",
+          "ns:=${namespace}",
+          "model_name:=${modelName}",
+          "vrpn_rigid_body:=${vrpnRigidBody}",
+          "mav_system_id:=${mavSystemId}",
+          "work_dir:=/tmp/xgc2/px4_sitl/${modelName}",
+          "x:=${spawnX}",
+          "y:=${spawnY}",
+          "z:=${spawnZ}",
+          "yaw:=${spawnYaw}",
+          "mavlink_tcp_port:=${mavlinkTcpPort}",
+          "mavlink_udp_port:=${mavlinkUdpPort}",
+          "qgc_udp_port:=${qgcUdpPort}",
+          "sdk_udp_port:=${sdkUdpPort}",
+          "mavros_local_port:=${mavrosLocalPort}",
+          "mavros_remote_port:=${mavrosRemotePort}",
+          "tracking_backend:=${backend}",
+          "takeoff_altitude:=${height}",
+          "reference_height:=${height}",
+          "reference_radius:=${radius}",
+          "reference_line_speed:=${speed}",
+          "reference_analytic_type:=${analyticType}",
+          "reference_start_delay:=${referenceStartDelay}",
+          "reference_duration:=${referenceDuration}",
+          "reference_entry_duration:=${referenceEntryDuration}"
+        ],
+        "env": {
+          "CMAKE_PREFIX_PATH": "${rosRuntimePrefix}:/opt/ros/noetic",
+          "GAZEBO_MASTER_URI": "http://127.0.0.1:${gazeboMasterPort}",
+          "LD_LIBRARY_PATH": "${rosRuntimePrefix}/lib:/opt/ros/noetic/lib:/opt/ros/noetic/lib/x86_64-linux-gnu:/opt/ros/noetic/lib/aarch64-linux-gnu",
+          "PATH": "${rosRuntimePrefix}/bin:/opt/ros/noetic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "PKG_CONFIG_PATH": "${rosRuntimePrefix}/lib/pkgconfig:/opt/ros/noetic/lib/pkgconfig",
+          "PYTHONPATH": "${rosRuntimePrefix}/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages",
+          "ROS_DISTRO": "noetic",
+          "ROS_ETC_DIR": "/opt/ros/noetic/etc/ros",
+          "ROS_MASTER_URI": "http://127.0.0.1:${rosMasterPort}",
+          "ROS_PACKAGE_PATH": "${rosRuntimePrefix}/share:/opt/ros/noetic/share",
+          "ROS_PYTHON_VERSION": "3",
+          "ROS_ROOT": "/opt/ros/noetic/share/ros",
+          "ROS_VERSION": "1"
+        }
+      },
+      "readiness": {
+        "kind": "exec",
+        "command": {
+          "executable": "/opt/ros/noetic/bin/rostopic",
+          "args": [
+            "echo",
+            "-n",
+            "1",
+            "/${namespace}/alg/state_estimator/state"
+          ],
+          "env": {
+            "CMAKE_PREFIX_PATH": "/opt/ros/noetic",
+            "LD_LIBRARY_PATH": "/opt/ros/noetic/lib:/opt/ros/noetic/lib/x86_64-linux-gnu:/opt/ros/noetic/lib/aarch64-linux-gnu",
+            "PATH": "/opt/ros/noetic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "PKG_CONFIG_PATH": "/opt/ros/noetic/lib/pkgconfig",
+            "PYTHONPATH": "/opt/ros/noetic/lib/python3/dist-packages",
+            "ROS_DISTRO": "noetic",
+            "ROS_ETC_DIR": "/opt/ros/noetic/etc/ros",
+            "ROS_MASTER_URI": "http://127.0.0.1:${rosMasterPort}",
+            "ROS_PACKAGE_PATH": "/opt/ros/noetic/share",
+            "ROS_PYTHON_VERSION": "3",
+            "ROS_ROOT": "/opt/ros/noetic/share/ros",
+            "ROS_VERSION": "1"
+          }
+        },
+        "interval": 2000000000,
+        "timeout": 5000000000,
+        "successThreshold": 1,
+        "failureThreshold": 5
+      },
+      "liveness": {
+        "kind": "exec",
+        "command": {
+          "executable": "/opt/ros/noetic/bin/rostopic",
+          "args": [
+            "echo",
+            "-n",
+            "1",
+            "/${namespace}/mavros/state"
+          ],
+          "env": {
+            "CMAKE_PREFIX_PATH": "/opt/ros/noetic",
+            "LD_LIBRARY_PATH": "/opt/ros/noetic/lib:/opt/ros/noetic/lib/x86_64-linux-gnu:/opt/ros/noetic/lib/aarch64-linux-gnu",
+            "PATH": "/opt/ros/noetic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "PKG_CONFIG_PATH": "/opt/ros/noetic/lib/pkgconfig",
+            "PYTHONPATH": "/opt/ros/noetic/lib/python3/dist-packages",
+            "ROS_DISTRO": "noetic",
+            "ROS_ETC_DIR": "/opt/ros/noetic/etc/ros",
+            "ROS_MASTER_URI": "http://127.0.0.1:${rosMasterPort}",
+            "ROS_PACKAGE_PATH": "/opt/ros/noetic/share",
+            "ROS_PYTHON_VERSION": "3",
+            "ROS_ROOT": "/opt/ros/noetic/share/ros",
+            "ROS_VERSION": "1"
+          }
+        },
+        "interval": 2000000000,
+        "timeout": 5000000000,
+        "successThreshold": 1,
+        "failureThreshold": 5
+      },
+      "beforeStart": {
+        "command": {
+          "executable": "/usr/bin/python3",
+          "args": [
+            "-c",
+            "import fcntl,json,os,stat,subprocess,sys\nmode=\"strict\"\ntry:\n    rosservice,model,raw_port,mode=sys.argv[1:]\n    if mode not in (\"strict\",\"best-effort\"):\n        raise ValueError(\"invalid Gazebo cleanup mode: \"+mode)\n    uid=os.getuid()\n    port=int(raw_port)\n    lock_path=f\"/tmp/xgc2-gazebo-delete-model-u{uid}-ros-p{port}.lock\"\n    fd=os.open(lock_path,os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_CLOEXEC,0o600)\n    try:\n        info=os.fstat(fd)\n        if not stat.S_ISREG(info.st_mode) or info.st_uid != uid:\n            raise PermissionError(f\"unsafe Gazebo delete-model lock: {lock_path}\")\n        fcntl.flock(fd,fcntl.LOCK_EX)\n        try:\n            result=subprocess.run([rosservice,\"call\",\"/gazebo/delete_model\",json.dumps({\"model_name\":model},separators=(\",\",\":\"))],timeout=4,check=False)\n        finally:\n            fcntl.flock(fd,fcntl.LOCK_UN)\n    finally:\n        os.close(fd)\n    if result.returncode != 0:\n        raise subprocess.CalledProcessError(result.returncode,result.args)\nexcept BaseException:\n    if mode == \"best-effort\":\n        raise SystemExit(0)\n    raise\n",
+            "/opt/ros/noetic/bin/rosservice",
+            "${modelName}",
+            "${rosMasterPort}",
+            "strict"
+          ],
+          "directExecutable": true,
+          "env": {
+            "CMAKE_PREFIX_PATH": "/opt/ros/noetic",
+            "LD_LIBRARY_PATH": "/opt/ros/noetic/lib:/opt/ros/noetic/lib/x86_64-linux-gnu:/opt/ros/noetic/lib/aarch64-linux-gnu",
+            "PATH": "/opt/ros/noetic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "PKG_CONFIG_PATH": "/opt/ros/noetic/lib/pkgconfig",
+            "PYTHONPATH": "/opt/ros/noetic/lib/python3/dist-packages",
+            "ROS_DISTRO": "noetic",
+            "ROS_ETC_DIR": "/opt/ros/noetic/etc/ros",
+            "ROS_MASTER_URI": "http://127.0.0.1:${rosMasterPort}",
+            "ROS_PACKAGE_PATH": "/opt/ros/noetic/share",
+            "ROS_PYTHON_VERSION": "3",
+            "ROS_ROOT": "/opt/ros/noetic/share/ros",
+            "ROS_VERSION": "1"
+          }
+        },
+        "timeout": 45000000000
+      },
+      "beforeStop": {
+        "command": {
+          "executable": "/usr/bin/python3",
+          "args": [
+            "-c",
+            "import fcntl,json,os,stat,subprocess,sys\nmode=\"strict\"\ntry:\n    rosservice,model,raw_port,mode=sys.argv[1:]\n    if mode not in (\"strict\",\"best-effort\"):\n        raise ValueError(\"invalid Gazebo cleanup mode: \"+mode)\n    uid=os.getuid()\n    port=int(raw_port)\n    lock_path=f\"/tmp/xgc2-gazebo-delete-model-u{uid}-ros-p{port}.lock\"\n    fd=os.open(lock_path,os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_CLOEXEC,0o600)\n    try:\n        info=os.fstat(fd)\n        if not stat.S_ISREG(info.st_mode) or info.st_uid != uid:\n            raise PermissionError(f\"unsafe Gazebo delete-model lock: {lock_path}\")\n        fcntl.flock(fd,fcntl.LOCK_EX)\n        try:\n            result=subprocess.run([rosservice,\"call\",\"/gazebo/delete_model\",json.dumps({\"model_name\":model},separators=(\",\",\":\"))],timeout=4,check=False)\n        finally:\n            fcntl.flock(fd,fcntl.LOCK_UN)\n    finally:\n        os.close(fd)\n    if result.returncode != 0:\n        raise subprocess.CalledProcessError(result.returncode,result.args)\nexcept BaseException:\n    if mode == \"best-effort\":\n        raise SystemExit(0)\n    raise\n",
+            "/opt/ros/noetic/bin/rosservice",
+            "${modelName}",
+            "${rosMasterPort}",
+            "strict"
+          ],
+          "directExecutable": true,
+          "env": {
+            "CMAKE_PREFIX_PATH": "/opt/ros/noetic",
+            "LD_LIBRARY_PATH": "/opt/ros/noetic/lib:/opt/ros/noetic/lib/x86_64-linux-gnu:/opt/ros/noetic/lib/aarch64-linux-gnu",
+            "PATH": "/opt/ros/noetic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "PKG_CONFIG_PATH": "/opt/ros/noetic/lib/pkgconfig",
+            "PYTHONPATH": "/opt/ros/noetic/lib/python3/dist-packages",
+            "ROS_DISTRO": "noetic",
+            "ROS_ETC_DIR": "/opt/ros/noetic/etc/ros",
+            "ROS_MASTER_URI": "http://127.0.0.1:${rosMasterPort}",
+            "ROS_PACKAGE_PATH": "/opt/ros/noetic/share",
+            "ROS_PYTHON_VERSION": "3",
+            "ROS_ROOT": "/opt/ros/noetic/share/ros",
+            "ROS_VERSION": "1"
+          }
+        },
+        "timeout": 45000000000
+      },
+      "stop": {
+        "gracePeriod": 15000000000
+      },
+      "restart": {
+        "mode": "never",
+        "maxRestarts": 0,
+        "backoff": 0
+      },
+      "digest": ""
+    },
+    {
+      "id": "px4-sitl-fs150",
+      "version": "1.4.0",
+      "label": "PX4 SITL (FS150)",
+      "description": "One direct PX4 1.12 SITL process for an FS150 model; no roslaunch wrapper.",
+      "drivers": [
+        "host"
+      ],
+      "parameters": {
+        "properties": {
+          "mavSystemId": {
+            "type": "integer",
+            "description": "MAVLink system ID from the Swarm Asset",
+            "default": 4,
+            "minimum": 1,
+            "maximum": 245
+          },
+          "modelName": {
+            "type": "string",
+            "description": "Gazebo model and state-directory name",
+            "default": "uav1"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Relative per-robot ROS namespace",
+            "default": "uav1"
+          },
+          "px4RuntimeRoot": {
+            "type": "string",
+            "description": "Trusted PX4 1.12 runtime root",
+            "default": "/opt/ros/noetic/share/px4_sitl_1_12/runtime",
+            "fixedOnly": true,
+            "x-xgc-path-kind": "directory"
+          },
+          "rosMasterPort": {
+            "type": "integer",
+            "description": "Existing ROS master port",
+            "default": 11311,
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "rosRuntimePrefix": {
+            "type": "string",
+            "description": "Trusted ROS runtime; the execution user's XGC overlay is discovered automatically",
+            "default": "/opt/ros/noetic",
+            "fixedOnly": true,
+            "x-xgc-path-kind": "directory"
+          },
+          "sitlInstanceId": {
+            "type": "integer",
+            "description": "PX4 SITL instance; runtime ports are derived from this value",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 9
+          },
+          "stateDirectory": {
+            "type": "string",
+            "description": "User-owned root for PX4 working state; ~ is resolved by the execution host",
+            "default": "~/.local/state/xgc2/px4-sitl",
+            "x-xgc-path-kind": "directory"
+          }
+        },
+        "additionalProperties": false
+      },
+      "resourceClaims": [
+        {
+          "bindingKey": "mavlink-tcp",
+          "kind": "tcp-listener",
+          "mode": "",
+          "capacity": 0,
+          "address": "127.0.0.1",
+          "portParameter": "sitlInstanceId",
+          "portOffset": 4560
+        },
+        {
+          "bindingKey": "simulator-udp",
+          "kind": "udp-listener",
+          "mode": "",
+          "capacity": 0,
+          "address": "127.0.0.1",
+          "portParameter": "sitlInstanceId",
+          "portOffset": 14560
+        },
+        {
+          "bindingKey": "mavros-remote",
+          "kind": "udp-listener",
+          "mode": "",
+          "capacity": 0,
+          "address": "127.0.0.1",
+          "portParameter": "sitlInstanceId",
+          "portOffset": 14580
+        },
+        {
+          "bindingKey": "sitl-instance",
+          "kind": "custom",
+          "mode": "",
+          "capacity": 0,
+          "namespace": "px4-sitl-instance",
+          "identityParts": [
+            {
+              "parameter": "sitlInstanceId"
+            }
+          ]
+        },
+        {
+          "bindingKey": "gazebo-model",
+          "kind": "custom",
+          "mode": "",
+          "capacity": 0,
+          "namespace": "gazebo-model",
+          "identityParts": [
+            {
+              "parameter": "modelName"
+            }
+          ]
+        },
+        {
+          "bindingKey": "state-directory",
+          "kind": "custom",
+          "mode": "",
+          "capacity": 0,
+          "namespace": "filesystem-state",
+          "identityParts": [
+            {
+              "parameter": "stateDirectory"
+            },
+            {
+              "parameter": "modelName"
+            }
+          ]
+        }
+      ],
+      "command": {
+        "executable": "/usr/bin/python3",
+        "args": [
+          "-c",
+          "\nimport os\nimport sys\n\npreferred_prefix, runtime_root, state_root, model_name, instance, parameter_file, *runner_args = sys.argv[1:]\nprefixes = []\nfor prefix in (preferred_prefix, os.path.join(os.path.expanduser(\"~\"), \".local\", \"xgc2\", \"ros\", \"noetic\"), \"/opt/ros/noetic\"):\n    if prefix and prefix not in prefixes:\n        prefixes.append(prefix)\nrunner = next((os.path.join(prefix, \"lib\", \"gazebo_sim_px4_1_12\", \"run_px4_sitl.sh\") for prefix in prefixes\n               if os.access(os.path.join(prefix, \"lib\", \"gazebo_sim_px4_1_12\", \"run_px4_sitl.sh\"), os.X_OK)), \"\")\nif not runner:\n    raise SystemExit(\"run_px4_sitl.sh is not installed in the configured ROS prefix or the user overlay\")\nif not os.path.isfile(parameter_file):\n    raise SystemExit(\"FS150 PX4 parameter file is missing: \" + parameter_file)\nwork_dir = os.path.join(os.path.expanduser(state_root), model_name)\nargv = [runner, \"--runtime-root\", runtime_root, \"--work-dir\", work_dir, \"--instance\", instance,\n        \"--script\", \"etc/init.d-posix/rcS\", \"--param-file\", parameter_file, \"--reset-params\", \"--\"] + runner_args\nos.execv(runner, argv)\n",
+          "${rosRuntimePrefix}",
+          "${px4RuntimeRoot}",
+          "${stateDirectory}",
+          "${modelName}",
+          "${sitlInstanceId}",
+          "${rosRuntimePrefix}/share/gazebo_sim_fs150_sitl/config/generated/fs150-sitl.params",
+          "-d"
+        ],
+        "env": {
+          "PX4_SIM_HOSTNAME": "127.0.0.1",
+          "PX4_SIM_MODEL": "iris",
+          "PX4_SITL_MAV_SYS_ID": "${mavSystemId}"
+        }
+      },
+      "readiness": {
+        "kind": "process",
+        "command": {
+          "executable": ""
+        },
+        "interval": 1000000000,
+        "timeout": 1000000000,
+        "successThreshold": 1,
+        "failureThreshold": 2
+      },
+      "liveness": {
+        "kind": "process",
+        "command": {
+          "executable": ""
+        },
+        "interval": 1000000000,
+        "timeout": 1000000000,
+        "successThreshold": 1,
+        "failureThreshold": 2
+      },
+      "beforeStop": {
+        "command": {
+          "executable": "/usr/bin/python3",
+          "args": [
+            "-c",
+            "import fcntl,json,os,stat,subprocess,sys\nmode=\"strict\"\ntry:\n    rosservice,model,raw_port,mode=sys.argv[1:]\n    if mode not in (\"strict\",\"best-effort\"):\n        raise ValueError(\"invalid Gazebo cleanup mode: \"+mode)\n    uid=os.getuid()\n    port=int(raw_port)\n    lock_path=f\"/tmp/xgc2-gazebo-delete-model-u{uid}-ros-p{port}.lock\"\n    fd=os.open(lock_path,os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_CLOEXEC,0o600)\n    try:\n        info=os.fstat(fd)\n        if not stat.S_ISREG(info.st_mode) or info.st_uid != uid:\n            raise PermissionError(f\"unsafe Gazebo delete-model lock: {lock_path}\")\n        fcntl.flock(fd,fcntl.LOCK_EX)\n        try:\n            result=subprocess.run([rosservice,\"call\",\"/gazebo/delete_model\",json.dumps({\"model_name\":model},separators=(\",\",\":\"))],timeout=4,check=False)\n        finally:\n            fcntl.flock(fd,fcntl.LOCK_UN)\n    finally:\n        os.close(fd)\n    if result.returncode != 0:\n        raise subprocess.CalledProcessError(result.returncode,result.args)\nexcept BaseException:\n    if mode == \"best-effort\":\n        raise SystemExit(0)\n    raise\n",
+            "/opt/ros/noetic/bin/rosservice",
+            "${modelName}",
+            "${rosMasterPort}",
+            "best-effort"
+          ],
+          "directExecutable": true,
+          "env": {
+            "CMAKE_PREFIX_PATH": "/opt/ros/noetic",
+            "LD_LIBRARY_PATH": "/opt/ros/noetic/lib:/opt/ros/noetic/lib/x86_64-linux-gnu:/opt/ros/noetic/lib/aarch64-linux-gnu",
+            "PATH": "/opt/ros/noetic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "PKG_CONFIG_PATH": "/opt/ros/noetic/lib/pkgconfig",
+            "PYTHONPATH": "/opt/ros/noetic/lib/python3/dist-packages",
+            "ROS_DISTRO": "noetic",
+            "ROS_ETC_DIR": "/opt/ros/noetic/etc/ros",
+            "ROS_MASTER_URI": "http://127.0.0.1:${rosMasterPort}",
+            "ROS_PACKAGE_PATH": "/opt/ros/noetic/share",
+            "ROS_PYTHON_VERSION": "3",
+            "ROS_ROOT": "/opt/ros/noetic/share/ros",
+            "ROS_VERSION": "1"
+          }
+        },
+        "timeout": 45000000000
+      },
+      "stop": {
+        "gracePeriod": 8000000000
+      },
+      "restart": {
+        "mode": "never",
+        "maxRestarts": 0,
+        "backoff": 0
+      },
+      "digest": ""
     }
   ]
 }
