@@ -132,6 +132,10 @@ if grep -Fq -- '--skip-install-check' .github/workflows/ci.yml .github/workflows
   echo "CI and release must execute the Debian install checks" >&2
   exit 1
 fi
+grep -Fq 'ros-noetic-xgc2-gazebo-sim-fs150-sitl' \
+  .xgc2/scripts/check_installed_packages.sh
+grep -Fq 'ros-noetic-xgc2-gazebo-sim-scout' \
+  .xgc2/scripts/check_installed_packages.sh
 grep -Fq '"default": "/opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so"' \
   gazebo_sim_examples/process-definitions/xgc2-gazebo-sim-tools.json
 python3 -m json.tool \

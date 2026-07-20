@@ -148,6 +148,13 @@ if result.returncode != 0 or "starting without it" not in result.stderr:
     )
 PY
       apt-get install -y /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb
+      # The first phase above proves the examples package works without any
+      # Recommends. Install only the companion packages needed by the full
+      # integration launch checks; they intentionally remain soft package
+      # relationships rather than becoming Debian Depends.
+      apt-get install -y --no-install-recommends \
+        ros-noetic-xgc2-gazebo-sim-fs150-sitl \
+        ros-noetic-xgc2-gazebo-sim-scout
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb \
         | grep -F /opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so >/dev/null
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb \

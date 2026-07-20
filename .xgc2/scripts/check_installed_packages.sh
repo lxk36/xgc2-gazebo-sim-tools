@@ -7,6 +7,8 @@ source "/opt/ros/${ROS_DISTRO}/setup.bash"
 
 dpkg -s ros-noetic-xgc2-gazebo-sim-examples >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-scene >/dev/null
+dpkg -s ros-noetic-xgc2-gazebo-sim-fs150-sitl >/dev/null
+dpkg -s ros-noetic-xgc2-gazebo-sim-scout >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-visualization >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-vrpn-bridge >/dev/null
 dpkg -s ros-noetic-xgc2-gazebo-sim-worlds >/dev/null
