@@ -163,6 +163,17 @@ class CleanupHookManifestTest(unittest.TestCase):
                 self.assertIn(required, script)
             self.assertNotIn("shell=True", script)
 
+    def test_gazebo_server_presets_system_plugin_dependency_path(self):
+        legacy = self.definition("gazebo-server", "3.7.0")
+        current = self.definition("gazebo-server", "3.8.0")
+        plugin_path = "/usr/lib/x86_64-linux-gnu/gazebo-11/plugins"
+
+        self.assertNotIn(plugin_path, legacy["command"]["env"]["LD_LIBRARY_PATH"].split(":"))
+        for variable in ("GAZEBO_PLUGIN_PATH", "LD_LIBRARY_PATH"):
+            paths = current["command"]["env"][variable].split(":")
+            self.assertIn(plugin_path, paths)
+            self.assertEqual(paths.count(plugin_path), 1)
+
     def test_same_ros_master_port_serializes_ten_cleanup_calls(self):
         hook = self.definition("px4-multirotor-nmpc-robot", "1.4.0")["beforeStop"]
         port = self.port_seed
