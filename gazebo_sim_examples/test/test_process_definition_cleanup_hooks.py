@@ -165,14 +165,21 @@ class CleanupHookManifestTest(unittest.TestCase):
 
     def test_gazebo_server_presets_system_plugin_dependency_path(self):
         legacy = self.definition("gazebo-server", "3.7.0")
-        current = self.definition("gazebo-server", "3.8.0")
+        previous = self.definition("gazebo-server", "3.8.0")
+        current = self.definition("gazebo-server", "3.9.0")
         plugin_path = "/usr/lib/x86_64-linux-gnu/gazebo-11/plugins"
 
         self.assertNotIn(plugin_path, legacy["command"]["env"]["LD_LIBRARY_PATH"].split(":"))
-        for variable in ("GAZEBO_PLUGIN_PATH", "LD_LIBRARY_PATH"):
-            paths = current["command"]["env"][variable].split(":")
-            self.assertIn(plugin_path, paths)
-            self.assertEqual(paths.count(plugin_path), 1)
+        for definition in (previous, current):
+            for variable in ("GAZEBO_PLUGIN_PATH", "LD_LIBRARY_PATH"):
+                paths = definition["command"]["env"][variable].split(":")
+                self.assertIn(plugin_path, paths)
+                self.assertEqual(paths.count(plugin_path), 1)
+
+        properties = current["parameters"]["properties"]
+        self.assertTrue(properties["overrideWorldPhysicsTiming"]["default"])
+        self.assertEqual(properties["maxStepSize"]["default"], 0.004)
+        self.assertEqual(properties["realTimeUpdateRate"]["default"], 250)
 
     def test_same_ros_master_port_serializes_ten_cleanup_calls(self):
         hook = self.definition("px4-multirotor-nmpc-robot", "1.4.0")["beforeStop"]
