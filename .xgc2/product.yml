@@ -1,7 +1,7 @@
 schema: xgc2.product.v1
 id: xgc2-gazebo-sim-tools
 name: XGC2 Gazebo Sim Tools
-version: 1.1.0-32
+version: 1.1.0-33
 kind: ros1-apt
 summary: Gazebo Classic scene SystemPlugin and legacy example launch orchestration
   retained during the XGC2 ground-station migration.
@@ -29,46 +29,21 @@ apt:
   - ros-noetic-rviz
   - ros-noetic-robot-state-publisher
   - ros-noetic-std-msgs
-  - ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)
-  recommends:
-  - ros-noetic-xgc2-gazebo-scene (>= 1.1.0-32)
-  - ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)
-  - ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-13)
-  - ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.1.0-12)
-  - ros-noetic-xgc2-gazebo-sim-scout (>= 0.4.9-25)
-  - ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-14)
-  - ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4)
-  - ros-noetic-xgc2-ugv-controller (>= 1.1.4-9)
-  - ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-6)
-  - ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6)
-  - ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3)
-  - xgc2-vrpn-router (>= 0.1.0-4+focal)
 usage:
   install: 'sudo apt update
 
     sudo apt install ros-noetic-xgc2-gazebo-sim-examples
 
     '
-  smoke_test: 'roslaunch --files gazebo_sim_examples fs150_ugv_vrpn_stack.launch
+  smoke_test: 'test -f /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn_stack.launch
 
     test -f /opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so
 
-    roslaunch --files gazebo_sim_examples fs150_uav1_nmpc_tracking.launch
-
-    rosrun gazebo_sim_examples uav_auto_takeoff_track.py --help
-
-    roslaunch --files gazebo_sim_visualization gazebo_auto_visualization_rviz.launch
-    rviz:=false
-
-    roslaunch --files gazebo_sim_vrpn_bridge vrpn_server.launch auto_track_known_models:=true
-
-    roslaunch --files gazebo_sim_vrpn_bridge vrpn_client.launch trackers:=[uav1]
-
     '
-  notes: 'These Gazebo Classic examples are retained temporarily while launch orchestration
-    migrates into XGC2 ground-station Automations. The retired standalone session manager
-    is intentionally not packaged. The recommended scene package owns the Gazebo
-    SystemPlugin and generated obstacle geometry, motion, and state message contracts.
+  notes: 'gazebo_sim_examples is a retired, asset-only compatibility package. XGC2
+    Automations replace its launch aggregation. It does not publish process definitions
+    and its historical launch files and scripts are deliberately not executed during
+    release. The scene package remains a separately verified compiled runtime.
 
     '
 ownership:
@@ -85,19 +60,4 @@ ownership:
   - /opt/ros/noetic/share/gennodejs/ros/xgc2_gazebo_scene
   - /opt/ros/noetic/share/roseus/ros/xgc2_gazebo_scene
 release:
-  requires:
-  - xgc2-gazebo-sim-scout
-  - xgc2-px4-sitl-112
-  dependency_policy:
-    xgc2-estimator-hover-thrust: verify
-    xgc2-estimator-rigid-state: verify
-    xgc2-gazebo-sim-fs150-sitl: verify
-    xgc2-gazebo-sim-scout: verify
-    xgc2-gazebo-sim-visualization: verify
-    xgc2-gazebo-sim-vrpn-bridge: verify
-    xgc2-gazebo-sim-worlds: verify
-    xgc2-multirotor-controller: verify
-    xgc2-px4-sitl-112: verify
-    xgc2-ros-msgs: verify
-    xgc2-ugv-controller: verify
-    xgc2-vrpn-router: verify
+  dependency_policy: {}

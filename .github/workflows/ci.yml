@@ -109,9 +109,7 @@ jobs:
                 ros-noetic-tf2 \
                 ros-noetic-tf2-ros \
                 ros-noetic-vrpn \
-                ros-noetic-vrpn-client-ros \
-                ros-noetic-xgc2-estimator-rigid-state-msgs \
-                ros-noetic-xgc2-px4-multirotor-controller-msgs
+                ros-noetic-vrpn-client-ros
               git config --global --add safe.directory /work
               .xgc2/scripts/check_package_compliance.sh
               .xgc2/scripts/run_package_tests.sh

@@ -27,6 +27,4 @@ source "/opt/ros/${ros_distro}/setup.bash"
 catkin_make -C "${workspace}" -DCATKIN_ENABLE_TESTING=ON
 catkin_make -C "${workspace}" run_tests_xgc2_gazebo_scene
 catkin_test_results "${workspace}/build/test_results"
-python3 "${repo_root}/gazebo_sim_examples/test/test_uav_auto_takeoff_track.py"
-
 echo "Package tests passed."

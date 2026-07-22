@@ -15,19 +15,10 @@ catkin_install_python(PROGRAMS
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(DIRECTORY config launch process-definitions
+install(DIRECTORY config launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 install(FILES README.md
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-
-if(CATKIN_ENABLE_TESTING)
-  find_package(roslaunch REQUIRED)
-  catkin_add_nosetests(test/test_fs150_nmpc_robot_existing_gazebo_launch.py)
-  catkin_add_nosetests(test/test_process_definition_cleanup_hooks.py)
-  roslaunch_add_file_check(launch/fs150_nmpc_robot_existing_gazebo.launch)
-  roslaunch_add_file_check(launch/fs150_uav1_nmpc_tracking.launch)
-  roslaunch_add_file_check(launch/scout_ugv1_nmpc_tracking.launch)
-endif()

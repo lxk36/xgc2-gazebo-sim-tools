@@ -113,23 +113,11 @@ build_ros_package_deb() {
 
   copy_ros_package_paths "${ros_pkg}" "${pkg_root}"
   write_control "${pkg_root}" "${package}" "${depends}" "${description}" "${extra_fields}"
-  if [[ "${ros_pkg}" == "gazebo_sim_examples" ]]; then
-    install -D -m 0644 \
-      "${PREFIX_ROOT}/share/${ros_pkg}/process-definitions/xgc2-gazebo-sim-tools.json" \
-      "${pkg_root}/usr/share/xgc2/process-definitions/xgc2-gazebo-sim-tools.json"
-    python3 -m json.tool \
-      "${pkg_root}/usr/share/xgc2/process-definitions/xgc2-gazebo-sim-tools.json" >/dev/null
-    test -x "${pkg_root}${PREFIX}/lib/gazebo_sim_examples/uav_auto_takeoff_track.py"
-  fi
   fakeroot dpkg-deb --build "${pkg_root}" "${OUTPUT_DIR}/${package}_${VERSION}_${ARCH}.deb" >/dev/null
 }
 
 examples_pkg="ros-noetic-xgc2-gazebo-sim-examples"
 scene_pkg="ros-noetic-xgc2-gazebo-scene"
-worlds_pkg="ros-noetic-xgc2-gazebo-sim-worlds"
-visualization_dep="ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)"
-vrpn_bridge_dep="ros-noetic-xgc2-gazebo-sim-vrpn-bridge (>= 1.1.0-13)"
-scene_dep="${scene_pkg} (>= ${VERSION})"
 
 build_scene_deb() {
   local package="$1"
@@ -252,8 +240,7 @@ build_scene_deb "${scene_pkg}"
 build_ros_package_deb \
   "${examples_pkg}" \
   "gazebo_sim_examples" \
-  "ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-std-msgs, ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)" \
-  "XGC2 Gazebo Classic example launch orchestration" \
-  "Recommends: ${scene_dep}, ${visualization_dep}, ${vrpn_bridge_dep}, ${worlds_pkg} (>= 1.1.0-14), ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.1.0-12), ros-noetic-xgc2-gazebo-sim-scout (>= 0.4.9-25), ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4), ros-noetic-xgc2-ugv-controller (>= 1.1.4-9), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-6), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6), ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3), xgc2-vrpn-router (>= 0.1.0-4+focal)"
+  "python3" \
+  "Retired XGC2 Gazebo Classic example launch and Python assets"
 
 find "${OUTPUT_DIR}" -maxdepth 1 -type f -name '*.deb' -print | sort

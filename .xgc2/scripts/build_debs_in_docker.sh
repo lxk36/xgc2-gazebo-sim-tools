@@ -71,36 +71,19 @@ docker run --rm \
       libgazebo11-dev \
       netbase \
       rsync \
-      ros-noetic-controller-manager-msgs \
       ros-noetic-gazebo-msgs \
       ros-noetic-gazebo-ros \
       ros-noetic-geometry-msgs \
-      ros-noetic-mavros-msgs \
       ros-noetic-message-generation \
-      ros-noetic-nav-msgs \
       ros-noetic-roscpp \
       ros-noetic-roslaunch \
-      ros-noetic-rosmsg \
-      ros-noetic-rosnode \
       ros-noetic-rospack \
       ros-noetic-rostest \
       ros-noetic-rosunit \
-      ros-noetic-rospy \
       ros-noetic-std-msgs \
       ros-noetic-std-srvs \
       ros-noetic-tf2 \
-      ros-noetic-tf2-ros \
-      ros-noetic-vrpn \
-      ros-noetic-vrpn-client-ros \
-      ros-noetic-xgc2-gazebo-sim-visualization \
-      ros-noetic-xgc2-gazebo-sim-vrpn-bridge \
-      ros-noetic-xgc2-multirotor-controller \
-      ros-noetic-xgc2-ugv-controller \
-      ros-noetic-xgc2-estimator-hover-thrust \
-      ros-noetic-xgc2-estimator-rigid-state \
-      ros-noetic-xgc2-estimator-rigid-state-msgs \
-      ros-noetic-xgc2-px4-multirotor-controller-msgs \
-      ros-noetic-xgc2-gazebo-sim-worlds
+      ros-noetic-tf2-ros
     rm -rf /workspace/work/src /workspace/work/build /workspace/work/devel /workspace/work/install-root
     mkdir -p /workspace/work/src/xgc2_gazebo_sim_tools
     rsync -a --delete /workspace/gazebo-sim/ /workspace/work/src/xgc2_gazebo_sim_tools/
@@ -116,45 +99,9 @@ docker run --rm \
       --output-dir /workspace/out
 
     if [[ "${INSTALL_CHECK}" == "true" ]]; then
-      product_version="$(awk -F": *" "/^version:/ {print \$2; exit}" /workspace/gazebo-sim/.xgc2/product.yml)"
       apt-get install -y --no-install-recommends \
-        /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb
-      test ! -e /opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so
-      python3 - <<PY
-import json
-import subprocess
-from pathlib import Path
-
-manifest_path = Path("/usr/share/xgc2/process-definitions/xgc2-gazebo-sim-tools.json")
-manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-server = next(item for item in manifest["definitions"] if item["id"] == "gazebo-server")
-script = server["command"]["args"][1]
-stable_path = "/opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so"
-result = subprocess.run(
-    [
-        "/usr/bin/python3", "-c", script,
-        "/bin/true", "/bin/true", "/bin/true", "/bin/true", stable_path,
-        "/tmp/not-read.world", "ode", "/tmp/xgc2/ros/log", "false",
-        "0.001", "1000", "false", "false", "false",
-    ],
-    check=False,
-    capture_output=True,
-    text=True,
-)
-if result.returncode != 0 or "starting without it" not in result.stderr:
-    raise SystemExit(
-        "gazebo-server did not gracefully skip the missing recommended scene plugin:\n"
-        + result.stderr
-    )
-PY
-      apt-get install -y /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb
-      # The first phase above proves the examples package works without any
-      # Recommends. Install only the companion packages needed by the full
-      # integration launch checks; they intentionally remain soft package
-      # relationships rather than becoming Debian Depends.
-      apt-get install -y --no-install-recommends \
-        ros-noetic-xgc2-gazebo-sim-fs150-sitl \
-        ros-noetic-xgc2-gazebo-sim-scout
+        /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
+        /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb \
         | grep -F /opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so >/dev/null
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-scene_*.deb \
@@ -190,27 +137,13 @@ PY
       test ! -e /tmp/xgc2-gazebo-scene-control/postrm
       dpkg-deb -c /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb \
         | grep -F /opt/ros/noetic/share/gazebo_sim_examples/launch/fs150_ugv_vrpn.launch >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
-        | grep -F "ros-noetic-xgc2-gazebo-scene (>= ${product_version})" >/dev/null
-      if dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
-          | grep -F "ros-noetic-xgc2-gazebo-scene"; then
-        echo "Gazebo examples turned the optional scene package into a hard dependency" >&2
+      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Depends \
+        | grep -Fx "python3" >/dev/null
+      if dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
+          | grep -q .; then
+        echo "Retired Gazebo examples package must not recommend a runtime closure" >&2
         exit 1
       fi
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
-        | grep -F "ros-noetic-xgc2-gazebo-sim-worlds (>= 1.1.0-14)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
-        | grep -F "ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
-        | grep -F "ros-noetic-xgc2-ugv-controller (>= 1.1.4-9)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
-        | grep -F "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
-        | grep -F "ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
-        | grep -F "ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)" >/dev/null
-      dpkg-deb -f /workspace/out/ros-noetic-xgc2-gazebo-sim-examples_*.deb Recommends \
-        | grep -F "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)" >/dev/null
       /workspace/gazebo-sim/.xgc2/scripts/check_installed_packages.sh
     fi
   '
