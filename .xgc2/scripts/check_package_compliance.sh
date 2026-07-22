@@ -93,6 +93,21 @@ grep -q "ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4)" .xgc2/scripts/pack
 grep -q "ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)" .xgc2/scripts/package_debs.sh
 grep -q "ros-noetic-xgc2-ugv-controller (>= 1.1.4-9)" .xgc2/scripts/package_debs.sh
 grep -q '^  recommends:$' .xgc2/product.yml
+python3 - <<'PY'
+from pathlib import Path
+
+manifest = Path('.xgc2/product.yml').read_text(encoding='utf-8')
+depends, recommends = manifest.split('  recommends:', 1)
+message = 'ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)'
+assert message in depends
+assert message not in recommends
+
+packager = Path('.xgc2/scripts/package_debs.sh').read_text(encoding='utf-8')
+examples = packager.split('build_ros_package_deb \\\n  "${examples_pkg}"', 1)[1]
+depends_line, recommends_line = examples.split('  "Recommends:', 1)
+assert message in depends_line
+assert message not in recommends_line
+PY
 grep -Fq "\"Recommends: \${scene_dep}, \${visualization_dep}" \
   .xgc2/scripts/package_debs.sh
 grep -q "ros-noetic-xgc2-gazebo-sim-visualization (>= 1.1.0-12)" .xgc2/product.yml
@@ -109,7 +124,7 @@ grep -q "ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6)" .xgc2/scripts/packa
 grep -q "ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3)" .xgc2/scripts/package_debs.sh
 grep -q '^  - xgc2_gazebo_scene$' .xgc2/product.yml
 grep -q '^  - ros-noetic-xgc2-gazebo-scene$' .xgc2/product.yml
-grep -q 'ros-noetic-xgc2-gazebo-scene (>= 1.1.0-31)' .xgc2/product.yml
+grep -q 'ros-noetic-xgc2-gazebo-scene (>= 1.1.0-32)' .xgc2/product.yml
 grep -q '/opt/ros/noetic/lib/libxgc2_gazebo_scene_system.so' .xgc2/product.yml
 grep -q 'scene_pkg="ros-noetic-xgc2-gazebo-scene"' .xgc2/scripts/package_debs.sh
 grep -Fq 'dpkg-shlibdeps' .xgc2/scripts/package_debs.sh

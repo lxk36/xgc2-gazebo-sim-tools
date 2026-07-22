@@ -252,8 +252,8 @@ build_scene_deb "${scene_pkg}"
 build_ros_package_deb \
   "${examples_pkg}" \
   "gazebo_sim_examples" \
-  "ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-std-msgs, ros-noetic-rospy, ros-noetic-roslaunch" \
+  "ros-noetic-vrpn-client-ros, ros-noetic-mavros, ros-noetic-mavros-msgs, ros-noetic-geometry-msgs, ros-noetic-nav-msgs, ros-noetic-std-msgs, ros-noetic-rospy, ros-noetic-roslaunch, ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3)" \
   "XGC2 Gazebo Classic example launch orchestration" \
-  "Recommends: ${scene_dep}, ${visualization_dep}, ${vrpn_bridge_dep}, ${worlds_pkg} (>= 1.1.0-14), ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.1.0-12), ros-noetic-xgc2-gazebo-sim-scout (>= 0.4.9-25), ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4), ros-noetic-xgc2-px4-multirotor-controller-msgs (>= 1.2.0-3), ros-noetic-xgc2-ugv-controller (>= 1.1.4-9), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-6), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6), ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3), xgc2-vrpn-router (>= 0.1.0-4+focal)"
+  "Recommends: ${scene_dep}, ${visualization_dep}, ${vrpn_bridge_dep}, ${worlds_pkg} (>= 1.1.0-14), ros-noetic-xgc2-gazebo-sim-fs150-sitl (>= 1.1.0-12), ros-noetic-xgc2-gazebo-sim-scout (>= 0.4.9-25), ros-noetic-xgc2-multirotor-controller (>= 1.1.18-4), ros-noetic-xgc2-ugv-controller (>= 1.1.4-9), ros-noetic-xgc2-estimator-hover-thrust (>= 1.1.24-6), ros-noetic-xgc2-estimator-rigid-state (>= 1.1.6-6), ros-noetic-xgc2-estimator-rigid-state-msgs (>= 1.2.0-3), xgc2-vrpn-router (>= 0.1.0-4+focal)"
 
 find "${OUTPUT_DIR}" -maxdepth 1 -type f -name '*.deb' -print | sort
