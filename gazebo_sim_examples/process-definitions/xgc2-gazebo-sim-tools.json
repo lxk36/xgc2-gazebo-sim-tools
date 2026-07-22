@@ -198,6 +198,7 @@
           "mode": "",
           "capacity": 0,
           "namespace": "ros-node",
+          "identityNormalization": "join-tail-as-absolute-path",
           "identityParts": [
             {
               "parameter": "rosMasterUri"
@@ -448,6 +449,7 @@
           "mode": "",
           "capacity": 0,
           "namespace": "ros-node",
+          "identityNormalization": "join-tail-as-absolute-path",
           "identityParts": [
             {
               "parameter": "rosMasterUri"
@@ -698,6 +700,7 @@
           "mode": "",
           "capacity": 0,
           "namespace": "ros-node",
+          "identityNormalization": "join-tail-as-absolute-path",
           "identityParts": [
             {
               "parameter": "rosMasterUri"
@@ -2003,6 +2006,7 @@
           "mode": "",
           "capacity": 0,
           "namespace": "ros-node",
+          "identityNormalization": "join-tail-as-absolute-path",
           "identityParts": [
             {
               "parameter": "rosMasterPort"
@@ -2178,6 +2182,7 @@
           "mode": "",
           "capacity": 0,
           "namespace": "ros-node",
+          "identityNormalization": "join-tail-as-absolute-path",
           "identityParts": [
             {
               "parameter": "rosMasterPort"
@@ -2333,6 +2338,7 @@
           "mode": "",
           "capacity": 0,
           "namespace": "ros-node",
+          "identityNormalization": "join-tail-as-absolute-path",
           "identityParts": [
             {
               "parameter": "rosMasterPort"
@@ -2507,6 +2513,7 @@
           "mode": "",
           "capacity": 0,
           "namespace": "ros-node",
+          "identityNormalization": "join-tail-as-absolute-path",
           "identityParts": [
             {
               "parameter": "rosMasterPort"
@@ -2801,6 +2808,7 @@
           "mode": "",
           "capacity": 0,
           "namespace": "ros-node",
+          "identityNormalization": "join-tail-as-absolute-path",
           "identityParts": [
             {
               "parameter": "rosMasterPort"
@@ -2994,6 +3002,7 @@
           "mode": "",
           "capacity": 0,
           "namespace": "ros-node",
+          "identityNormalization": "join-tail-as-absolute-path",
           "identityParts": [
             {
               "parameter": "rosMasterPort"
